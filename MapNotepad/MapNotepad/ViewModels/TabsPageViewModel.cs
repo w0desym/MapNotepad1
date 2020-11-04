@@ -1,4 +1,5 @@
 ﻿using MapNotepad.Models;
+using MapNotepad.Views;
 using Prism.Navigation;
 using System;
 using System.Collections.Generic;
@@ -13,11 +14,25 @@ namespace MapNotepad.ViewModels
 {
     class TabsPageViewModel : ViewModelBase
     {
+        private readonly INavigationService _navigationService;
+        private readonly ISettingsManager _settingsManager;
         public TabsPageViewModel(
-            INavigationService navigationService) :
+            INavigationService navigationService,
+            ISettingsManager settingsManager) :
             base(navigationService)
         {
             Title = "Map Notepad";
+            _navigationService = navigationService;
+            _settingsManager = settingsManager;
+        }
+
+        public ICommand _LogOutCommand;
+        public ICommand LogOutCommand => _LogOutCommand ??= new Command(OnLogOutCommandAsync);
+
+        private async void OnLogOutCommandAsync()
+        {
+            _settingsManager.CurrentUser = -1;
+            await _navigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(SignInPage)}");
         }
     }
 }
