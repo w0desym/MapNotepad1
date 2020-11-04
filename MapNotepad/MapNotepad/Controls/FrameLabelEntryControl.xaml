@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:prism="http://prismlibrary.com"
+             x:Class="MapNotepad.Controls.FrameLabelEntryControl"
+             x:Name="frameLabelEntryControl"
+             BindingContext="{x:Reference frameLabelEntryControl}">
+
+
+    <StackLayout>
+
+        <Label Text="{Binding FieldLabel}"
+               Style="{StaticResource FieldLabelStyle}"/>
+
+        <Frame BorderColor="{Binding BorderColor}"
+               Style="{StaticResource EntryFrameStyle}">
+
+            <Entry x:Name="entry"
+                   Placeholder="{Binding Placeholder}"
+                   Text="{Binding Text}"
+                   IsPassword="{Binding IsPassword}">
+
+                <Entry.Behaviors>
+                    
+                    <prism:EventToCommandBehavior
+                        EventName="TextChanged"
+                        EventArgsParameterPath="NewTextValue"
+                        Command="{Binding TextChangedCommand}"/>
+                    
+                </Entry.Behaviors>
+
+            </Entry>
+
+            <Frame.Triggers>
+                
+                <DataTrigger TargetType="Frame" Binding="{Binding IsMessageVisible}" Value="True">
+                    
+                    <Setter Property="BorderColor" Value="DarkRed"/>
+                    
+                </DataTrigger>
+                
+            </Frame.Triggers>
+
+        </Frame>
+
+        <Label Text="{Binding Message}"
+               IsVisible="{Binding IsMessageVisible}"
+               Style="{StaticResource ErrorMessageLabelStyle}"/>
+
+    </StackLayout>
+
+</ContentView>

@@ -1,0 +1,70 @@
+﻿using MapNotepad.Controls;
+using MapNotepad.Validators;
+using Prism.Behaviors;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
+using Xamarin.Forms;
+
+namespace MapNotepad.Behaviors
+{
+    class EmailValidationBehavior : BehaviorBase<FrameLabelEntryControl>
+    {
+        private FrameLabelEntryControl _control;
+
+        static readonly BindablePropertyKey IsValidPropertyKey = BindableProperty.CreateReadOnly(
+            "IsValid", 
+            typeof(bool), 
+            typeof(EmailValidationBehavior), 
+            false);
+
+        public static readonly BindableProperty IsValidProperty = IsValidPropertyKey.BindableProperty;
+
+        public bool IsValid
+        {
+            get { return (bool)base.GetValue(IsValidProperty); }
+            private set { base.SetValue(IsValidPropertyKey, value); }
+        }
+
+        #region -- Overrides --
+
+        protected override void OnAttachedTo(FrameLabelEntryControl control)
+        {
+            base.OnAttachedTo(control);
+
+            _control = control;
+            control.Entry.TextChanged += OnTextChanged;
+        }
+
+        protected override void OnDetachingFrom(FrameLabelEntryControl control)
+        {
+            base.OnDetachingFrom(control);
+
+            _control = null;
+            control.Entry.TextChanged -= OnTextChanged;
+        }
+
+        #endregion
+
+        #region -- Private Helper --
+
+        private void OnTextChanged(object sender, TextChangedEventArgs e)
+        {
+            IsValid = Validator.IsEmail(e.NewTextValue);
+
+            if (!IsValid)
+            {
+                _control.IsMessageVisible = true;
+                _control.Message = "Email is not valid";
+            }
+            else
+            {
+                _control.IsMessageVisible = false;
+            }
+        }
+
+        #endregion
+    }
+}

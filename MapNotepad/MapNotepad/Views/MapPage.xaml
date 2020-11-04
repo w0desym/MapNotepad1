@@ -1,0 +1,116 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:maps="clr-namespace:Xamarin.Forms.GoogleMaps;assembly=Xamarin.Forms.GoogleMaps" 
+             xmlns:prism="http://prismlibrary.com" xmlns:controls="clr-namespace:MapNotepad.Controls"
+             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+             x:Class="MapNotepad.Views.MapPage"
+             ios:Page.UseSafeArea="true"
+             Title="{Binding Title}">
+
+    <Grid HorizontalOptions="FillAndExpand" 
+          VerticalOptions="FillAndExpand">
+
+        <Grid.RowDefinitions>
+
+            <RowDefinition Height="*"/>
+
+        </Grid.RowDefinitions>
+
+        <StackLayout>
+
+            <SearchBar Placeholder="Search pins..."
+                   SearchCommand="{Binding SearchCommand}"
+                   Text="{Binding SearchQuery}">
+
+                <SearchBar.Behaviors>
+
+                    <prism:EventToCommandBehavior EventName="TextChanged"
+                                              Command="{Binding SearchCommand}"/>
+
+                </SearchBar.Behaviors>
+
+            </SearchBar>
+
+
+
+            <controls:ExtendedMap x:Name="map"
+                              VerticalOptions="FillAndExpand"
+                              SelectedPin="{Binding SelectedPin, Mode=TwoWay}"
+                              PinsCollection="{Binding PinsCollection}"
+                              CurrentCameraPosition="{Binding CameraPosition}"
+                              PinClicked="PinClicked"
+                              MapClicked="MapClicked">
+                
+                <controls:ExtendedMap.Behaviors>
+
+                    <prism:EventToCommandBehavior EventName="PinClicked"
+                                              Command="{Binding PinCommand}"
+                                              EventArgsParameterPath="Pin"/>
+
+                </controls:ExtendedMap.Behaviors>
+
+            </controls:ExtendedMap>
+            
+        </StackLayout>
+
+        <Frame x:Name="popup"
+               Margin="20"
+               Padding="20"
+               VerticalOptions="End"
+               BackgroundColor="White"
+               HasShadow="True"
+               CornerRadius="10">
+
+            <StackLayout>
+
+                <Label Text="{Binding PinLabel, Mode=TwoWay}"
+                       FontSize="20"
+                       FontAttributes="Bold"/>
+
+                <StackLayout Orientation="Horizontal">
+
+                    <Label>
+
+                        <Label.FormattedText>
+
+                            <FormattedString>
+
+                                <Span Text="Latitude: "/>
+
+                                <Span Text="{Binding PinLatitude, Mode=TwoWay}"/>
+
+                            </FormattedString>
+
+                        </Label.FormattedText>
+
+                    </Label>
+
+                    <Label>
+
+                        <Label.FormattedText>
+
+                            <FormattedString>
+
+                                <Span Text="Longitude: "/>
+
+                                <Span Text="{Binding PinLongitude, Mode=TwoWay}"/>
+
+                            </FormattedString>
+
+                        </Label.FormattedText>
+
+                    </Label>
+
+                </StackLayout>
+
+                <Label LineBreakMode="WordWrap"
+                       Text="{Binding PinDescription, Mode=TwoWay}"/>
+
+            </StackLayout>
+
+        </Frame>
+
+    </Grid>
+
+</ContentPage>

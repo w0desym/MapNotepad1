@@ -1,0 +1,139 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<popups:PopupPage xmlns="http://xamarin.com/schemas/2014/forms"
+                  xmlns:popups="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"              
+                  xmlns:animations="clr-namespace:Rg.Plugins.Popup.Animations;assembly=Rg.Plugins.Popup"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+                  xmlns:controls="clr-namespace:MapNotepad.Controls"
+                  xmlns:prism="http://prismlibrary.com"
+                  x:Class="MapNotepad.Views.AddPinPage"
+                  CloseWhenBackgroundIsClicked="False">
+
+    <popups:PopupPage.Animation>
+
+        <animations:MoveAnimation PositionIn="Bottom"
+                                  PositionOut="Bottom"
+                                  DurationIn="500"
+                                  DurationOut="500"/>
+
+    </popups:PopupPage.Animation>
+
+    <Grid>
+
+        <Grid.RowDefinitions>
+
+            <RowDefinition Height="*"/>
+
+        </Grid.RowDefinitions>
+
+        <StackLayout HorizontalOptions="FillAndExpand"
+                     VerticalOptions="FillAndExpand"
+                     Margin="30"
+                     BackgroundColor="White">
+
+            <StackLayout Orientation="Horizontal">
+
+                <Button ImageSource="ic_back.png"
+                        BackgroundColor="White"
+                        Command="{Binding GoBackCommand}"/>
+
+                <Label Text="Adding New Pin" 
+                       HorizontalOptions="Start"
+                       FontSize="20"
+                       Margin="20"/>
+
+            </StackLayout>
+
+            <Frame Style="{StaticResource EntryFrameStyle}">
+
+                <Entry Placeholder="Name"
+                       Text="{Binding PinLabel}"/>
+
+            </Frame>
+
+            <Frame Style="{StaticResource EntryFrameStyle}">
+
+                <Entry Placeholder="Description"
+                       Text="{Binding PinDescription}"/>
+
+            </Frame>
+
+            <Grid Margin="15,5">
+
+                <Grid.ColumnDefinitions>
+
+                    <ColumnDefinition Width="0.5*"/>
+
+                    <ColumnDefinition Width="0.5*"/>
+
+                </Grid.ColumnDefinitions>
+
+                <StackLayout Grid.Column="0">
+
+                    <Label Text="Latitude:"
+                           HorizontalOptions="CenterAndExpand"/>
+
+                    <Frame Margin="0"
+                           Style="{StaticResource EntryFrameStyle}">
+
+                        <Entry Text="{Binding PinLatitude}"
+                               Keyboard="Numeric"
+                               TextColor="LightGreen">
+                            
+                            <Entry.Behaviors>
+                            
+                                <prism:EventToCommandBehavior EventName="TextChanged"
+                                                              Command="{Binding LatitudeChangedCommand}"
+                                                              EventArgsParameterPath="NewTextValue"/>
+                            
+                            </Entry.Behaviors>
+                            
+                        </Entry>
+
+                    </Frame>
+
+                </StackLayout>
+
+                <StackLayout Grid.Column="1">
+
+                    <Label Text="Longitude:"
+                           HorizontalOptions="CenterAndExpand"/>
+
+                    <Frame Margin="0"
+                           Style="{StaticResource EntryFrameStyle}">
+
+                        <Entry Text="{Binding PinLongitude}"
+                               Keyboard="Numeric"
+                               TextColor="LightGreen"/>
+
+                    </Frame>
+
+                </StackLayout>
+
+            </Grid>
+
+            <controls:ExtendedMap VerticalOptions="FillAndExpand"
+                                  HorizontalOptions="FillAndExpand"
+                                  CurrentCameraPosition="{Binding CameraPosition}"
+                                  PinsCollection="{Binding PinsCollection}">
+
+                <controls:ExtendedMap.Behaviors>
+
+                    <prism:EventToCommandBehavior EventName="CameraMoving"
+                                                  Command="{Binding CameraMovingCommand}"
+                                                  EventArgsParameterPath="Position"/>
+
+                </controls:ExtendedMap.Behaviors>
+
+            </controls:ExtendedMap>
+
+        </StackLayout>
+
+        <Button Text="SAVE PIN"
+                Style="{StaticResource FloatingButtonStyle}"
+                Margin="40"
+                Grid.Row="0"
+                Command="{Binding SavePinCommand}"/>
+
+    </Grid>
+
+</popups:PopupPage>

@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:MapNotepad.Controls"
+             x:Class="MapNotepad.Views.SignInPage"
+             Title="{Binding Title}">
+    
+    <ContentPage.Content>
+        
+        <StackLayout VerticalOptions="Center" HorizontalOptions="FillAndExpand">
+            
+            <controls:FrameLabelEntryControl Text="{Binding Path=Email}"
+                                             Placeholder="Email"
+                                             FieldLabel="Email"
+                                             BorderColor="LightGray"/>
+            
+            <controls:FrameLabelEntryControl Text="{Binding Path=Password}"
+                                             Placeholder="Password"
+                                             FieldLabel="Password"
+                                             IsPassword="True"
+                                             BorderColor="LightGray"/>
+            
+            <Button Text="Sign In"
+                    Style="{StaticResource SignButtonStyle}"
+                    Command="{Binding SignInCommand}"
+                    Margin="20"/>
+
+            <Label HorizontalOptions="Center"
+                   VerticalOptions="Center">
+                
+                <Label.FormattedText>
+                    
+                    <FormattedString>
+                        
+                        <Span Text="Not registered yet? "/>
+                        
+                        <Span Text="Sign up"
+                              TextColor="Blue"
+                              TextDecorations="Underline">
+                            
+                            <Span.GestureRecognizers>
+                                
+                                <TapGestureRecognizer Command="{Binding SignUpCommand}"/>
+                                
+                            </Span.GestureRecognizers>
+                            
+                        </Span>
+                        
+                    </FormattedString>
+                    
+                </Label.FormattedText>
+                
+            </Label>
+
+        </StackLayout>
+        
+    </ContentPage.Content>
+    
+</ContentPage>

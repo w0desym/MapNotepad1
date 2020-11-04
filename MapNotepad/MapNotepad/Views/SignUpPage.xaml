@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:MapNotepad.Controls"
+             xmlns:behaviors="clr-namespace:MapNotepad.Behaviors"
+             x:Class="MapNotepad.Views.SignUpPage"
+             Title="{Binding Title}">
+
+    <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="Center">
+
+        <controls:FrameLabelEntryControl x:Name="emailEntry" 
+                                         FieldLabel="Email" 
+                                         Placeholder="Email"
+                                         Text="{Binding Path=Login}"
+                                         BorderColor="LightGray">
+            
+            <controls:FrameLabelEntryControl.Behaviors>
+
+                <behaviors:EmailValidationBehavior x:Name="emailValidation"/>
+                
+            </controls:FrameLabelEntryControl.Behaviors>
+            
+        </controls:FrameLabelEntryControl>
+
+        <controls:FrameLabelEntryControl x:Name="passwordEntry" 
+                                         FieldLabel="Password"
+                                         Placeholder="Password"
+                                         IsPassword="True"
+                                         Text="{Binding Path=Password}"
+                                         BorderColor="LightGray">
+            
+            <controls:FrameLabelEntryControl.Behaviors>
+
+                <behaviors:PasswordValidationBehavior x:Name="passwordValidation"/>
+                
+            </controls:FrameLabelEntryControl.Behaviors>
+            
+        </controls:FrameLabelEntryControl>
+        
+        <controls:FrameLabelEntryControl x:Name="confirmPasswordEntry"
+                                         FieldLabel="Confirm password"
+                                         Placeholder="Confirm password"
+                                         IsPassword="True"
+                                         Text="{Binding Path=ConfirmPassword}"
+                                         BorderColor="LightGray">
+            
+            <controls:FrameLabelEntryControl.Behaviors>
+
+                <behaviors:ConfirmPasswordValidationBehavior x:Name="confirmPasswordValidation" CompareToEntry="{Binding Text, Source={x:Reference passwordEntry}}"/>
+                
+            </controls:FrameLabelEntryControl.Behaviors>
+            
+        </controls:FrameLabelEntryControl>
+
+        <Button Text="SIGN UP"
+                Style="{StaticResource SignButtonStyle}"
+                Command="{Binding SignUpCommand}"
+                Margin="20"
+                IsEnabled="False">
+            
+            <Button.Triggers>
+                
+                <MultiTrigger TargetType="Button">
+                    
+                    <MultiTrigger.Conditions>
+                        
+                        <BindingCondition Binding="{Binding Source={x:Reference emailValidation}, Path=IsValid}"
+                                          Value="True"/>
+                        
+                        <BindingCondition Binding="{Binding Source={x:Reference passwordValidation}, Path=IsValid}"
+                                          Value="True"/>
+                        
+                        <BindingCondition Binding="{Binding Source={x:Reference confirmPasswordValidation}, Path=IsValid}"
+                                          Value="True"/>
+                        
+                    </MultiTrigger.Conditions>
+                    
+                    <Setter Property="IsEnabled" Value="True"/>
+                    
+                </MultiTrigger>
+                
+            </Button.Triggers>
+            
+        </Button>
+        
+    </StackLayout>
+    
+</ContentPage>
