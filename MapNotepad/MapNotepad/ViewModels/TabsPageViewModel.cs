@@ -32,7 +32,7 @@ namespace MapNotepad.ViewModels
         private async void OnLogOutCommandAsync()
         {
             _settingsManager.CurrentUser = -1;
-            await _navigationService.NavigateAsync($"{nameof(SignInPage)}");
+            await _navigationService.NavigateAsync($"/{nameof(SignInPage)}");
         }
     }
 }

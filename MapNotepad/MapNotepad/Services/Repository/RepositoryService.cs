@@ -19,6 +19,7 @@ namespace MapNotepad
             database.CreateTable<PinInfo>();
             database.CreateTable<User>();
             //database.DropTable<PinInfo>();
+            //database.DropTable<User>();
         }
         public List<T> GetItems<T>() where T : ICommonModel, new()
         {
