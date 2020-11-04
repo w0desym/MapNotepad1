@@ -77,7 +77,7 @@ namespace MapNotepad.ViewModels
             if (id != 0)
             {
                 _authorizationService.Authorize(id);
-                await _navigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(TabsPage)}");
+                await _navigationService.NavigateAsync($"{nameof(TabsPage)}");
             }
             else
             {
