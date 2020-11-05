@@ -91,7 +91,7 @@ namespace MapNotepad.ViewModels
         public override void Initialize(INavigationParameters parameters)
         {
             base.Initialize(parameters);
-            LoadPinsCollection();
+            LoadPinsCollectionAsync();
         }
         #endregion
 
@@ -99,11 +99,13 @@ namespace MapNotepad.ViewModels
         public override void OnNavigatedTo(INavigationParameters parameters)
         {
             base.OnNavigatedTo(parameters);
-            LoadPinsCollection();
+
+            LoadPinsCollectionAsync();
         }
         public override void OnNavigatedFrom(INavigationParameters parameters)
         {
             base.OnNavigatedFrom(parameters);
+
             if (PinInfo != null)
             {
                 var pin = PinInfo.ToPin();
@@ -122,7 +124,7 @@ namespace MapNotepad.ViewModels
             }
             else
             {
-                LoadPinsCollection();
+                LoadPinsCollectionAsync();
             }
         }
         private async void OnAddPinCommandAsync()
@@ -142,11 +144,11 @@ namespace MapNotepad.ViewModels
         {
             var answer = await _userDialogs.ConfirmAsync(new ConfirmConfig()
                 .SetMessage($"Delete {pinInfo.Label}?")
-                .UseYesNo());
+                .UseYesNo());//vinesi v peremennuyu
             if (answer)
             {
                 await _pinService.DeletePinInfoAsync(pinInfo);
-                LoadPinsCollection();
+                LoadPinsCollectionAsync();
             }
         }
         private async void OnPinCommandAsync(PinInfo pinInfo)
@@ -156,22 +158,15 @@ namespace MapNotepad.ViewModels
         }
         private async void OnImageButtonCommand(PinInfo pinInfo)
         {
-            if (pinInfo.IsFavorite)
-            {
-                pinInfo.ImgPath = Constants.NotFavoriteImagePath;
-            }
-            else
-            {
-                pinInfo.ImgPath = Constants.FavoriteImagePath;
-            }
+            pinInfo.ImgPath = pinInfo.IsFavorite ? Constants.NotFavoriteImagePath : Constants.FavoriteImagePath;
             pinInfo.IsFavorite = !pinInfo.IsFavorite;
 
             await _pinService.SavePinInfoAsync(pinInfo);
-            LoadPinsCollection();
+            LoadPinsCollectionAsync();
         }
 
 
-        private async void LoadPinsCollection()
+        private async void LoadPinsCollectionAsync()
         {
             var pins = await _pinService.GetPinsAsync();
             PinsCollection = new ObservableCollection<PinInfo>(pins);

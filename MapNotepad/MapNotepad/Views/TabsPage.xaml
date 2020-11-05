@@ -9,11 +9,13 @@
             Title="{Binding Title}">
     
     <TabbedPage.ToolbarItems>
+        
         <ToolbarItem
             Order="Primary"
             Priority="1"
             Command="{Binding LogOutCommand}"
             IconImageSource="ic_exit_to_app.png"/>
+        
     </TabbedPage.ToolbarItems>
 
     <TabbedPage.Behaviors>

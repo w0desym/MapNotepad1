@@ -19,10 +19,17 @@ namespace MapNotepad
             var users = await _repositoryService.GetItemsAsync<User>();
             var matchingUser = users.FirstOrDefault(x => x.Email == email && x.Password == password);
 
+            int id;
             if (matchingUser != null)
-                return matchingUser.Id;
+            {
+                id = matchingUser.Id;
+            }
             else
-                return 0;
+            {
+                id = 0;
+            }
+
+            return id;
         }
     }
 }

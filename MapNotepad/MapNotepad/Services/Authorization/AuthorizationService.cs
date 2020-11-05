@@ -8,17 +8,17 @@ namespace MapNotepad
 {
     class AuthorizationService : IAuthorizationService
     {
-        private readonly ISettingsManager _settingsManager;
+        private readonly IUserService _userService;
         private readonly IRepositoryService _repositoryService;
-        public AuthorizationService(ISettingsManager settingsManager,
+        public AuthorizationService(IUserService userService,
             IRepositoryService repositoryService)
         {
-            _settingsManager = settingsManager;
+            _userService = userService;
             _repositoryService = repositoryService;
         }
-        public int Authorize(int id)
+        public void Authorize(int id)
         {
-            return _settingsManager.CurrentUser = id;
+            _userService.SetCurrentUser(id);
         }
         public async Task<int> RegisterAsync(User user)
         {

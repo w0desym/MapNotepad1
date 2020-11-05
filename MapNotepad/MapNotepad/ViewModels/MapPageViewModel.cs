@@ -93,7 +93,7 @@ namespace MapNotepad.ViewModels
         #region -- IInitialize implementation --
         public override void Initialize(INavigationParameters parameters)
         {
-            LoadPinsCollection();
+            LoadPinsCollectionAsync();
             UpdateCameraPositionAsync();
         }
         #endregion
@@ -102,7 +102,7 @@ namespace MapNotepad.ViewModels
         public override void OnNavigatedTo(INavigationParameters parameters)
         {
             base.OnNavigatedTo(parameters);
-            LoadPinsCollection();
+            LoadPinsCollectionAsync();
             if (parameters.TryGetValue(nameof(Pin), out Pin pin))
             {
                 SelectedPin = PinsCollection.FirstOrDefault(x => x.Label == pin.Label);
@@ -114,7 +114,7 @@ namespace MapNotepad.ViewModels
         public override void OnNavigatedFrom(INavigationParameters parameters)
         {
             base.OnNavigatedFrom(parameters);
-
+            //syuda pisat'
         }
         #endregion
 
@@ -128,7 +128,7 @@ namespace MapNotepad.ViewModels
             }
             else
             {
-                LoadPinsCollection();
+                LoadPinsCollectionAsync();
             }
         }
         private void OnPinCommand(Pin pin)
@@ -146,7 +146,7 @@ namespace MapNotepad.ViewModels
             PinLongitude = Math.Truncate(pinInfo.Longitude * 1000) / 1000;
         }
 
-        private async void LoadPinsCollection()
+        private async void LoadPinsCollectionAsync()
         {
             var pins = await _pinService.GetPinsAsync();
 

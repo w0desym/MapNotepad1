@@ -14,9 +14,9 @@ namespace MapNotepad
         {
             _permissions = permissions;
         }
-        public async Task<PermissionStatus> RequestLocationPermissionAsync()
+        public Task<PermissionStatus> RequestLocationPermissionAsync()
         {
-            return await _permissions.RequestPermissionAsync<LocationPermission>();
+            return _permissions.RequestPermissionAsync<LocationPermission>();
         }
     }
 }

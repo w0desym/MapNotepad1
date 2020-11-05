@@ -60,7 +60,7 @@
             
         </controls:ValidationEntryControl>
 
-        <Button Text="SIGN UP"
+        <Button Text="Sign Up"
                 Style="{StaticResource SignButtonStyle}"
                 Command="{Binding SignUpCommand}"
                 Margin="20"

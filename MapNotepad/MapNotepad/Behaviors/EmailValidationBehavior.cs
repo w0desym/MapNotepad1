@@ -35,6 +35,7 @@ namespace MapNotepad.Behaviors
             base.OnAttachedTo(control);
 
             _control = control;
+            _control.Message = "Email is not valid";
             control.Entry.TextChanged += OnTextChanged;
         }
 
@@ -54,17 +55,8 @@ namespace MapNotepad.Behaviors
         {
             IsValid = Validator.IsEmail(e.NewTextValue);
 
-            if (!IsValid)
-            {
-                _control.IsMessageVisible = true;
-                _control.Message = "Email is not valid";
-            }
-            else
-            {
-                _control.IsMessageVisible = false;
-            }
+            _control.IsMessageVisible = !IsValid;
         }
-
         #endregion
     }
 }

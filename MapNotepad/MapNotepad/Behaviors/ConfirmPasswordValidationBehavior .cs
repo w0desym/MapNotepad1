@@ -40,6 +40,7 @@ namespace MapNotepad.Behaviors
             base.OnAttachedTo(control);
 
             _control = control;
+            _control.Message = "Passwords should match";
             control.Entry.TextChanged += OnTextChanged;
         }
 
@@ -64,15 +65,7 @@ namespace MapNotepad.Behaviors
 
                 IsValid = password.Equals(confirmPassword);
 
-                if (!IsValid)
-                {
-                    _control.IsMessageVisible = true;
-                    _control.Message = "Passwords should match";
-                }
-                else
-                {
-                    _control.IsMessageVisible = false;
-                }
+                _control.IsMessageVisible = !IsValid;
             }
         }
 

@@ -8,7 +8,7 @@ namespace MapNotepad
 {
     public interface IAuthorizationService
     {
-        int Authorize(int id);
+        void Authorize(int id);
         Task<int> RegisterAsync(User item);
     }
 }

@@ -14,22 +14,18 @@ namespace MapNotepad.ViewModels
     class SignUpPageViewModel : ViewModelBase
     {
         private readonly INavigationService _navigationService;
-        private readonly IAuthenticationService _authenticationService;
         private readonly IAuthorizationService _authorizationService;
 
         public SignUpPageViewModel(INavigationService navigationService,
-            IAuthenticationService authenticationService,
             IAuthorizationService authorizationService) :
             base(navigationService)
         {
             Title = "Sign Up";
             _navigationService = navigationService;
-            _authenticationService = authenticationService;
             _authorizationService = authorizationService;
         }
 
         #region -- Public properties --
-
 
         private string _email;
         public string Email
@@ -93,12 +89,12 @@ namespace MapNotepad.ViewModels
             {
                 NavigationParameters navParams = new NavigationParameters { { "credentials", newUser } };
 
-                await App.Current.MainPage.DisplayAlert("", "Registration is successful", "OK");
+                await Application.Current.MainPage.DisplayAlert("", "Registration is successful", "OK");
                 await _navigationService.GoBackAsync(navParams);
             }
             else
             {
-                await App.Current.MainPage.DisplayAlert("", "User with such email already exists", "OK");
+                await Application.Current.MainPage.DisplayAlert("", "User with such email already exists", "OK");
             }
         }
 

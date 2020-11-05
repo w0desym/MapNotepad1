@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
 using System.Windows.Input;
-using Xamarin.Essentials;
+using Prism.Navigation;
 using Xamarin.Forms;
 
 namespace MapNotepad.ViewModels
@@ -57,7 +57,7 @@ namespace MapNotepad.ViewModels
         public override void OnNavigatedTo(INavigationParameters parameters)
         {
             var navMode = parameters.GetNavigationMode();
-            if (navMode == 0)
+            if (navMode == NavigationMode.Back)
             {
                 var _parameters = parameters.GetValue<User>("credentials");
                 if (_parameters != null)

@@ -19,19 +19,19 @@ namespace MapNotepad.ViewModels
         private readonly IPinService _pinService;
         private readonly IPermissionService _permissionService;
         private readonly INavigationService _navigationService;
-        private readonly ISettingsManager _settingsManager;
+        private readonly IUserService _userService;
 
         public AddPinPageViewModel(
             INavigationService navigationService,
             IPermissionService permissionService,
             IPinService pinService,
-            ISettingsManager settingsManager) :
+            IUserService userService) :
             base(navigationService)
         {
             _navigationService = navigationService;
             _permissionService = permissionService;
             _pinService = pinService;
-            _settingsManager = settingsManager;
+            _userService = userService;
 
             _permissionService.RequestLocationPermissionAsync();
         }
@@ -171,7 +171,7 @@ namespace MapNotepad.ViewModels
         {
             var pinInfo = new PinInfo()
             {
-                UserId = _settingsManager.CurrentUser,
+                UserId = _userService.GetCurrentUser(),
                 Label = PinLabel ?? "New Pin",
                 Latitude = PinLatitude,
                 Longitude = PinLongitude,
