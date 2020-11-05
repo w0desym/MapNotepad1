@@ -31,18 +31,6 @@ namespace MapNotepad.Droid
         protected override void OnStart()
         {
             base.OnStart();
-
-            if((int)Build.VERSION.SdkInt >= 23)
-            {
-                if (CheckSelfPermission(Manifest.Permission.AccessFineLocation) != Permission.Granted)
-                {
-                    RequestPermissions(LocationPermissions, RequestLocationId);
-                }
-                else
-                {
-                    // Permissions already granted - display a message.
-                }
-            }
         }
         protected override void OnCreate(Bundle savedInstanceState)
         {

@@ -12,29 +12,23 @@ namespace MapNotepad.Extensions
 {
     public static class PinExtension
     {
-        public static List<Pin> ToPins(this List<PinInfo> pinInfos)
-        {
-            List<Pin> pins = new List<Pin>();
-            foreach(var pinInfo in pinInfos)
-            {
-                pins.Add(pinInfo.ToPin());
-            }
-            return pins;
-        }
         public static Pin ToPin(this PinInfo pinInfo)
         {
-            object other = new[] { pinInfo.Description, pinInfo.ImgPath };
+            object otherInfo = new[] { pinInfo.Description, pinInfo.ImgPath };
+
             Pin pin = new Pin()
             {
                 Label = pinInfo.Label,
                 Position = new Position(pinInfo.Latitude, pinInfo.Longitude),
-                Tag = other
+                Tag = otherInfo
             };
+
             return pin;
         }
         public static PinInfo ToPinInfo(this Pin pin)
         {
             string[] str = ((IEnumerable)pin.Tag).Cast<object>().Select(x => x.ToString()).ToArray();
+
             PinInfo pinInfo = new PinInfo()
             {
                 Label = pin.Label,
@@ -43,6 +37,7 @@ namespace MapNotepad.Extensions
                 Description = str[(int)OtherPinInfo.Description],
                 ImgPath = str[(int)OtherPinInfo.ImgPath]
             };
+
             return pinInfo;
         }
     }

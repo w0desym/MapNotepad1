@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace MapNotepad
 {
@@ -19,33 +20,38 @@ namespace MapNotepad
             _settingsManager = settingsManager;
         }
 
-        public List<PinInfo> GetPins()
+        public async Task<IEnumerable<PinInfo>> GetPinsAsync()
         {
-            return _repositoryService.GetItems<PinInfo>();
+            var pinInfos = await _repositoryService.GetItemsAsync<PinInfo>();
+            var curUserPinInfos = pinInfos.Where(x => x.UserId == _settingsManager.CurrentUser);
+
+            return curUserPinInfos;
         }
-        public IEnumerable<PinInfo> GetPins(string searchQuery)
+        public async Task<IEnumerable<PinInfo>> GetPinsAsync(string searchQuery)
         {
-            return _repositoryService.GetItems<PinInfo>().Where(x => x.UserId == _settingsManager.CurrentUser).Where(x => 
+            var curUserPinInfos = await GetPinsAsync();
+
+            return curUserPinInfos.Where(x => 
                 x.Label.ToUpper().Contains(searchQuery.ToUpper()) || 
                 x.Description.ToUpper().Contains(searchQuery.ToUpper()) ||
                 x.Latitude.ToString().ToUpper().Contains(searchQuery.ToUpper()) ||
                 x.Longitude.ToString().ToUpper().Contains(searchQuery.ToUpper()));
         }
-        public int SavePinInfo(PinInfo item)
+        public async Task<int> SavePinInfoAsync(PinInfo pinInfo)
         {
-            if (item.Id != 0)
+            if (pinInfo.Id != 0)
             {
-                _repositoryService.UpdateItem(item);
-                return item.Id;
+                await _repositoryService.UpdateItemAsync(pinInfo);
+                return pinInfo.Id;
             }
             else
             {
-                return _repositoryService.InsertItem(item);
+                return await _repositoryService.InsertItemAsync(pinInfo);
             }
         }
-        public int DeletePinInfo(PinInfo item)
+        public async Task<int> DeletePinInfoAsync(PinInfo pinInfo)
         {
-            return _repositoryService.DeleteItem(item);
+            return await _repositoryService.DeleteItemAsync(pinInfo);
         }
     }
 }

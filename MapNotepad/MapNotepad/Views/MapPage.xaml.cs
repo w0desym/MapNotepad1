@@ -10,7 +10,6 @@ using Xamarin.Forms.Xaml;
 
 namespace MapNotepad.Views
 {
-    [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class MapPage : ContentPage
     {
         public MapPage()

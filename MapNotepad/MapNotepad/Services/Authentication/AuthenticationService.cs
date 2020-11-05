@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace MapNotepad
 {
@@ -13,11 +14,13 @@ namespace MapNotepad
         {
             _repositoryService = repositoryService;
         }
-        public int Authenticate(string email, string password)
+        public async Task<int> AuthenticateAsync(string email, string password)
         {
-            var user = _repositoryService.GetItems<User>().FirstOrDefault(x => x.Email == email && x.Password == password);
-            if (user != null)
-                return user.Id;
+            var users = await _repositoryService.GetItemsAsync<User>();
+            var matchingUser = users.FirstOrDefault(x => x.Email == email && x.Password == password);
+
+            if (matchingUser != null)
+                return matchingUser.Id;
             else
                 return 0;
         }

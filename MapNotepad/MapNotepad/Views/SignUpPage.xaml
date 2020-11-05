@@ -3,60 +3,68 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:controls="clr-namespace:MapNotepad.Controls"
              xmlns:behaviors="clr-namespace:MapNotepad.Behaviors"
+             x:Name="_this"
              x:Class="MapNotepad.Views.SignUpPage"
              Title="{Binding Title}">
 
     <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="Center">
 
-        <controls:FrameLabelEntryControl x:Name="emailEntry" 
+        <controls:ValidationEntryControl x:Name="emailEntry" 
                                          FieldLabel="Email" 
-                                         Placeholder="Email"
-                                         Text="{Binding Path=Login}"
-                                         BorderColor="LightGray">
-            
-            <controls:FrameLabelEntryControl.Behaviors>
+                                         Placeholder="user@gmail.com"
+                                         Text="{Binding BindingContext.Email, Source={x:Reference _this}}"
+                                         Style="{StaticResource ValidationEntryControlStyle}">
+
+            <controls:ValidationEntryControl.Behaviors>
 
                 <behaviors:EmailValidationBehavior x:Name="emailValidation"/>
                 
-            </controls:FrameLabelEntryControl.Behaviors>
+            </controls:ValidationEntryControl.Behaviors>
             
-        </controls:FrameLabelEntryControl>
+        </controls:ValidationEntryControl>
 
-        <controls:FrameLabelEntryControl x:Name="passwordEntry" 
+        <controls:ValidationEntryControl FieldLabel="Name" 
+                                         Placeholder="Alex"
+                                         Text="{Binding BindingContext.Name, Source={x:Reference _this}}"
+                                         Style="{StaticResource ValidationEntryControlStyle}">
+
+        </controls:ValidationEntryControl>
+
+        <controls:ValidationEntryControl x:Name="passwordEntry" 
                                          FieldLabel="Password"
-                                         Placeholder="Password"
+                                         Placeholder="••••••••"
                                          IsPassword="True"
-                                         Text="{Binding Path=Password}"
-                                         BorderColor="LightGray">
-            
-            <controls:FrameLabelEntryControl.Behaviors>
+                                         Text="{Binding BindingContext.Password, Source={x:Reference _this}}"
+                                         Style="{StaticResource ValidationEntryControlStyle}">
+
+            <controls:ValidationEntryControl.Behaviors>
 
                 <behaviors:PasswordValidationBehavior x:Name="passwordValidation"/>
                 
-            </controls:FrameLabelEntryControl.Behaviors>
+            </controls:ValidationEntryControl.Behaviors>
             
-        </controls:FrameLabelEntryControl>
-        
-        <controls:FrameLabelEntryControl x:Name="confirmPasswordEntry"
+        </controls:ValidationEntryControl>
+
+        <controls:ValidationEntryControl x:Name="confirmPasswordEntry"
                                          FieldLabel="Confirm password"
-                                         Placeholder="Confirm password"
+                                         Placeholder="••••••••"
                                          IsPassword="True"
-                                         Text="{Binding Path=ConfirmPassword}"
-                                         BorderColor="LightGray">
-            
-            <controls:FrameLabelEntryControl.Behaviors>
+                                         Text="{Binding BindingContext.ConfirmPassword, Source={x:Reference _this}}"
+                                         Style="{StaticResource ValidationEntryControlStyle}">
+
+            <controls:ValidationEntryControl.Behaviors>
 
                 <behaviors:ConfirmPasswordValidationBehavior x:Name="confirmPasswordValidation" CompareToEntry="{Binding Text, Source={x:Reference passwordEntry}}"/>
                 
-            </controls:FrameLabelEntryControl.Behaviors>
+            </controls:ValidationEntryControl.Behaviors>
             
-        </controls:FrameLabelEntryControl>
+        </controls:ValidationEntryControl>
 
         <Button Text="SIGN UP"
                 Style="{StaticResource SignButtonStyle}"
                 Command="{Binding SignUpCommand}"
                 Margin="20"
-                IsEnabled="False">
+                IsEnabled="{Binding BindingContext.IsSignUpEnabled, Source={x:Reference _this}}">
             
             <Button.Triggers>
                 

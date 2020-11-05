@@ -113,11 +113,12 @@ namespace MapNotepad.ViewModels
         #endregion
 
         #region -- Private helpers --
-        private void OnSearchCommand()
+        private async void OnSearchCommand()
         {
             if (!string.IsNullOrEmpty(SearchQuery))
             {
-                PinsCollection = new ObservableCollection<PinInfo>(_pinService.GetPins(SearchQuery));
+                var pins = await _pinService.GetPinsAsync(SearchQuery);
+                PinsCollection = new ObservableCollection<PinInfo>(pins);
             }
             else
             {
@@ -144,7 +145,7 @@ namespace MapNotepad.ViewModels
                 .UseYesNo());
             if (answer)
             {
-                _pinService.DeletePinInfo(pinInfo);
+                await _pinService.DeletePinInfoAsync(pinInfo);
                 LoadPinsCollection();
             }
         }
@@ -153,7 +154,7 @@ namespace MapNotepad.ViewModels
             PinInfo = pinInfo;
             await _navigationService.SelectTabAsync($"{nameof(MapPage)}");
         }
-        private void OnImageButtonCommand(PinInfo pinInfo)
+        private async void OnImageButtonCommand(PinInfo pinInfo)
         {
             if (pinInfo.IsFavorite)
             {
@@ -165,14 +166,15 @@ namespace MapNotepad.ViewModels
             }
             pinInfo.IsFavorite = !pinInfo.IsFavorite;
 
-            _pinService.SavePinInfo(pinInfo);
+            await _pinService.SavePinInfoAsync(pinInfo);
             LoadPinsCollection();
         }
 
 
-        private void LoadPinsCollection()
+        private async void LoadPinsCollection()
         {
-            PinsCollection = new ObservableCollection<PinInfo>(_pinService.GetPins());
+            var pins = await _pinService.GetPinsAsync();
+            PinsCollection = new ObservableCollection<PinInfo>(pins);
         }
         #endregion
     }

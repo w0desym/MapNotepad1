@@ -3,22 +3,23 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:controls="clr-namespace:MapNotepad.Controls"
              x:Class="MapNotepad.Views.SignInPage"
-             Title="{Binding Title}">
-    
+             Title="{Binding Title}"
+             x:Name="_this">
+
     <ContentPage.Content>
         
         <StackLayout VerticalOptions="Center" HorizontalOptions="FillAndExpand">
-            
-            <controls:FrameLabelEntryControl Text="{Binding Path=Email}"
-                                             Placeholder="Email"
+
+            <controls:ValidationEntryControl Text="{Binding BindingContext.Email, Source={x:Reference _this}}"
+                                             Placeholder="user@gmail.com"
                                              FieldLabel="Email"
-                                             BorderColor="LightGray"/>
-            
-            <controls:FrameLabelEntryControl Text="{Binding Path=Password}"
-                                             Placeholder="Password"
+                                             Style="{StaticResource ValidationEntryControlStyle}"/>
+
+            <controls:ValidationEntryControl Text="{Binding BindingContext.Password, Source={x:Reference _this}}"
+                                             Placeholder="••••••••"
                                              FieldLabel="Password"
                                              IsPassword="True"
-                                             BorderColor="LightGray"/>
+                                             Style="{StaticResource ValidationEntryControlStyle}"/>
             
             <Button Text="Sign In"
                     Style="{StaticResource SignButtonStyle}"

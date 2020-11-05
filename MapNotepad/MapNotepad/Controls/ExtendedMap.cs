@@ -20,8 +20,8 @@ namespace MapNotepad.Controls
                 propertyChanged: PinsPropertyChanged);
         public ObservableCollection<Pin> PinsCollection
         {
-            get { return (ObservableCollection<Pin>)GetValue(PinsCollectionProperty); }
-            set { SetValue(PinsCollectionProperty, value); }
+            get => (ObservableCollection<Pin>)GetValue(PinsCollectionProperty);
+            set => SetValue(PinsCollectionProperty, value);
         }
 
         public static readonly BindableProperty CurrentCameraPositionProperty =
@@ -34,8 +34,8 @@ namespace MapNotepad.Controls
 
         public CameraPosition CurrentCameraPosition
         {
-            get { return (CameraPosition)GetValue(CurrentCameraPositionProperty); }
-            set { SetValue(CurrentCameraPositionProperty, value); }
+            get => (CameraPosition)GetValue(CurrentCameraPositionProperty);
+            set => SetValue(CurrentCameraPositionProperty, value);
         }
         private static void CurrentCameraPositionPropertyChanged(BindableObject bindable, object oldValue, object newValue)
         {

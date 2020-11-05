@@ -1,18 +1,12 @@
 ﻿using MapNotepad.Controls;
-using MapNotepad.Validators;
 using Prism.Behaviors;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
 using Xamarin.Forms;
 
 namespace MapNotepad.Behaviors
 {
-    class ConfirmPasswordValidationBehavior : BehaviorBase<FrameLabelEntryControl>
+    class ConfirmPasswordValidationBehavior : BehaviorBase<ValidationEntryControl>
     {
-        private FrameLabelEntryControl _control;
+        private ValidationEntryControl _control;
 
         static readonly BindablePropertyKey IsValidPropertyKey = BindableProperty.CreateReadOnly(
             "IsValid", 
@@ -31,7 +25,7 @@ namespace MapNotepad.Behaviors
         public static readonly BindableProperty CompareToEntryProperty = BindableProperty.Create(
             propertyName: nameof(CompareToEntry),
             returnType: typeof(string),
-            declaringType: typeof(FrameLabelEntryControl));
+            declaringType: typeof(ValidationEntryControl));
 
         public string CompareToEntry
         {
@@ -41,7 +35,7 @@ namespace MapNotepad.Behaviors
 
         #region -- Overrides --
 
-        protected override void OnAttachedTo(FrameLabelEntryControl control)
+        protected override void OnAttachedTo(ValidationEntryControl control)
         {
             base.OnAttachedTo(control);
 
@@ -49,7 +43,7 @@ namespace MapNotepad.Behaviors
             control.Entry.TextChanged += OnTextChanged;
         }
 
-        protected override void OnDetachingFrom(FrameLabelEntryControl control)
+        protected override void OnDetachingFrom(ValidationEntryControl control)
         {
             base.OnDetachingFrom(control);
 

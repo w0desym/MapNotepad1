@@ -10,9 +10,9 @@ using Xamarin.Forms.Xaml;
 namespace MapNotepad.Controls
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class FrameLabelEntryControl : ContentView
+    public partial class ValidationEntryControl : ContentView
     {
-        public FrameLabelEntryControl()
+        public ValidationEntryControl()
         {
             InitializeComponent();
             Entry = entry;
@@ -25,7 +25,8 @@ namespace MapNotepad.Controls
         public static readonly BindableProperty FieldLabelProperty = BindableProperty.Create(
             propertyName: nameof(FieldLabel),
             returnType: typeof(string),
-            declaringType: typeof(FrameLabelEntryControl));
+            defaultBindingMode: BindingMode.TwoWay,
+            declaringType: typeof(ValidationEntryControl));
 
         public string FieldLabel
         {
@@ -36,7 +37,8 @@ namespace MapNotepad.Controls
         public static readonly BindableProperty IsPasswordProperty = BindableProperty.Create(
             propertyName: nameof(IsPassword),
             returnType: typeof(bool),
-            declaringType: typeof(FrameLabelEntryControl));
+            defaultBindingMode: BindingMode.TwoWay,
+            declaringType: typeof(ValidationEntryControl));
 
         public bool IsPassword
         {
@@ -47,7 +49,8 @@ namespace MapNotepad.Controls
         public static readonly BindableProperty TextProperty = BindableProperty.Create(
             propertyName: nameof(Text),
             returnType: typeof(string),
-            declaringType: typeof(FrameLabelEntryControl));
+            defaultBindingMode: BindingMode.TwoWay,
+            declaringType: typeof(ValidationEntryControl));
 
         public string Text
         {
@@ -58,7 +61,8 @@ namespace MapNotepad.Controls
         public static readonly BindableProperty PlaceholderProperty = BindableProperty.Create(
             propertyName: nameof(Placeholder),
             returnType: typeof(string),
-            declaringType: typeof(FrameLabelEntryControl));
+            defaultBindingMode: BindingMode.TwoWay,
+            declaringType: typeof(ValidationEntryControl));
 
         public string Placeholder
         {
@@ -69,7 +73,8 @@ namespace MapNotepad.Controls
         public static readonly BindableProperty TextChangedCommandProperty = BindableProperty.Create(
             propertyName: nameof(TextChangedCommand),
             returnType: typeof(ICommand),
-            declaringType: typeof(FrameLabelEntryControl));
+            defaultBindingMode: BindingMode.TwoWay,
+            declaringType: typeof(ValidationEntryControl));
 
         public ICommand TextChangedCommand
         {
@@ -80,7 +85,8 @@ namespace MapNotepad.Controls
         public static readonly BindableProperty MessageProperty = BindableProperty.Create(
             propertyName: nameof(Message),
             returnType: typeof(string),
-            declaringType: typeof(FrameLabelEntryControl));
+            defaultBindingMode: BindingMode.TwoWay,
+            declaringType: typeof(ValidationEntryControl));
 
         public string Message
         {
@@ -91,7 +97,8 @@ namespace MapNotepad.Controls
         public static readonly BindableProperty IsMessageVisibleProperty = BindableProperty.Create(
             propertyName: nameof(IsMessageVisible),
             returnType: typeof(bool),
-            declaringType: typeof(FrameLabelEntryControl));
+            defaultBindingMode: BindingMode.TwoWay,
+            declaringType: typeof(ValidationEntryControl));
 
         public bool IsMessageVisible
         {
@@ -102,7 +109,8 @@ namespace MapNotepad.Controls
         public static readonly BindableProperty BorderColorProperty = BindableProperty.Create(
             propertyName: nameof(BorderColor),
             returnType: typeof(Color),
-            declaringType: typeof(FrameLabelEntryControl));
+            defaultBindingMode: BindingMode.TwoWay,
+            declaringType: typeof(ValidationEntryControl));
 
         public Color BorderColor
         {

@@ -30,14 +30,15 @@ namespace MapNotepad.ViewModels
         }
 
         #region -- Public Properties --
+
         private string _email;
-        private string Email
+        public string Email
         {
             get => _email;
             set => SetProperty(ref _email, value);
         }
         private string _password;
-        private string Password
+        public string Password
         {
             get => _password;
             set => SetProperty(ref _password, value);
@@ -73,7 +74,7 @@ namespace MapNotepad.ViewModels
 
         private async void OnSignInCommandAsync()
         {
-            int id = _authenticationService.Authenticate(Email, Password);
+            int id = await _authenticationService.AuthenticateAsync(Email, Password);
             if (id != 0)
             {
                 _authorizationService.Authorize(id);

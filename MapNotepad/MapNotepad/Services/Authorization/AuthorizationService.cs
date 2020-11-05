@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace MapNotepad
 {
@@ -19,16 +20,16 @@ namespace MapNotepad
         {
             return _settingsManager.CurrentUser = id;
         }
-        public int Register(User item)
+        public async Task<int> RegisterAsync(User user)
         {
-            if (item.Id != 0)
+            if (user.Id != 0)
             {
-                _repositoryService.UpdateItem(item);
-                return item.Id;
+                await _repositoryService.UpdateItemAsync(user);
+                return user.Id;
             }
             else
             {
-                return _repositoryService.InsertItem(item);
+                return await _repositoryService.InsertItemAsync(user);
             }
         }
     }

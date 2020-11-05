@@ -179,7 +179,8 @@ namespace MapNotepad.ViewModels
                 ImgPath = Constants.NotFavoriteImagePath
             };
 
-            if(_pinService.SavePinInfo(pinInfo) != -1)
+            var answer = await _pinService.SavePinInfoAsync(pinInfo);
+            if (answer != -1)
             {
                 await _navigationService.GoBackAsync();
             }

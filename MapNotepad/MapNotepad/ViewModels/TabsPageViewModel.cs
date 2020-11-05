@@ -15,15 +15,15 @@ namespace MapNotepad.ViewModels
     class TabsPageViewModel : ViewModelBase
     {
         private readonly INavigationService _navigationService;
-        private readonly ISettingsManager _settingsManager;
+        private readonly IUserService _userService;
         public TabsPageViewModel(
             INavigationService navigationService,
-            ISettingsManager settingsManager) :
+            IUserService userService) :
             base(navigationService)
         {
             Title = "Map Notepad";
             _navigationService = navigationService;
-            _settingsManager = settingsManager;
+            _userService = userService;
         }
 
         public ICommand _LogOutCommand;
@@ -31,8 +31,8 @@ namespace MapNotepad.ViewModels
 
         private async void OnLogOutCommandAsync()
         {
-            _settingsManager.CurrentUser = -1;
-            await _navigationService.NavigateAsync($"/{nameof(SignInPage)}");
+            _userService.SetCurrentUser(-1);
+            await _navigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(SignInPage)}");
         }
     }
 }

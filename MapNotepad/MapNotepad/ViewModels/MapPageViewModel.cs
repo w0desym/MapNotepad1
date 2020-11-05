@@ -110,14 +110,21 @@ namespace MapNotepad.ViewModels
             }
             UpdateCameraPositionAsync();
         }
+
+        public override void OnNavigatedFrom(INavigationParameters parameters)
+        {
+            base.OnNavigatedFrom(parameters);
+
+        }
         #endregion
 
         #region -- Private helpers --
-        private void OnSearchCommand()
+        private async void OnSearchCommand()
         {
             if (!string.IsNullOrEmpty(SearchQuery))
             {
-                PinsCollection = new ObservableCollection<Pin>(_pinService.GetPins(SearchQuery).Select(x => x.ToPin()));
+                var foundPins = await _pinService.GetPinsAsync(SearchQuery);
+                PinsCollection = new ObservableCollection<Pin>(foundPins.Select(x => x.ToPin()));
             }
             else
             {
@@ -139,9 +146,11 @@ namespace MapNotepad.ViewModels
             PinLongitude = Math.Truncate(pinInfo.Longitude * 1000) / 1000;
         }
 
-        private void LoadPinsCollection()
+        private async void LoadPinsCollection()
         {
-            PinsCollection = new ObservableCollection<Pin>(_pinService.GetPins().Where(x => x.IsFavorite == true).Select(x => x.ToPin()));
+            var pins = await _pinService.GetPinsAsync();
+
+            PinsCollection = new ObservableCollection<Pin>(pins.Where(x => x.IsFavorite == true).Select(x => x.ToPin()));
         }
         private async void UpdateCameraPositionAsync()
         {

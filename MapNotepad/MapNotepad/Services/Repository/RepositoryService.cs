@@ -5,32 +5,38 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Text;
+using System.Threading.Tasks;
 using Xamarin.Forms.GoogleMaps;
 
 namespace MapNotepad
 {
     class RepositoryService : IRepositoryService 
     {
-        private readonly SQLiteConnection database;
         public RepositoryService()
         {
-            database = new SQLiteConnection(Path.Combine(
+
+        }
+
+        #region -- Public properties --
+        private SQLiteAsyncConnection _database;
+        public SQLiteAsyncConnection Database => _database ??= new SQLiteAsyncConnection(Path.Combine(
                 Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "MapNotepadDb.db"));
-            database.CreateTable<PinInfo>();
-            database.CreateTable<User>();
-            //database.DropTable<PinInfo>();
-            //database.DropTable<User>();
-        }
-        public List<T> GetItems<T>() where T : ICommonModel, new()
+        #endregion
+
+        public async Task<IEnumerable<T>> GetItemsAsync<T>() where T : ICommonModel, new()
         {
-            return database.Table<T>().ToList();
+            await Database.CreateTableAsync<T>();
+
+            return await Database.Table<T>().ToListAsync();
         }
-        public int InsertItem<T>(T item) where T : ICommonModel
+        public async Task<int> InsertItemAsync<T>(T item) where T : ICommonModel, new()
         {
+            await Database.CreateTableAsync<T>();
+
             int id;
             try
             {
-                id = database.Insert(item);
+                id = await Database.InsertAsync(item);
             }
             catch
             {
@@ -38,13 +44,17 @@ namespace MapNotepad
             }
             return id;
         }
-        public int UpdateItem<T>(T item) where T : ICommonModel
+        public async Task<int> UpdateItemAsync<T>(T item) where T : ICommonModel, new()
         {
-            return database.Update(item);
+            await Database.CreateTableAsync<T>();
+
+            return await Database.UpdateAsync(item);
         }
-        public int DeleteItem<T>(T item) where T : ICommonModel
+        public async Task<int> DeleteItemAsync<T>(T item) where T : ICommonModel, new()
         {
-            return database.Delete(item);
+            await Database.CreateTableAsync<T>();
+
+            return await Database.DeleteAsync(item);
         }
 
     }
