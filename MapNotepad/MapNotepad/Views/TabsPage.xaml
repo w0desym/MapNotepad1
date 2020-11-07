@@ -26,9 +26,11 @@
     
     <TabbedPage.Children>
         
-        <views:MapPage Title="Map" IconImageSource="ic_map.png"/>
+        <views:MapPage Title="Map"
+                       IconImageSource="ic_map.png"/>
         
-        <views:PinsPage Title="Pins" IconImageSource="ic_pin.png"/>
+        <views:PinsPage Title="Pins" 
+                        IconImageSource="ic_pin.png"/>
         
     </TabbedPage.Children>
     

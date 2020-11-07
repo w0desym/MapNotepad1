@@ -31,5 +31,22 @@ namespace MapNotepad
 
             return id;
         }
+        public async Task<int> AuthenticateAsync(string email)
+        {
+            var users = await _repositoryService.GetItemsAsync<User>();
+            var matchingUser = users.FirstOrDefault(x => x.Email == email);
+
+            int id;
+            if (matchingUser != null)
+            {
+                id = matchingUser.Id;
+            }
+            else
+            {
+                id = 0;
+            }
+
+            return id;
+        }
     }
 }

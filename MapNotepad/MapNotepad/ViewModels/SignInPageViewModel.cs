@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
 using System.Windows.Input;
-using Prism.Navigation;
 using Xamarin.Forms;
 
 namespace MapNotepad.ViewModels
@@ -47,6 +46,9 @@ namespace MapNotepad.ViewModels
         private ICommand _signInCommand;
         public ICommand SignInCommand => _signInCommand ??= new Command(OnSignInCommandAsync);
 
+        private ICommand _signUpViaGoogleCommand;
+        public ICommand SignUpViaGoogleCommand => _signUpViaGoogleCommand ??= new Command(OnSignUpViaGoogleCommandAsync);
+
         private ICommand _signUpCommand;
         public ICommand SignUpCommand => _signUpCommand ??= new Command(OnSignUpCommandAsync);
 
@@ -59,11 +61,10 @@ namespace MapNotepad.ViewModels
             var navMode = parameters.GetNavigationMode();
             if (navMode == NavigationMode.Back)
             {
-                var _parameters = parameters.GetValue<User>("credentials");
-                if (_parameters != null)
+                if (parameters.TryGetValue(nameof(User), out User user))
                 {
-                    Email = _parameters.Email; 
-                    Password = _parameters.Password;
+                    Email = user.Email; 
+                    Password = user.Password;
                 }
             }
         }
@@ -78,7 +79,7 @@ namespace MapNotepad.ViewModels
             if (id != 0)
             {
                 _authorizationService.Authorize(id);
-                await _navigationService.NavigateAsync($"{nameof(TabsPage)}");
+                await _navigationService.NavigateAsync($"/{nameof(TabsPage)}");
             }
             else
             {
@@ -86,6 +87,32 @@ namespace MapNotepad.ViewModels
                 Password = string.Empty;
             }
         }
+
+        private async void OnSignUpViaGoogleCommandAsync()
+        {
+            var user = await _authorizationService.LoginGoogleAsync();
+
+            if (user.Email != null)
+            {
+                int id = await _authenticationService.AuthenticateAsync(user.Email);
+                if (id != 0)
+                {
+                    _authorizationService.Authorize(id);
+                    await _navigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(TabsPage)}");
+                }
+                else
+                {
+                    NavigationParameters navParams = new NavigationParameters { { $"{nameof(User)}", user } };
+                    await _navigationService.NavigateAsync($"{nameof(SignUpPage)}", navParams);
+                }
+            }
+            else
+            {
+
+            }
+            _authorizationService.LogoutGoogle();
+        }
+
         private async void OnSignUpCommandAsync()
         {
             await _navigationService.NavigateAsync($"{nameof(SignUpPage)}");

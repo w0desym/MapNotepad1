@@ -2,6 +2,7 @@
 using MapNotepad.Models;
 using MapNotepad.ViewModels;
 using MapNotepad.Views;
+using Plugin.GoogleClient;
 using Plugin.Permissions;
 using Plugin.Settings;
 using Prism;
@@ -51,6 +52,7 @@ namespace MapNotepad
             containerRegistry.RegisterForNavigation<AddPinPage, AddPinPageViewModel>();
 
             //plugins
+            containerRegistry.RegisterInstance(CrossGoogleClient.Current);
             containerRegistry.RegisterInstance(CrossPermissions.Current);
             containerRegistry.RegisterInstance(UserDialogs.Instance);
             containerRegistry.RegisterInstance(CrossSettings.Current);

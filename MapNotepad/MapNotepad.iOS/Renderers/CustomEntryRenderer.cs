@@ -19,7 +19,7 @@ namespace MapNotepad.iOS.Renderers
         {
             base.OnElementChanged(e);
 
-            if(Control != null)
+            if (Control != null)
             {
                 Control.Layer.BorderWidth = 0;
                 Control.BorderStyle = UITextBorderStyle.None;

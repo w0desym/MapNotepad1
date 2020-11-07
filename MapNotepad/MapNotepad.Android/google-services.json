@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "303991925103",
+    "firebase_url": "https://mapnotepad-ff449.firebaseio.com",
+    "project_id": "mapnotepad-ff449",
+    "storage_bucket": "mapnotepad-ff449.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:303991925103:android:4874a5bdc151fc88fca09a",
+        "android_client_info": {
+          "package_name": "com.companyname.mapnotepad"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "303991925103-t4iqjfp9o5ev8l05n6der4i843ouldpo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.companyname.mapnotepad",
+            "certificate_hash": "55a0ae8fb70705c0ed5a6a522dafaf53e89e564d"
+          }
+        },
+        {
+          "client_id": "303991925103-avta1s80p8nl1an0j3v4v95n064sn48o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAJXCXvuGaFTggdNlR5QcXEi25FJ9-S4Qk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "303991925103-avta1s80p8nl1an0j3v4v95n064sn48o.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -13,6 +13,8 @@ using Xamarin.Forms;
 using Xamarin.Forms.GoogleMaps.Clustering;
 using Xamarin.Forms.GoogleMaps.Clustering.Android;
 using Acr.UserDialogs;
+using Plugin.GoogleClient;
+using Android.Content;
 
 [assembly: ExportRenderer(typeof(ClusteredMap), typeof(ClusteredMapRenderer))]
 namespace MapNotepad.Droid
@@ -39,6 +41,7 @@ namespace MapNotepad.Droid
 
             base.OnCreate(savedInstanceState);
             UserDialogs.Init(this);
+            GoogleClientManager.Initialize(this);
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             Xamarin.FormsGoogleMaps.Init(this, savedInstanceState);
@@ -50,6 +53,11 @@ namespace MapNotepad.Droid
             Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
             PermissionsImplementation.Current.OnRequestPermissionsResult(requestCode, permissions, grantResults);
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+        protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
+        {
+            base.OnActivityResult(requestCode, resultCode, data);
+            GoogleClientManager.OnAuthCompleted(requestCode, resultCode, data);
         }
     }
 }

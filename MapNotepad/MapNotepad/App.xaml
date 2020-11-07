@@ -4,19 +4,63 @@
              x:Class="MapNotepad.App"
              xmlns:prism="clr-namespace:Prism.Unity;assembly=Prism.Unity.Forms"
              xmlns:controls="clr-namespace:MapNotepad.Controls">
-    
+
     <Application.Resources>
+
+        <Style TargetType="{x:Type NavigationPage}">
+
+            <Setter Property="BarBackgroundColor"
+                    Value="CornflowerBlue"/>
+
+        </Style>
+
+        <!-- FontAwesome -->
+
+        <OnPlatform x:TypeArguments="x:String" 
+                    x:Key="FontAwesomeBrands">
+
+            <On Platform="Android" 
+                Value="FontAwesome5Brands.otf#Regular" />
+
+            <On Platform="iOS" 
+                Value="FontAwesome5Brands-Regular" />
+
+        </OnPlatform>
+
+        <OnPlatform x:TypeArguments="x:String" 
+                    x:Key="FontAwesomeSolid">
+
+            <On Platform="Android" 
+                Value="FontAwesome5Solid.otf#Regular" />
+
+            <On Platform="iOS" 
+                Value="FontAwesome5Free-Solid" />
+
+        </OnPlatform>
+
+        <OnPlatform x:TypeArguments="x:String" 
+                    x:Key="FontAwesomeRegular">
+
+            <On Platform="Android" 
+                Value="FontAwesome5Regular.otf#Regular" />
+
+            <On Platform="iOS" 
+                Value="FontAwesome5Free-Regular" />
+
+        </OnPlatform>
+
+
 
         <Style x:Key="FloatingButtonStyle" TargetType="Button">
 
             <Setter Property="VerticalOptions" Value="End"/>
-            
+
             <Setter Property="HorizontalOptions" Value="Center"/>
-            
+
             <Setter Property="HeightRequest" Value="40"/>
-            
+
             <Setter Property="WidthRequest" Value="110"/>
-            
+
             <Setter Property="CornerRadius" Value="20"/>
 
             <Setter Property="FontSize" Value="16"/>
@@ -37,11 +81,27 @@
 
         </Style>
 
+        <Style x:Key="NotRegisteredLabelStyle" TargetType="Label">
+
+            <Setter Property="FontSize" Value="16"/>
+
+        </Style>
+
+        <Style x:Key="BoxViewStyle" TargetType="BoxView">
+
+            <Setter Property="HeightRequest" Value="1"/>
+
+            <Setter Property="VerticalOptions" Value="Center"/>
+
+            <Setter Property="Color" Value="LightGray"/>
+
+        </Style>
+
         <Style x:Key="SignButtonStyle" TargetType="Button">
 
             <Setter Property="HorizontalOptions" Value="Center"/>
 
-            <Setter Property="HeightRequest" Value="50"/>
+            <Setter Property="HeightRequest" Value="45"/>
 
             <Setter Property="WidthRequest" Value="110"/>
 
@@ -52,6 +112,34 @@
             <Setter Property="FontAttributes" Value="Bold"/>
 
             <Setter Property="BackgroundColor" Value="CornflowerBlue"/>
+
+            <Setter Property="TextColor" Value="White"/>
+
+        </Style>
+
+        <Style x:Key="SignViaGoogleButtonStyle" TargetType="Button">
+
+            <Setter Property="VerticalOptions" Value="End"/>
+
+            <Setter Property="HorizontalOptions" Value="Center"/>
+
+            <Setter Property="HeightRequest" Value="45"/>
+
+            <Setter Property="WidthRequest" Value="240"/>
+
+            <Setter Property="CornerRadius" Value="10"/>
+
+            <Setter Property="ImageSource" Value="ic_google.png"/>
+
+            <Setter Property="Text" Value="Sign Up via Google"/>
+
+            <Setter Property="FontSize" Value="18"/>
+            
+            <Setter Property="Margin" Value="40,30,40,50"/>
+
+            <Setter Property="FontAttributes" Value="Bold"/>
+
+            <Setter Property="BackgroundColor" Value="#d64b2f"/>
 
             <Setter Property="TextColor" Value="White"/>
 
@@ -79,29 +167,47 @@
 
 
         <Style x:Key="EntryFrameStyle" TargetType="Frame">
-            
+
             <Setter Property="CornerRadius" Value="5"/>
 
             <Setter Property="Margin" Value="15,5"/>
 
             <Setter Property="BorderColor" Value="LightGray"/>
-            
+
             <Setter Property="HasShadow" Value="False"/>
-            
+
             <Setter Property="Padding">
-                
+
                 <OnPlatform x:TypeArguments="Thickness">
-                    
+
                     <On Platform="iOS" Value="10,15"/>
-                    
+
                     <On Platform="Android" Value="5"/>
-                    
+
                 </OnPlatform>
-                
+
             </Setter>
-            
+
         </Style>
-        
+
+        <Style x:Key="BackButtonStyle" TargetType="Button">
+
+            <Setter Property="FontFamily" Value="{StaticResource FontAwesomeSolid}"/>
+
+            <Setter Property="Text" Value="&#xf053;"/>
+
+            <Setter Property="FontSize" Value="Large"/>
+
+            <Setter Property="TextColor" Value="#757575"/>
+
+            <Setter Property="WidthRequest" Value="70"/>
+
+            <Setter Property="HeightRequest" Value="50"/>
+
+            <Setter Property="BackgroundColor" Value="White"/>
+
+        </Style>
+
     </Application.Resources>
-    
+
 </prism:PrismApplication>

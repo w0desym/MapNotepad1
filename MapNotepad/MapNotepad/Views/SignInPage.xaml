@@ -7,8 +7,8 @@
              x:Name="_this">
 
     <ContentPage.Content>
-        
-        <StackLayout VerticalOptions="Center" HorizontalOptions="FillAndExpand">
+
+        <StackLayout VerticalOptions="End" HorizontalOptions="FillAndExpand">
 
             <controls:ValidationEntryControl Text="{Binding BindingContext.Email, Source={x:Reference _this}}"
                                              Placeholder="user@gmail.com"
@@ -20,41 +20,71 @@
                                              FieldLabel="Password"
                                              IsPassword="True"
                                              Style="{StaticResource ValidationEntryControlStyle}"/>
-            
+
             <Button Text="Sign In"
                     Style="{StaticResource SignButtonStyle}"
                     Command="{Binding SignInCommand}"
                     Margin="20"/>
 
             <Label HorizontalOptions="Center"
-                   VerticalOptions="Center">
-                
+                   VerticalOptions="Center"
+                   Style="{StaticResource NotRegisteredLabelStyle}">
+
                 <Label.FormattedText>
-                    
+
                     <FormattedString>
-                        
+
                         <Span Text="Not registered yet? "/>
-                        
+
                         <Span Text="Sign up"
                               TextColor="Blue"
                               TextDecorations="Underline">
-                            
+
                             <Span.GestureRecognizers>
-                                
+
                                 <TapGestureRecognizer Command="{Binding SignUpCommand}"/>
-                                
+
                             </Span.GestureRecognizers>
-                            
+
                         </Span>
-                        
+
                     </FormattedString>
-                    
+
                 </Label.FormattedText>
-                
+
             </Label>
 
+            <Grid Margin="20,20,20,0">
+                
+                <Grid.ColumnDefinitions>
+                    
+                    <ColumnDefinition Width="0.45*"/>
+                    
+                    <ColumnDefinition Width="0.10*"/>
+                    
+                    <ColumnDefinition Width="0.45*"/>
+                    
+                </Grid.ColumnDefinitions>
+
+
+                <BoxView Grid.Column="0" 
+                         Style="{StaticResource BoxViewStyle}"/>
+
+                <Label HorizontalOptions="Center"
+                       Grid.Column="1" 
+                       Text="OR"/>
+
+                <BoxView Grid.Column="2" 
+                         Style="{StaticResource BoxViewStyle}"/>
+
+            </Grid>
+
+            <Button Style="{StaticResource SignViaGoogleButtonStyle}"
+                    Command="{Binding SignUpViaGoogleCommand}">
+            </Button>
+
         </StackLayout>
-        
+
     </ContentPage.Content>
-    
+
 </ContentPage>

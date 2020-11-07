@@ -1,4 +1,5 @@
 ﻿using MapNotepad.Models;
+using Plugin.GoogleClient;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -10,11 +11,14 @@ namespace MapNotepad
     {
         private readonly IUserService _userService;
         private readonly IRepositoryService _repositoryService;
+        private readonly IGoogleClientManager _googleClientManager;
         public AuthorizationService(IUserService userService,
-            IRepositoryService repositoryService)
+            IRepositoryService repositoryService,
+            IGoogleClientManager googleClientManager)
         {
             _userService = userService;
             _repositoryService = repositoryService;
+            _googleClientManager = googleClientManager;
         }
         public void Authorize(int id)
         {
@@ -31,6 +35,32 @@ namespace MapNotepad
             {
                 return await _repositoryService.InsertItemAsync(user);
             }
+        }
+        public async Task<User> LoginGoogleAsync()
+        {
+            User user = new User();
+
+            try
+            {
+                var googleUser = await _googleClientManager.LoginAsync();
+
+                if (googleUser != null)
+                {
+                    user.Email = googleUser.Data.Email;
+                    user.Name = googleUser.Data.Name;
+                }
+            }
+            catch
+            {
+
+            }
+
+            return user;
+        }
+
+        public void LogoutGoogle()
+        {
+            _googleClientManager.Logout();
         }
     }
 }

@@ -66,6 +66,20 @@ namespace MapNotepad.ViewModels
 
         #endregion
 
+        #region -- INavigationAware implementation --
+
+        public override void OnNavigatedTo(INavigationParameters parameters)
+        {
+            base.OnNavigatedTo(parameters);
+
+            var user = parameters.TryGetValue($"{nameof(User)}", out User newUser);
+
+            Email = newUser.Email;
+            Name = newUser.Name;
+        }
+
+        #endregion
+
         protected override void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             base.OnPropertyChanged(propertyName);
@@ -87,7 +101,7 @@ namespace MapNotepad.ViewModels
             int answer = await _authorizationService.RegisterAsync(newUser);
             if (answer != -1)
             {
-                NavigationParameters navParams = new NavigationParameters { { "credentials", newUser } };
+                NavigationParameters navParams = new NavigationParameters { { nameof(User), newUser } };
 
                 await Application.Current.MainPage.DisplayAlert("", "Registration is successful", "OK");
                 await _navigationService.GoBackAsync(navParams);

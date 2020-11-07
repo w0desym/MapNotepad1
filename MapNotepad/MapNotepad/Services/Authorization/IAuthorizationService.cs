@@ -9,6 +9,8 @@ namespace MapNotepad
     public interface IAuthorizationService
     {
         void Authorize(int id);
-        Task<int> RegisterAsync(User item);
+        Task<int> RegisterAsync(User user);
+        Task<User> LoginGoogleAsync();
+        void LogoutGoogle();
     }
 }
