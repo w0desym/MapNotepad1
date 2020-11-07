@@ -39,15 +39,19 @@ namespace MapNotepad
         }
         public async Task<int> SavePinInfoAsync(PinInfo pinInfo)
         {
+            int result;
+
             if (pinInfo.Id != 0)
             {
                 await _repositoryService.UpdateItemAsync(pinInfo);
-                return pinInfo.Id;
+                result =  pinInfo.Id;
             }
             else
             {
-                return await _repositoryService.InsertItemAsync(pinInfo);
+                result = await _repositoryService.InsertItemAsync(pinInfo);
             }
+
+            return result;
         }
         public async Task<int> DeletePinInfoAsync(PinInfo pinInfo)
         {

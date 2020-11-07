@@ -26,13 +26,20 @@ namespace MapNotepad.ViewModels
             _userService = userService;
         }
 
+        #region -- Public Properties --
+
         public ICommand _LogOutCommand;
         public ICommand LogOutCommand => _LogOutCommand ??= new Command(OnLogOutCommandAsync);
 
+        #endregion
+
+        #region -- Private Helpers --
         private async void OnLogOutCommandAsync()
         {
             _userService.SetCurrentUser(-1);
             await _navigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(SignInPage)}");
         }
+
+        #endregion
     }
 }

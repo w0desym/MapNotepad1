@@ -10,7 +10,17 @@ using Xamarin.Forms.GoogleMaps.Clustering;
 namespace MapNotepad.Controls
 {
     class ExtendedMap : ClusteredMap
-    { 
+    {
+        public ExtendedMap()
+        {
+            UiSettings.MyLocationButtonEnabled = true;
+            UiSettings.ZoomControlsEnabled = true;
+            UiSettings.ZoomGesturesEnabled = true;
+            MyLocationEnabled = true;
+            PinsCollection = new ObservableCollection<Pin>();
+            PinsCollection.CollectionChanged += Pins_CollectionChanged;
+        }
+
         public static readonly BindableProperty PinsCollectionProperty =
             BindableProperty.Create(
                 propertyName: nameof(PinsCollection),
@@ -44,15 +54,8 @@ namespace MapNotepad.Controls
             (bindable as ExtendedMap).MoveCamera(cameraUpdate);
         }
 
-        public ExtendedMap()
-        {
-            UiSettings.MyLocationButtonEnabled = true;
-            UiSettings.ZoomControlsEnabled = true;
-            UiSettings.ZoomGesturesEnabled = true;
-            MyLocationEnabled = true;
-            PinsCollection = new ObservableCollection<Pin>();
-            PinsCollection.CollectionChanged += Pins_CollectionChanged;
-        }
+        #region -- Private Helpers -- 
+
         private void Pins_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             UpdatePins(this, sender as IEnumerable<Pin>);
@@ -72,6 +75,8 @@ namespace MapNotepad.Controls
                 UpdatePins(bindable as ExtendedMap, newValue as ObservableCollection<Pin>);
             }
         }
+
+        #endregion
     }
 }
 

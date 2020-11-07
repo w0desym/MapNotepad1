@@ -24,6 +24,7 @@ namespace MapNotepad
         private ISettingsManager settingsManager;
         public App(IPlatformInitializer initializer = null) : base(initializer) { }
 
+        #region -- Overrides --
         protected override async void OnInitialized()
         {
             InitializeComponent();
@@ -32,11 +33,11 @@ namespace MapNotepad
 
             if (settingsManager.CurrentUser == -1)
             {
-                await NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(SignInPage)}");
+                await NavigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(SignInPage)}");
             }
             else
             {
-                await NavigationService.NavigateAsync($"{nameof(NavigationPage)}/{nameof(TabsPage)}");
+                await NavigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(TabsPage)}");
             }
         }
 
@@ -69,5 +70,7 @@ namespace MapNotepad
             containerRegistry.RegisterInstance<IPinService>(Container.Resolve<PinService>());
             
         }
+
+        #endregion
     }
 }

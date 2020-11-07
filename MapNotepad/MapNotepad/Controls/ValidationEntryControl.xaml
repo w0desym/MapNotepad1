@@ -33,9 +33,12 @@
 
             <Frame.Triggers>
                 
-                <DataTrigger TargetType="Frame" Binding="{Binding IsMessageVisible}" Value="True">
+                <DataTrigger TargetType="Frame" 
+                             Binding="{Binding IsMessageVisible}" 
+                             Value="True">
                     
-                    <Setter Property="BorderColor" Value="DarkRed"/>
+                    <Setter Property="BorderColor" 
+                            Value="DarkRed"/>
                     
                 </DataTrigger>
                 

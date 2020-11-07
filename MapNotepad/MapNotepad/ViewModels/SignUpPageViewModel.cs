@@ -67,7 +67,6 @@ namespace MapNotepad.ViewModels
         #endregion
 
         #region -- INavigationAware implementation --
-
         public override void OnNavigatedTo(INavigationParameters parameters)
         {
             base.OnNavigatedTo(parameters);
@@ -80,6 +79,7 @@ namespace MapNotepad.ViewModels
 
         #endregion
 
+        #region -- Overrides --
         protected override void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             base.OnPropertyChanged(propertyName);
@@ -89,6 +89,10 @@ namespace MapNotepad.ViewModels
                 (SignUpCommand as Command).ChangeCanExecute();
             }
         }
+
+        #endregion
+
+        #region -- Private Helpers --
         private async void OnSignUpCommandAsync()
         {
             User newUser = new User()
@@ -116,5 +120,7 @@ namespace MapNotepad.ViewModels
         {
             return IsSignUpEnabled;
         }
+
+        #endregion
     }
 }

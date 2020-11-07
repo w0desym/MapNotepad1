@@ -32,11 +32,9 @@ namespace MapNotepad.ViewModels
             _permissionService = permissionService;
             _pinService = pinService;
             _userService = userService;
-
-            _permissionService.RequestLocationPermissionAsync();
         }
 
-        #region --Public properties--
+        #region -- Public properties --
 
         private string _pinLabel;
         public string PinLabel
@@ -120,8 +118,6 @@ namespace MapNotepad.ViewModels
                 }
             }
 
-            Pin = new Pin();
-            Pin.Label = "New Pin";
 
             //pin editing
             if (PinLabel != null)
@@ -143,19 +139,24 @@ namespace MapNotepad.ViewModels
                 PinLongitude = location.Longitude;
             }
 
-            
+            //rework
+            Pin = new Pin();
+            Pin.Label = "New Pin";
             Pin.Position = new Position(CameraPosition.Target.Latitude, CameraPosition.Target.Longitude);
 
             PinsCollection = new ObservableCollection<Pin> { Pin };
         }
+
         #endregion
 
         #region -- INavigationAware implementation --   
-        //public override async void OnNavigatedTo(INavigationParameters parameters)
-        //{
-        //    base.OnNavigatedTo(parameters);
-            
-        //}
+        public override void OnNavigatedTo(INavigationParameters parameters)
+        {
+            base.OnNavigatedTo(parameters);
+
+            _permissionService.RequestLocationPermissionAsync();
+        }
+
         #endregion
 
         #region -- Private helpers --
@@ -226,6 +227,7 @@ namespace MapNotepad.ViewModels
         //        }
         //    }
         }
+
         #endregion
     }
 }

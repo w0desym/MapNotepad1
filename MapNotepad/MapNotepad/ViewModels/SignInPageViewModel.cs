@@ -55,7 +55,6 @@ namespace MapNotepad.ViewModels
         #endregion
 
         #region -- INavigationAware implementation --
-
         public override void OnNavigatedTo(INavigationParameters parameters)
         {
             var navMode = parameters.GetNavigationMode();
@@ -72,7 +71,6 @@ namespace MapNotepad.ViewModels
         #endregion
 
         #region -- Private helpers --
-
         private async void OnSignInCommandAsync()
         {
             int id = await _authenticationService.AuthenticateAsync(Email, Password);

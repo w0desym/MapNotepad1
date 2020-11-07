@@ -17,13 +17,16 @@ namespace MapNotepad.ViewModels
     class MapPageViewModel : ViewModelBase
     {
         private readonly IPinService _pinService;
+        private readonly IPermissionService _permissionService;
 
         public MapPageViewModel(
             INavigationService navigationService,
-            IPinService pinService) :
+            IPinService pinService,
+            IPermissionService permissionService) :
             base(navigationService)
         {
             _pinService = pinService;
+            _permissionService = permissionService;
         }
 
         #region -- Public properties --
@@ -102,19 +105,24 @@ namespace MapNotepad.ViewModels
         public override void OnNavigatedTo(INavigationParameters parameters)
         {
             base.OnNavigatedTo(parameters);
+
+            _permissionService.RequestLocationPermissionAsync();
+
             LoadPinsCollectionAsync();
+
             if (parameters.TryGetValue(nameof(Pin), out Pin pin))
             {
                 SelectedPin = PinsCollection.FirstOrDefault(x => x.Label == pin.Label);
                 AssignPinPopup(pin);
             }
+
             UpdateCameraPositionAsync();
         }
 
         public override void OnNavigatedFrom(INavigationParameters parameters)
         {
             base.OnNavigatedFrom(parameters);
-            //syuda pisat'
+            //to do
         }
         #endregion
 

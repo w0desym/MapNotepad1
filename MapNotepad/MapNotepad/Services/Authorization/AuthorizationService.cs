@@ -26,15 +26,19 @@ namespace MapNotepad
         }
         public async Task<int> RegisterAsync(User user)
         {
+            int result;
+
             if (user.Id != 0)
             {
                 await _repositoryService.UpdateItemAsync(user);
-                return user.Id;
+                result = user.Id;
             }
             else
             {
-                return await _repositoryService.InsertItemAsync(user);
+                result = await _repositoryService.InsertItemAsync(user);
             }
+
+            return result;
         }
         public async Task<User> LoginGoogleAsync()
         {

@@ -18,16 +18,9 @@ namespace MapNotepad
         {
             var users = await _repositoryService.GetItemsAsync<User>();
             var matchingUser = users.FirstOrDefault(x => x.Email == email && x.Password == password);
-
             int id;
-            if (matchingUser != null)
-            {
-                id = matchingUser.Id;
-            }
-            else
-            {
-                id = 0;
-            }
+
+            id = matchingUser != null ? matchingUser.Id : 0;
 
             return id;
         }
@@ -35,16 +28,9 @@ namespace MapNotepad
         {
             var users = await _repositoryService.GetItemsAsync<User>();
             var matchingUser = users.FirstOrDefault(x => x.Email == email);
-
             int id;
-            if (matchingUser != null)
-            {
-                id = matchingUser.Id;
-            }
-            else
-            {
-                id = 0;
-            }
+
+            id = matchingUser != null ? matchingUser.Id : 0;
 
             return id;
         }
