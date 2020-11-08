@@ -80,6 +80,7 @@ namespace MapNotepad.ViewModels
         #endregion
 
         #region -- Overrides --
+        [Obsolete]
         protected override void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             base.OnPropertyChanged(propertyName);

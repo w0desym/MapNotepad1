@@ -9,7 +9,6 @@ using Xamarin.Forms.Xaml;
 
 namespace MapNotepad.Controls
 {
-    [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ValidationEntryControl : ContentView
     {
         public ValidationEntryControl()

@@ -24,24 +24,12 @@ namespace MapNotepad.iOS
 
             Rg.Plugins.Popup.Popup.Init();
             LoadApplication(new App());
-
-            //Task.Run(InitializeGoogleClientManager);
+            ZXing.Net.Mobile.Forms.iOS.Platform.Init();
             GoogleClientManager.Initialize();
             return base.FinishedLaunching(app, options);
         }
 
         public override bool OpenUrl(UIApplication app, NSUrl url, NSDictionary options) => GoogleClientManager.OnOpenUrl(app, url, options);
-
-        #endregion
-
-        #region -- Private Helpers --
-
-        private async Task InitializeGoogleClientManager()
-        {
-            await Task.Delay(500);
-
-            
-        }
 
         #endregion
     }

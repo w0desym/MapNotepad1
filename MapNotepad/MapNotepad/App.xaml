@@ -190,6 +190,22 @@
 
         </Style>
 
+        <Style x:Key="ContextMenuButtonStyle" TargetType="Button">
+
+            <Setter Property="WidthRequest" Value="60"/>
+
+            <Setter Property="HorizontalOptions" Value="EndAndExpand"/>
+
+            <Setter Property="TextColor" Value="White"/>
+
+            <Setter Property="CornerRadius" Value="0"/>
+
+            <Setter Property="FontSize" Value="24"/>
+
+            <Setter Property="FontFamily" Value="{StaticResource FontAwesomeSolid}"/>
+
+        </Style>
+
         <Style x:Key="BackButtonStyle" TargetType="Button">
 
             <Setter Property="FontFamily" Value="{StaticResource FontAwesomeSolid}"/>

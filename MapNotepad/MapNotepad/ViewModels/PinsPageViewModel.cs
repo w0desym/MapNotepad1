@@ -73,6 +73,9 @@ namespace MapNotepad.ViewModels
         private ICommand _addPinCommand;
         public ICommand AddPinCommand => _addPinCommand ??= new Command(OnAddPinCommandAsync);
 
+        private ICommand _sharePinCommand;
+        public ICommand SharePinCommand => _sharePinCommand ??= new Command<PinInfo>(OnSharePinCommandAsync);
+
         private ICommand _editPinCommand;
         public ICommand EditPinCommand => _editPinCommand ??= new Command<PinInfo>(OnEditPinCommandAsync);
 
@@ -130,6 +133,12 @@ namespace MapNotepad.ViewModels
         private async void OnAddPinCommandAsync()
         {
             await _navigationService.NavigateAsync($"{nameof(AddPinPage)}");
+        }
+        private async void OnSharePinCommandAsync(PinInfo pinInfo)
+        {
+            var navParams = new NavigationParameters { { nameof(PinInfo), pinInfo } };
+
+            await _navigationService.NavigateAsync($"{nameof(QRCodePage)}", navParams);
         }
         private async void OnEditPinCommandAsync(PinInfo pinInfo)
         {

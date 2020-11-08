@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:zxcm="clr-namespace:ZXing.Common;assembly=zxing.portable"
+             xmlns:zxing="clr-namespace:ZXing.Net.Mobile.Forms;assembly=ZXing.Net.Mobile.Forms"
+             x:Class="MapNotepad.Views.QRCodePage">
+
+    <StackLayout HorizontalOptions="CenterAndExpand"
+                 VerticalOptions="CenterAndExpand">
+
+        <Label Text="Share this code to let others see information about this pin."
+               Margin="40"
+               FontSize="24"
+               LineBreakMode="WordWrap"
+               HorizontalTextAlignment="Center"/>
+
+        <zxing:ZXingBarcodeImageView BarcodeValue="{Binding QRCodeValue}"
+                                     BarcodeFormat="QR_CODE"
+                                     HeightRequest="300"
+                                     WidthRequest="300">
+
+            <zxing:ZXingBarcodeImageView.BarcodeOptions>
+                <zxcm:EncodingOptions Width="300"
+                                      Height="300"/>
+            </zxing:ZXingBarcodeImageView.BarcodeOptions>
+        </zxing:ZXingBarcodeImageView>
+
+    </StackLayout>
+
+</ContentPage>
