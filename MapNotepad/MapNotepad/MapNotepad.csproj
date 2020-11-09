@@ -19,7 +19,7 @@
   <ItemGroup>
     <PackageReference Include="Acr.UserDialogs" Version="7.1.0.466" />
     <PackageReference Include="ContextViewCell" Version="2.0.2" />
-    <PackageReference Include="Plugin.GoogleClient" Version="1.1.1" />
+    <PackageReference Include="Plugin.GoogleClient" Version="2.1.12" />
     <PackageReference Include="Plugin.Permissions" Version="6.0.1" />
     <PackageReference Include="Prism.Plugin.Popups" Version="7.2.0.1046" />
     <PackageReference Include="Prism.Unity.Forms" Version="7.2.0.1422" />

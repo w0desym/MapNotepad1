@@ -4,15 +4,18 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
+using System.Windows.Input;
+using Xamarin.Forms;
 
 namespace MapNotepad.ViewModels
 {
     class QRCodePageViewModel : ViewModelBase
     {
+        private readonly INavigationService _navigationService;
         public QRCodePageViewModel(INavigationService navigationService) :
             base(navigationService)
         {
-
+            _navigationService = navigationService;
         }
 
         #region -- Public properties --
@@ -23,6 +26,9 @@ namespace MapNotepad.ViewModels
             get => _qRCodeValue;
             set => SetProperty(ref _qRCodeValue, value);
         }
+
+        private ICommand _goBackCommand;
+        public ICommand GoBackCommand => _goBackCommand ??= new Command(OnGoBackCommandAsync);
 
         #endregion
 
@@ -36,6 +42,15 @@ namespace MapNotepad.ViewModels
             {
                 QRCodeValue = pinInfo.Label + "\n" + pinInfo.Latitude + "\n" + pinInfo.Longitude + "\n" + pinInfo.Description;
             }
+        }
+
+        #endregion
+
+        #region -- Private helpers --
+
+        private async void OnGoBackCommandAsync()
+        {
+            await _navigationService.GoBackAsync();
         }
 
         #endregion

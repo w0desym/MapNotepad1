@@ -118,6 +118,10 @@ namespace MapNotepad.ViewModels
         #endregion
 
         #region -- Private helpers --
+        private void OnPageTapCommand()
+        {
+
+        }
         private async void OnSearchCommand()
         {
             if (!string.IsNullOrEmpty(SearchQuery))
@@ -138,7 +142,7 @@ namespace MapNotepad.ViewModels
         {
             var navParams = new NavigationParameters { { nameof(PinInfo), pinInfo } };
 
-            await _navigationService.NavigateAsync($"{nameof(QRCodePage)}", navParams);
+            await _navigationService.NavigateAsync($"{nameof(QRCodePage)}", navParams, useModalNavigation: true);
         }
         private async void OnEditPinCommandAsync(PinInfo pinInfo)
         {

@@ -1,15 +1,26 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:zxcm="clr-namespace:ZXing.Common;assembly=zxing.portable"
-             xmlns:zxing="clr-namespace:ZXing.Net.Mobile.Forms;assembly=ZXing.Net.Mobile.Forms"
-             x:Class="MapNotepad.Views.QRCodePage">
+<popups:PopupPage  xmlns:popups="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup" 
+                   xmlns="http://xamarin.com/schemas/2014/forms"
+                   xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                   xmlns:zxcm="clr-namespace:ZXing.Common;assembly=zxing.portable"
+                   xmlns:zxing="clr-namespace:ZXing.Net.Mobile.Forms;assembly=ZXing.Net.Mobile.Forms"
+                   x:Class="MapNotepad.Views.QRCodePage"
+                   CloseWhenBackgroundIsClicked="False">
 
     <StackLayout HorizontalOptions="CenterAndExpand"
-                 VerticalOptions="CenterAndExpand">
+                 VerticalOptions="CenterAndExpand"
+                 Margin="30"
+                 BackgroundColor="White">
+
+        <Button Text="chevron-left"
+                Margin="0,15,0,0"
+                Style="{StaticResource BackButtonStyle}"
+                VerticalOptions="StartAndExpand"
+                HorizontalOptions="StartAndExpand"
+                Command="{Binding GoBackCommand}"/>
 
         <Label Text="Share this code to let others see information about this pin."
-               Margin="40"
+               Margin="20"
                FontSize="24"
                LineBreakMode="WordWrap"
                HorizontalTextAlignment="Center"/>
@@ -27,4 +38,4 @@
 
     </StackLayout>
 
-</ContentPage>
+</popups:PopupPage>

@@ -106,6 +106,9 @@ namespace MapNotepad.ViewModels
         public override async void Initialize(INavigationParameters parameters)
         {
             base.Initialize(parameters);
+
+            Pin = new Pin();
+            Pin.Label = "New Pin";
             //checking parameters
             if (parameters != null)
             {
@@ -140,8 +143,7 @@ namespace MapNotepad.ViewModels
             }
 
             //rework
-            Pin = new Pin();
-            Pin.Label = "New Pin";
+
             Pin.Position = new Position(CameraPosition.Target.Latitude, CameraPosition.Target.Longitude);
 
             PinsCollection = new ObservableCollection<Pin> { Pin };

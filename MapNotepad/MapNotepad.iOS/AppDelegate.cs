@@ -8,6 +8,7 @@ using MapNotepad.iOS.Renderers;
 using UIKit;
 using Xamarin.Forms;
 using System.Threading.Tasks;
+using ContextMenu.iOS;
 
 [assembly: ExportRenderer(typeof(Entry), typeof(CustomEntryRenderer))]
 namespace MapNotepad.iOS
@@ -20,12 +21,13 @@ namespace MapNotepad.iOS
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
             global::Xamarin.Forms.Forms.Init();
+            GoogleClientManager.Initialize();
             Xamarin.FormsGoogleMaps.Init("AIzaSyAM5sdKD8GcVjBlhiLlaVrpHkdICoNWPPg");
-
+            ContextMenuViewRenderer.Preserve();
             Rg.Plugins.Popup.Popup.Init();
             LoadApplication(new App());
             ZXing.Net.Mobile.Forms.iOS.Platform.Init();
-            GoogleClientManager.Initialize();
+
             return base.FinishedLaunching(app, options);
         }
 

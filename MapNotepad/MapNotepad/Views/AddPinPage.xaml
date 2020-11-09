@@ -32,7 +32,8 @@
 
             <StackLayout Orientation="Horizontal">
 
-                <Button Style="{StaticResource BackButtonStyle}"
+                <Button Text="chevron-left"
+                        Style="{StaticResource BackButtonStyle}"
                         Command="{Binding GoBackCommand}"/>
 
                 <Label Text="Adding New Pin" 
