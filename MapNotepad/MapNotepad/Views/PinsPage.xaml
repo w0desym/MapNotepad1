@@ -3,8 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
              xmlns:prism="http://prismlibrary.com"
              xmlns:context="clr-namespace:ContextMenu.Views;assembly=ContextMenu"
-             xmlns:converters="clr-namespace:MapNotepad.Converters"
+             xmlns:converters="clr-namespace:MapNotepad.Converters" xmlns:behaviors="clr-namespace:MapNotepad.Behaviors"
              x:Class="MapNotepad.Views.PinsPage"
+             x:Name="_this"
              BackgroundColor="WhiteSmoke"
              Title="{Binding Title}">
 
@@ -37,29 +38,67 @@
 
             </SearchBar>
 
-            <ListView x:Name="listView"
+            <ListView x:Name="listView" 
                       SeparatorVisibility="Default"
                       HasUnevenRows="True"
                       SelectionMode="None"
+                      IsGroupingEnabled="True"
                       ItemsSource="{Binding PinsCollection}">
+                <ListView.GroupHeaderTemplate>
+
+                    <DataTemplate>
+
+                        <ViewCell>
+
+                            <ContentView>
+
+                                <Grid HorizontalOptions="FillAndExpand" Margin="10">
+
+                                    <Grid.ColumnDefinitions>
+
+                                        <ColumnDefinition Width="0.9*"/>
+
+                                        <ColumnDefinition Width="0.1*"/>
+
+                                    </Grid.ColumnDefinitions>
+
+                                    <Label Text="{Binding Category}"
+                                           Grid.Column="0"
+                                           FontSize="Large"
+                                           FontAttributes="Bold"/>
+
+                                    <Label Text="{Binding IconSource}"
+                                           Grid.Column="1"
+                                           Margin="0,10,0,0"
+                                           FontFamily="{StaticResource FontAwesomeSolid}"/>
+
+                                </Grid>
+
+                                <ContentView.GestureRecognizers>
+
+                                    <TapGestureRecognizer Command="{Binding HideGroupTapCommand}"/>
+
+                                </ContentView.GestureRecognizers>
+
+                            </ContentView>
+
+                        </ViewCell>
+
+                    </DataTemplate>
+
+                </ListView.GroupHeaderTemplate>
+
+                <ListView.Behaviors>
+
+                    <behaviors:ListViewBehavior/>
+
+                </ListView.Behaviors>
 
                 <ListView.ItemTemplate>
 
                     <DataTemplate>
 
                         <ViewCell>
-
-                            <!--<ViewCell.ContextActions>
-
-                                <MenuItem Text="Edit" 
-                                          Command="{Binding Source={x:Reference this}, Path=BindingContext.EditPinCommand}"
-                                          CommandParameter="{Binding .}"/>
-
-                                <MenuItem Text="Delete" 
-                                          Command="{Binding Source={x:Reference this}, Path=BindingContext.DeletePinCommand}"
-                                          CommandParameter="{Binding .}"/>
-
-                            </ViewCell.ContextActions>-->
 
                             <context:SideContextMenuView IsAutoCloseEnabled="True">
 
@@ -73,19 +112,19 @@
 
                                             <Button Text="share"
                                                     Style="{StaticResource ContextMenuButtonStyle}"
-                                                    Command="{Binding Source={x:Reference listView}, Path=BindingContext.SharePinCommand}"
+                                                    Command="{Binding Source={x:Reference _this}, Path=BindingContext.SharePinCommand}"
                                                     CommandParameter="{Binding .}"
                                                     BackgroundColor="CornflowerBlue"/>
 
                                             <Button Text="edit"
                                                     Style="{StaticResource ContextMenuButtonStyle}"
-                                                    Command="{Binding Source={x:Reference listView}, Path=BindingContext.EditPinCommand}"
+                                                    Command="{Binding Source={x:Reference _this}, Path=BindingContext.EditPinCommand}"
                                                     CommandParameter="{Binding .}"
                                                     BackgroundColor="DarkOrange"/>
 
                                             <Button Text="trash"
                                                     Style="{StaticResource ContextMenuButtonStyle}"
-                                                    Command="{Binding Source={x:Reference listView}, Path=BindingContext.DeletePinCommand}"
+                                                    Command="{Binding Source={x:Reference _this}, Path=BindingContext.DeletePinCommand}"
                                                     CommandParameter="{Binding .}"
                                                     BackgroundColor="DarkRed"/>
 
@@ -114,7 +153,7 @@
 
                                             <StackLayout.GestureRecognizers>
 
-                                                <TapGestureRecognizer Command="{Binding Path=BindingContext.PinCommand, Source={x:Reference listView}}" 
+                                                <TapGestureRecognizer Command="{Binding Path=BindingContext.PinCommand, Source={x:Reference _this}}" 
                                                                       CommandParameter="{Binding .}" />
 
                                             </StackLayout.GestureRecognizers>
@@ -163,7 +202,7 @@
 
                                             <ImageButton Source="{Binding ImgPath}"
                                                          BackgroundColor="WhiteSmoke"
-                                                         Command="{Binding Source={x:Reference listView}, Path=BindingContext.ImageButtonCommand}"
+                                                         Command="{Binding Source={x:Reference _this}, Path=BindingContext.ImageButtonCommand}"
                                                          CommandParameter="{Binding .}"/>
 
                                         </StackLayout>
@@ -173,82 +212,6 @@
                                 </context:SideContextMenuView.View>
 
                             </context:SideContextMenuView>
-
-                            <!--<ViewCell.View>
-
-                                <Grid Padding="20">
-
-                                    <Grid.ColumnDefinitions>
-
-                                        <ColumnDefinition Width="0.9*"/>
-
-                                        <ColumnDefinition Width="0.1*"/>
-
-                                    </Grid.ColumnDefinitions>
-
-                                    <StackLayout VerticalOptions="FillAndExpand"                                         
-                                                 HorizontalOptions="FillAndExpand"
-                                                 Grid.Column="0">
-
-                                        <StackLayout.GestureRecognizers>
-
-                                            <TapGestureRecognizer Command="{Binding Path=BindingContext.PinCommand, Source={x:Reference this}}" 
-                                                                  CommandParameter="{Binding .}" />
-
-                                        </StackLayout.GestureRecognizers>
-
-                                        <Label Text="{Binding Label}"
-                                               FontSize="20"
-                                               FontAttributes="Bold"/>
-
-                                        <Label>
-
-                                            <Label.FormattedText>
-
-                                                <FormattedString>
-
-                                                    <Span Text="Latitude: "/>
-
-                                                    <Span Text="{Binding Latitude}"/>
-
-                                                </FormattedString>
-
-                                            </Label.FormattedText>
-
-                                        </Label>
-
-                                        <Label>
-
-                                            <Label.FormattedText>
-
-                                                <FormattedString>
-
-                                                    <Span Text="Longitude: "/>
-
-                                                    <Span Text="{Binding Longitude}"/>
-
-                                                </FormattedString>
-
-                                            </Label.FormattedText>
-
-                                        </Label>
-
-                                    </StackLayout>
-
-                                    <StackLayout HorizontalOptions="CenterAndExpand" 
-                                                 VerticalOptions="CenterAndExpand"
-                                                 Grid.Column="1">
-
-                                        <ImageButton Source="{Binding ImgPath}"
-                                                     BackgroundColor="WhiteSmoke"
-                                                     Command="{Binding Source={x:Reference this}, Path=BindingContext.ImageButtonCommand}"
-                                                     CommandParameter="{Binding .}"/>
-
-                                    </StackLayout>
-
-                                </Grid>
-
-                            </ViewCell.View>-->
 
                         </ViewCell>
 

@@ -50,6 +50,13 @@ namespace MapNotepad.ViewModels
             set => SetProperty(ref _pinDescription, value);
         }
 
+        private string _pinCategory;
+        public string PinCategory
+        {
+            get => _pinCategory;
+            set => SetProperty(ref _pinCategory, value);
+        }
+
         private double _pinLatitude;
         public double PinLatitude
         {
@@ -176,9 +183,10 @@ namespace MapNotepad.ViewModels
             {
                 UserId = _userService.GetCurrentUser(),
                 Label = PinLabel ?? "New Pin",
+                Description = PinDescription ?? string.Empty,
+                Category = PinCategory ?? "#",
                 Latitude = PinLatitude,
                 Longitude = PinLongitude,
-                Description = PinDescription ?? string.Empty,
                 ImgPath = Constants.NotFavoriteImagePath
             };
 

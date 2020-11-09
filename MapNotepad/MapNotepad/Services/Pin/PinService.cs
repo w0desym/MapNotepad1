@@ -32,10 +32,10 @@ namespace MapNotepad
             var curUserPinInfos = await GetPinsAsync();
 
             return curUserPinInfos.Where(x => 
-                x.Label.ToUpper().Contains(searchQuery.ToUpper()) || 
-                x.Description.ToUpper().Contains(searchQuery.ToUpper()) ||
-                x.Latitude.ToString().ToUpper().Contains(searchQuery.ToUpper()) ||
-                x.Longitude.ToString().ToUpper().Contains(searchQuery.ToUpper()));
+                x.Label.ToUpper().Contains(searchQuery?.ToUpper()) || 
+                x.Description.ToUpper().Contains(searchQuery?.ToUpper()) ||
+                x.Latitude.ToString().ToUpper().Contains(searchQuery?.ToUpper()) ||
+                x.Longitude.ToString().ToUpper().Contains(searchQuery?.ToUpper()));
         }
         public async Task<int> SavePinInfoAsync(PinInfo pinInfo)
         {

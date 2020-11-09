@@ -46,8 +46,8 @@ namespace MapNotepad.ViewModels
             set => SetProperty(ref _searchQuery, value);
         }
 
-        private ObservableCollection<PinInfo> _pinsCollection;
-        public ObservableCollection<PinInfo> PinsCollection
+        private ObservableCollection<Grouping<string, PinInfo>> _pinsCollection;
+        public ObservableCollection<Grouping<string, PinInfo>> PinsCollection
         {
             get => _pinsCollection;
             set => SetProperty(ref _pinsCollection, value);
@@ -118,32 +118,36 @@ namespace MapNotepad.ViewModels
         #endregion
 
         #region -- Private helpers --
+
         private void OnPageTapCommand()
         {
 
         }
-        private async void OnSearchCommand()
+
+        private void OnSearchCommand()
         {
             if (!string.IsNullOrEmpty(SearchQuery))
             {
-                var pins = await _pinService.GetPinsAsync(SearchQuery);
-                PinsCollection = new ObservableCollection<PinInfo>(pins);
+                LoadPinsCollectionAsync(SearchQuery);
             }
             else
             {
                 LoadPinsCollectionAsync();
             }
         }
+
         private async void OnAddPinCommandAsync()
         {
             await _navigationService.NavigateAsync($"{nameof(AddPinPage)}");
         }
+
         private async void OnSharePinCommandAsync(PinInfo pinInfo)
         {
             var navParams = new NavigationParameters { { nameof(PinInfo), pinInfo } };
 
             await _navigationService.NavigateAsync($"{nameof(QRCodePage)}", navParams, useModalNavigation: true);
         }
+
         private async void OnEditPinCommandAsync(PinInfo pinInfo)
         {
             NavigationParameters navParams = new NavigationParameters
@@ -153,6 +157,7 @@ namespace MapNotepad.ViewModels
 
             await _navigationService.NavigateAsync($"{nameof(AddPinPage)}", navParams);
         }
+
         private async void OnDeletePinCommandAsync(PinInfo pinInfo)
         {
             var answer = await _userDialogs.ConfirmAsync(new ConfirmConfig()
@@ -164,11 +169,13 @@ namespace MapNotepad.ViewModels
                 LoadPinsCollectionAsync();
             }
         }
+
         private async void OnPinCommandAsync(PinInfo pinInfo)
         {
             PinInfo = pinInfo;
             await _navigationService.SelectTabAsync($"{nameof(MapPage)}");
         }
+
         private async void OnImageButtonCommand(PinInfo pinInfo)
         {
             pinInfo.ImgPath = pinInfo.IsFavorite ? Constants.NotFavoriteImagePath : Constants.FavoriteImagePath;
@@ -178,12 +185,29 @@ namespace MapNotepad.ViewModels
             LoadPinsCollectionAsync();
         }
 
-
-        private async void LoadPinsCollectionAsync()
+        private async void LoadPinsCollectionAsync(string searchQuery = null)
         {
-            var pins = await _pinService.GetPinsAsync();
-            PinsCollection = new ObservableCollection<PinInfo>(pins);
+            var pins = string.IsNullOrEmpty(searchQuery) ? await _pinService.GetPinsAsync() : await _pinService.GetPinsAsync(searchQuery);
+            var groups = pins.GroupBy(p => p.Category).Select(g => new Grouping<string, PinInfo>(g.Key, g));
+
+            PinsCollection = new ObservableCollection<Grouping<string, PinInfo>>(groups);
         }
+
         #endregion
     }
 }
+
+//var groups = new List<Grouping<PinInfo>>
+//{
+//    new Grouping<PinInfo>("Hui")
+//    {
+//        pins.First(),
+//        pins.ElementAt(1)
+//    },
+//    new Grouping<PinInfo>("Pizda")
+//    {
+//        pins.ElementAt(3),
+//        pins.ElementAt(2),
+//        pins.ElementAt(4)
+//    }
+//};

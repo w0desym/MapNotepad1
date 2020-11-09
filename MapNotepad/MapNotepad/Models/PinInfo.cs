@@ -18,7 +18,7 @@ namespace MapNotepad.Models
         public double Longitude { get; set; }
         public bool IsFavorite { get; set; }
         public string ImgPath { get; set; }
+        public string Category { get; set; }
         public int UserId { get; set; }
-
     }
 }

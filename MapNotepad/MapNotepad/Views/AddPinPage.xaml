@@ -57,6 +57,13 @@
 
             </Frame>
 
+            <Frame Style="{StaticResource EntryFrameStyle}">
+
+                <Entry Placeholder="Category"
+                       Text="{Binding PinCategory}"/>
+
+            </Frame>
+
             <Grid Margin="15,5">
 
                 <Grid.ColumnDefinitions>
