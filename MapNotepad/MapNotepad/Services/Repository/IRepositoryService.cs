@@ -10,7 +10,7 @@ namespace MapNotepad
     public interface IRepositoryService
     {
         Task<IEnumerable<T>> GetItemsAsync<T>() where T : ICommonModel, new();
-        Task<int> InsertItemAsync<T>(T item) where T : ICommonModel, new();
+        Task<int> TryInsertItemAsync<T>(T item) where T : ICommonModel, new();
         Task<int> UpdateItemAsync<T>(T item) where T : ICommonModel, new();
         Task<int> DeleteItemAsync<T>(T item) where T : ICommonModel, new();
     }

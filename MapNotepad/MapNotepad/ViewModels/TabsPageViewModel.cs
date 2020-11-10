@@ -31,15 +31,21 @@ namespace MapNotepad.ViewModels
         public ICommand _LogOutCommand;
         public ICommand LogOutCommand => _LogOutCommand ??= new Command(OnLogOutCommandAsync);
 
+        public ICommand _ScanQRCommand;
+        public ICommand ScanQRCommand => _ScanQRCommand ??= new Command(OnScanQRCommandAsync);
+
         #endregion
 
         #region -- Private Helpers --
         private async void OnLogOutCommandAsync()
         {
-            _userService.SetCurrentUser(-1);
+            _userService.CurrentUserId = -1;
             await _navigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(SignInPage)}");
         }
-
+        private async void OnScanQRCommandAsync()
+        {
+            await _navigationService.NavigateAsync($"{nameof(QRScanPage)}");
+        }
         #endregion
     }
 }

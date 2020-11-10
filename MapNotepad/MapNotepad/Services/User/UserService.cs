@@ -13,13 +13,10 @@ namespace MapNotepad
             _settingsManager = settingsManager;
         }
 
-        public int GetCurrentUser()
+        public int CurrentUserId
         {
-            return _settingsManager.CurrentUser;
-        }
-        public void SetCurrentUser(int id)
-        {
-            _settingsManager.CurrentUser = id;
+            get => _settingsManager.CurrentUser;
+            set => _settingsManager.CurrentUser = value;
         }
     }
 }

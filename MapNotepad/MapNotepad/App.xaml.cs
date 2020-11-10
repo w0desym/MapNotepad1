@@ -52,6 +52,7 @@ namespace MapNotepad
             containerRegistry.RegisterForNavigation<PinsPage, PinsPageViewModel>();
             containerRegistry.RegisterForNavigation<AddPinPage, AddPinPageViewModel>();
             containerRegistry.RegisterForNavigation<QRCodePage, QRCodePageViewModel>();
+            containerRegistry.RegisterForNavigation<QRScanPage, QRScanPageViewModel>();
 
             //plugins
             containerRegistry.RegisterInstance(CrossGoogleClient.Current);

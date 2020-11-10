@@ -9,9 +9,9 @@ namespace MapNotepad
 {
     public interface IPinService
     {
-        Task<IEnumerable<PinInfo>> GetPinsAsync();
-        Task<IEnumerable<PinInfo>> GetPinsAsync(string searchQuery);
-        Task<int> SavePinInfoAsync(PinInfo item);
-        Task<int> DeletePinInfoAsync(PinInfo item);
+        Task<IEnumerable<PinInfo>> GetPinsAsync(string searchQuery = null);
+        Task<int> TrySavePinInfoAsync(PinInfo pinInfo);
+        Task<int> SavePinInfoAsync(PinInfo pinInfo, int count = 1);
+        Task<int> DeletePinInfoAsync(PinInfo pinInfo);
     }
 }

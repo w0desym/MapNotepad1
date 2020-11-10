@@ -38,6 +38,8 @@
 	<string>Can we use your location when your application is being used?</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>Can we use your location at all times?</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Please allow access to the camera to scan QR codes</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>FontAwesome5Brands.otf</string>

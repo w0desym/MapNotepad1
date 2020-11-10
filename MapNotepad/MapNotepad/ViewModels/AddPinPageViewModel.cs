@@ -181,7 +181,7 @@ namespace MapNotepad.ViewModels
         {
             var pinInfo = new PinInfo()
             {
-                UserId = _userService.GetCurrentUser(),
+                UserId = _userService.CurrentUserId,
                 Label = PinLabel ?? "New Pin",
                 Description = PinDescription ?? string.Empty,
                 Category = PinCategory ?? "#",
@@ -190,15 +190,10 @@ namespace MapNotepad.ViewModels
                 ImgPath = Constants.NotFavoriteImagePath
             };
 
-            var answer = await _pinService.SavePinInfoAsync(pinInfo);
-            if (answer != -1)
+            var ans = await _pinService.SavePinInfoAsync(pinInfo);
+            if (ans != -1)
             {
                 await _navigationService.GoBackAsync();
-            }
-            else
-            {
-                await Application.Current.MainPage.DisplayAlert("", $"There is already pin with name {pinInfo.Label}", "OK");
-                PinLabel = string.Empty;
             }
         }
         private async void OnGoBackCommandAsync()
@@ -237,7 +232,6 @@ namespace MapNotepad.ViewModels
         //        }
         //    }
         }
-
         #endregion
     }
 }

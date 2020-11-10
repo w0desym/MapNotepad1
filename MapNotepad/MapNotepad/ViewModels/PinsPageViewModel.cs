@@ -1,4 +1,5 @@
 ﻿using Acr.UserDialogs;
+using MapNotepad.Enums;
 using MapNotepad.Extensions;
 using MapNotepad.Models;
 using MapNotepad.Views;
@@ -17,6 +18,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 using Xamarin.Forms.GoogleMaps;
+using ZXing;
 
 namespace MapNotepad.ViewModels
 {
@@ -24,15 +26,18 @@ namespace MapNotepad.ViewModels
     {
         private readonly INavigationService _navigationService;
         private readonly IPinService _pinService;
+        private readonly IUserService _userService;
         private readonly IUserDialogs _userDialogs;
 
         public PinsPageViewModel(
             INavigationService navigationService,
             IPinService pinService,
+            IUserService userService,
             IUserDialogs userDialogs) :
             base(navigationService)
         {
             _userDialogs = userDialogs;
+            _userService = userService;
             _pinService = pinService;
             _navigationService = navigationService;
         }
@@ -99,9 +104,34 @@ namespace MapNotepad.ViewModels
         #endregion
 
         #region -- INavigationAware implementation --
-        public override void OnNavigatedTo(INavigationParameters parameters)
+        public override async void OnNavigatedTo(INavigationParameters parameters)
         {
             base.OnNavigatedTo(parameters);
+
+            if (parameters.TryGetValue(nameof(Result), out Result result))
+            {
+                var answer = await _userDialogs.ConfirmAsync(new ConfirmConfig()
+                    .SetTitle("Confirm adding pin")
+                    .SetMessage($"{result.Text}")
+                    .UseYesNo());
+                if (answer)
+                {
+                    var resArray = result.Text.Split('\n');
+                    var pinInfo = new PinInfo
+                    {
+                        Label = resArray[(int)MainPinInfo.Label],
+                        Latitude = Convert.ToDouble(resArray[(int)MainPinInfo.Latitude]),
+                        Longitude = Convert.ToDouble(resArray[(int)MainPinInfo.Longitude]),
+                        Description = resArray[(int)MainPinInfo.Description],
+                        Category = "#",
+                        UserId = _userService.CurrentUserId
+                    };
+
+                    await _pinService.SavePinInfoAsync(pinInfo);
+
+                    LoadPinsCollectionAsync();
+                }
+            }
 
             LoadPinsCollectionAsync();
         }
@@ -119,10 +149,6 @@ namespace MapNotepad.ViewModels
 
         #region -- Private helpers --
 
-        private void OnPageTapCommand()
-        {
-
-        }
 
         private void OnSearchCommand()
         {
@@ -162,7 +188,7 @@ namespace MapNotepad.ViewModels
         {
             var answer = await _userDialogs.ConfirmAsync(new ConfirmConfig()
                 .SetMessage($"Delete {pinInfo.Label}?")
-                .UseYesNo());//vinesi v peremennuyu
+                .UseYesNo());
             if (answer)
             {
                 await _pinService.DeletePinInfoAsync(pinInfo);

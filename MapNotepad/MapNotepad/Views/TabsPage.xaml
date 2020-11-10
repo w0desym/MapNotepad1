@@ -9,13 +9,19 @@
             Title="{Binding Title}">
     
     <TabbedPage.ToolbarItems>
+
+        <ToolbarItem
+            Order="Primary"
+            Priority="1"
+            Command="{Binding ScanQRCommand}"
+            IconImageSource="ic_qrscan.png"/>
         
         <ToolbarItem
             Order="Primary"
             Priority="1"
             Command="{Binding LogOutCommand}"
             IconImageSource="ic_exit_to_app.png"/>
-        
+
     </TabbedPage.ToolbarItems>
 
     <TabbedPage.Behaviors>
@@ -28,10 +34,10 @@
         
         <views:MapPage Title="Map"
                        IconImageSource="ic_map.png"/>
-        
+
         <views:PinsPage Title="Pins" 
                         IconImageSource="ic_pin.png"/>
-        
+
     </TabbedPage.Children>
     
 </TabbedPage>

@@ -3,6 +3,7 @@ using SQLite;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,7 +30,7 @@ namespace MapNotepad
 
             return await Database.Table<T>().ToListAsync();
         }
-        public async Task<int> InsertItemAsync<T>(T item) where T : ICommonModel, new()
+        public async Task<int> TryInsertItemAsync<T>(T item) where T : ICommonModel, new()
         {
             await Database.CreateTableAsync<T>();
 
@@ -38,8 +39,9 @@ namespace MapNotepad
             {
                 id = await Database.InsertAsync(item);
             }
-            catch
+            catch(Exception ex)
             {
+                Debug.WriteLine(ex);
                 id = -1;
             }
             return id;

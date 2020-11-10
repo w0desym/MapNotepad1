@@ -34,8 +34,8 @@ namespace MapNotepad.Extensions
                 Label = pin.Label,
                 Latitude = pin.Position.Latitude,
                 Longitude = pin.Position.Longitude,
-                Description = str[(int)OtherPinInfo.Description],
-                ImgPath = str[(int)OtherPinInfo.ImgPath]
+                Description = str[(int)ExtensionPinInfo.Description],
+                ImgPath = str[(int)ExtensionPinInfo.ImgPath]
             };
 
             return pinInfo;

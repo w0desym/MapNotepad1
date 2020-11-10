@@ -11,11 +11,15 @@ using MapNotepad.Models;
 using System.Linq;
 using System.Windows.Input;
 using Xamarin.Forms;
+using ZXing;
+using Prism.Navigation.TabbedPages;
+using MapNotepad.Views;
 
 namespace MapNotepad.ViewModels
 {
     class MapPageViewModel : ViewModelBase
     {
+        private readonly INavigationService _navigationService;
         private readonly IPinService _pinService;
         private readonly IPermissionService _permissionService;
 
@@ -25,6 +29,7 @@ namespace MapNotepad.ViewModels
             IPermissionService permissionService) :
             base(navigationService)
         {
+            _navigationService = navigationService;
             _pinService = pinService;
             _permissionService = permissionService;
         }
@@ -105,6 +110,11 @@ namespace MapNotepad.ViewModels
         public override void OnNavigatedTo(INavigationParameters parameters)
         {
             base.OnNavigatedTo(parameters);
+
+            if (parameters.TryGetValue(nameof(Result), out Result result))
+            {
+                _navigationService.SelectTabAsync(nameof(PinsPage), parameters);
+            }
 
             _permissionService.RequestLocationPermissionAsync();
 

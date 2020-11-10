@@ -274,4 +274,13 @@
   <ItemGroup>
     <BundleResource Include="Resources\ic_google%402x.png" />
   </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\ic_qrscan.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\ic_qrscan%402x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\ic_qrscan%403x.png" />
+  </ItemGroup>
 </Project>

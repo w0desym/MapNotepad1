@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<popups:PopupPage xmlns:popups="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+                  xmlns="http://xamarin.com/schemas/2014/forms"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                  xmlns:zxing="clr-namespace:ZXing.Net.Mobile.Forms;assembly=ZXing.Net.Mobile.Forms" xmlns:prism="http://prismlibrary.com"
+                  x:Class="MapNotepad.Views.QRScanPage">
+
+    <StackLayout HorizontalOptions="CenterAndExpand"
+                 VerticalOptions="CenterAndExpand"
+                 Margin="30"
+                 BackgroundColor="White">
+
+        <Button Text="chevron-left"
+                Margin="0,15,0,0"
+                Style="{StaticResource BackButtonStyle}"
+                VerticalOptions="StartAndExpand"
+                HorizontalOptions="StartAndExpand"
+                Command="{Binding GoBackCommand}"/>
+
+        <zxing:ZXingScannerView IsScanning="True"
+                                WidthRequest="300"
+                                HeightRequest="500"
+                                VerticalOptions="CenterAndExpand"
+                                HorizontalOptions="CenterAndExpand"
+                                Result="{Binding Result, Mode=TwoWay}"
+                                ScanResultCommand="{Binding QRScanResultCommand}">
+
+        </zxing:ZXingScannerView>
+
+        <zxing:ZXingDefaultOverlay TopText="Align the barcode within the frame"/>
+
+    </StackLayout>
+    
+</popups:PopupPage>

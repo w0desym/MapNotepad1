@@ -2,6 +2,7 @@
 using Plugin.GoogleClient;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -22,7 +23,7 @@ namespace MapNotepad
         }
         public void Authorize(int id)
         {
-            _userService.SetCurrentUser(id);
+            _userService.CurrentUserId = id;
         }
         public async Task<int> RegisterAsync(User user)
         {
@@ -35,7 +36,7 @@ namespace MapNotepad
             }
             else
             {
-                result = await _repositoryService.InsertItemAsync(user);
+                result = await _repositoryService.TryInsertItemAsync(user);
             }
 
             return result;
@@ -54,9 +55,9 @@ namespace MapNotepad
                     user.Name = googleUser.Data.Name;
                 }
             }
-            catch
+            catch(Exception ex)
             {
-
+                Debug.WriteLine(ex);
             }
 
             return user;
