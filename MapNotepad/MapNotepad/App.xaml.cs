@@ -1,9 +1,9 @@
 ﻿using Acr.UserDialogs;
 using MapNotepad.Models;
+using MapNotepad.Services;
 using MapNotepad.ViewModels;
 using MapNotepad.Views;
 using Plugin.GoogleClient;
-using Plugin.Permissions;
 using Plugin.Settings;
 using Prism;
 using Prism.Ioc;
@@ -21,7 +21,7 @@ namespace MapNotepad
 {
     public partial class App : PrismApplication
     {
-        private ISettingsManager settingsManager;
+        private IUserService userService;
         public App(IPlatformInitializer initializer = null) : base(initializer) { }
 
         #region -- Overrides --
@@ -29,9 +29,9 @@ namespace MapNotepad
         {
             InitializeComponent();
 
-            settingsManager = Container.Resolve<ISettingsManager>();
+            userService = Container.Resolve<IUserService>();
 
-            if (settingsManager.CurrentUser == -1)
+            if (userService.CurrentUserId == -1)
             {
                 await NavigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(SignInPage)}");
             }
@@ -56,19 +56,19 @@ namespace MapNotepad
 
             //plugins
             containerRegistry.RegisterInstance(CrossGoogleClient.Current);
-            containerRegistry.RegisterInstance(CrossPermissions.Current);
             containerRegistry.RegisterInstance(UserDialogs.Instance);
             containerRegistry.RegisterInstance(CrossSettings.Current);
             containerRegistry.RegisterPopupNavigationService();
 
             //services
             containerRegistry.RegisterInstance<ISettingsManager>(Container.Resolve<SettingsManager>());
-            containerRegistry.RegisterInstance<IUserService>(Container.Resolve<UserService>());
-            containerRegistry.RegisterInstance<IMapService>(Container.Resolve<MapService>());
             containerRegistry.RegisterInstance<IRepositoryService>(Container.Resolve<RepositoryService>());
-            containerRegistry.RegisterInstance<IPermissionService>(Container.Resolve<PermissionService>());
             containerRegistry.RegisterInstance<IAuthenticationService>(Container.Resolve<AuthenticationService>());
-            containerRegistry.RegisterInstance<IAuthorizationService>(Container.Resolve<AuthorizationService>());
+            containerRegistry.RegisterInstance<IRegistrationService>(Container.Resolve<RegistrationService>());
+            containerRegistry.RegisterInstance<IUserService>(Container.Resolve<UserService>());
+            containerRegistry.RegisterInstance<IGoogleService>(Container.Resolve<GoogleService>());
+            containerRegistry.RegisterInstance<IPermissionService>(Container.Resolve<PermissionService>());
+            containerRegistry.RegisterInstance<IMapService>(Container.Resolve<MapService>());
             containerRegistry.RegisterInstance<IPinService>(Container.Resolve<PinService>());
             
         }

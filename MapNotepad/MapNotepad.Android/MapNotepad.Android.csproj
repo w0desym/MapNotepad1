@@ -69,9 +69,6 @@
     <PackageReference Include="Plugin.GoogleClient">
       <Version>2.1.12</Version>
     </PackageReference>
-    <PackageReference Include="Plugin.Permissions">
-      <Version>6.0.1</Version>
-    </PackageReference>
     <PackageReference Include="Prism.Plugin.Popups">
       <Version>7.2.0.1046</Version>
     </PackageReference>
@@ -109,7 +106,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MainActivity.cs" />
-    <Compile Include="Persistence\SQLiteDb.cs" />
     <Compile Include="Renderers\CustomEntryRenderer.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

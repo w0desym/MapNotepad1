@@ -1,4 +1,5 @@
 ﻿using MapNotepad.Models;
+using MapNotepad.Services;
 using MapNotepad.Views;
 using Prism.Navigation;
 using System;
@@ -39,7 +40,7 @@ namespace MapNotepad.ViewModels
         #region -- Private Helpers --
         private async void OnLogOutCommandAsync()
         {
-            _userService.CurrentUserId = -1;
+            _userService.Logout();
             await _navigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(SignInPage)}");
         }
         private async void OnScanQRCommandAsync()

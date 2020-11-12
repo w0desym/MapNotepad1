@@ -1,5 +1,6 @@
 ﻿using MapNotepad.Extensions;
 using MapNotepad.Models;
+using MapNotepad.Services;
 using Prism.Navigation;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,8 @@ using System.Windows.Input;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.GoogleMaps;
+using static MapNotepad.Constants;
+
 
 namespace MapNotepad.ViewModels
 {
@@ -92,6 +95,13 @@ namespace MapNotepad.ViewModels
             set => SetProperty(ref _pin, value);
         }
 
+        private bool _myLocationEnabled;
+        public bool MyLocationEnabled
+        {
+            get => _myLocationEnabled;
+            set => SetProperty(ref _myLocationEnabled, value);
+        }
+
         private ICommand _cameraMovingCommand;
         public ICommand CameraMovingCommand => _cameraMovingCommand ??= new Command<CameraPosition>(OnCameraMovingCommand);
 
@@ -116,7 +126,7 @@ namespace MapNotepad.ViewModels
 
             Pin = new Pin();
             Pin.Label = "New Pin";
-            //checking parameters
+
             if (parameters != null)
             {
                 if (parameters.TryGetValue(nameof(PinInfo), out PinInfo pinInfo))
@@ -125,20 +135,18 @@ namespace MapNotepad.ViewModels
                     PinDescription = pinInfo.Description;
                     PinLatitude = pinInfo.Latitude;
                     PinLongitude = pinInfo.Longitude;
+                    PinCategory = pinInfo.Category;
                 }
             }
-
-
-            //pin editing
-            if (PinLabel != null)
+            
+            if (!string.IsNullOrEmpty(PinLabel)) //pin editing
             {
-                //getting pin's location
                 CameraPosition = new CameraPosition(new Position(PinLatitude, PinLongitude), 15.0d);
             }
-            //pin adding
-            else
+
+
+            else //pin adding
             {
-                //getting user's location
                 var location = await Geolocation.GetLocationAsync(new GeolocationRequest(GeolocationAccuracy.High));
 
                 if (location != null)
@@ -149,8 +157,6 @@ namespace MapNotepad.ViewModels
                 PinLongitude = location.Longitude;
             }
 
-            //rework
-
             Pin.Position = new Position(CameraPosition.Target.Latitude, CameraPosition.Target.Longitude);
 
             PinsCollection = new ObservableCollection<Pin> { Pin };
@@ -159,11 +165,15 @@ namespace MapNotepad.ViewModels
         #endregion
 
         #region -- INavigationAware implementation --   
-        public override void OnNavigatedTo(INavigationParameters parameters)
+        public override async void OnNavigatedTo(INavigationParameters parameters)
         {
             base.OnNavigatedTo(parameters);
 
-            _permissionService.RequestLocationPermissionAsync();
+            if (!MyLocationEnabled)
+            {
+                MyLocationEnabled = await _permissionService.RequestPermissionAsync<Permissions.LocationWhenInUse>() == PermissionStatus.Granted;
+            }
+            
         }
 
         #endregion
@@ -181,26 +191,23 @@ namespace MapNotepad.ViewModels
         {
             var pinInfo = new PinInfo()
             {
-                UserId = _userService.CurrentUserId,
-                Label = PinLabel ?? "New Pin",
-                Description = PinDescription ?? string.Empty,
-                Category = PinCategory ?? "#",
+                Label = PinLabel ?? DefaultPinName,
                 Latitude = PinLatitude,
                 Longitude = PinLongitude,
-                ImgPath = Constants.NotFavoriteImagePath
+                Description = PinDescription ?? string.Empty,
+                Category = PinCategory ?? DefaultCategory,
+                ImgPath = NotFavoriteImagePath,
+                UserId = _userService.CurrentUserId
             };
 
-            var ans = await _pinService.SavePinInfoAsync(pinInfo);
-            if (ans != -1)
-            {
-                await _navigationService.GoBackAsync();
-            }
+            await _pinService.SavePinInfoAsync(pinInfo);
+            await _navigationService.GoBackAsync();
         }
         private async void OnGoBackCommandAsync()
         {
             await _navigationService.GoBackAsync();
         }
-        //rework
+
         private void OnLatitudeChangedCommandAsync(string value)
         {
             //if (value != null)

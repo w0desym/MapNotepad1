@@ -14,6 +14,8 @@ using Xamarin.Forms;
 using ZXing;
 using Prism.Navigation.TabbedPages;
 using MapNotepad.Views;
+using MapNotepad.Services;
+using Acr.UserDialogs;
 
 namespace MapNotepad.ViewModels
 {
@@ -22,16 +24,19 @@ namespace MapNotepad.ViewModels
         private readonly INavigationService _navigationService;
         private readonly IPinService _pinService;
         private readonly IPermissionService _permissionService;
+        private readonly IUserDialogs _userDialogs;
 
         public MapPageViewModel(
             INavigationService navigationService,
             IPinService pinService,
-            IPermissionService permissionService) :
+            IPermissionService permissionService,
+            IUserDialogs userDialogs) :
             base(navigationService)
         {
             _navigationService = navigationService;
             _pinService = pinService;
             _permissionService = permissionService;
+            _userDialogs = userDialogs;
         }
 
         #region -- Public properties --
@@ -91,6 +96,13 @@ namespace MapNotepad.ViewModels
             set => SetProperty(ref _pinLongitude, value);
         }
 
+        private bool _myLocationEnabled;
+        public bool MyLocationEnabled
+        {
+            get => _myLocationEnabled;
+            set => SetProperty(ref _myLocationEnabled, value);
+        }
+
         private ICommand _searchCommand;
         public ICommand SearchCommand => _searchCommand ??= new Command(OnSearchCommand);
 
@@ -107,16 +119,21 @@ namespace MapNotepad.ViewModels
         #endregion
 
         #region -- INavigationAware implementation --
-        public override void OnNavigatedTo(INavigationParameters parameters)
+        public override async void OnNavigatedTo(INavigationParameters parameters)
         {
             base.OnNavigatedTo(parameters);
 
+            _userDialogs.HideLoading();
+
             if (parameters.TryGetValue(nameof(Result), out Result result))
             {
-                _navigationService.SelectTabAsync(nameof(PinsPage), parameters);
+                await _navigationService.SelectTabAsync(nameof(PinsPage), parameters);
             }
 
-            _permissionService.RequestLocationPermissionAsync();
+            if (!MyLocationEnabled)
+            {
+                MyLocationEnabled = await _permissionService.RequestPermissionAsync<Permissions.LocationWhenInUse>() == PermissionStatus.Granted;
+            }
 
             LoadPinsCollectionAsync();
 

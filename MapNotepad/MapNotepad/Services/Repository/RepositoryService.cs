@@ -2,26 +2,21 @@
 using SQLite;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
-using System.Text;
 using System.Threading.Tasks;
-using Xamarin.Forms.GoogleMaps;
+using static MapNotepad.Constants;
 
-namespace MapNotepad
+namespace MapNotepad.Services
 {
     class RepositoryService : IRepositoryService 
     {
-        public RepositoryService()
-        {
-
-        }
-
         #region -- Public properties --
+
         private SQLiteAsyncConnection _database;
         public SQLiteAsyncConnection Database => _database ??= new SQLiteAsyncConnection(Path.Combine(
-                Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "MapNotepadDb.db"));
+                Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), DatabaseName));
+
         #endregion
 
         public async Task<IEnumerable<T>> GetItemsAsync<T>() where T : ICommonModel, new()
@@ -30,28 +25,32 @@ namespace MapNotepad
 
             return await Database.Table<T>().ToListAsync();
         }
+
         public async Task<int> TryInsertItemAsync<T>(T item) where T : ICommonModel, new()
         {
             await Database.CreateTableAsync<T>();
 
             int id;
+
             try
             {
                 id = await Database.InsertAsync(item);
             }
-            catch(Exception ex)
+            catch
             {
-                Debug.WriteLine(ex);
                 id = -1;
             }
+
             return id;
         }
+
         public async Task<int> UpdateItemAsync<T>(T item) where T : ICommonModel, new()
         {
             await Database.CreateTableAsync<T>();
 
             return await Database.UpdateAsync(item);
         }
+
         public async Task<int> DeleteItemAsync<T>(T item) where T : ICommonModel, new()
         {
             await Database.CreateTableAsync<T>();

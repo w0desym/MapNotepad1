@@ -88,12 +88,6 @@
 
                 </ListView.GroupHeaderTemplate>
 
-                <ListView.Behaviors>
-
-                    <behaviors:ListViewBehavior/>
-
-                </ListView.Behaviors>
-
                 <ListView.ItemTemplate>
 
                     <DataTemplate>

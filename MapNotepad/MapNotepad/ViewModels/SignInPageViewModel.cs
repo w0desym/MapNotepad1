@@ -1,4 +1,6 @@
-﻿using MapNotepad.Models;
+﻿using Acr.UserDialogs;
+using MapNotepad.Models;
+using MapNotepad.Services;
 using MapNotepad.Views;
 using Prism.Navigation;
 using System;
@@ -13,19 +15,22 @@ namespace MapNotepad.ViewModels
     class SignInPageViewModel : ViewModelBase
     {
         private readonly INavigationService _navigationService;
-        private readonly IAuthenticationService _authenticationService;
-        private readonly IAuthorizationService _authorizationService;
+        private readonly IUserService _userService;
+        private readonly IGoogleService _googleService;
+        private readonly IUserDialogs _userDialogs;
 
         public SignInPageViewModel(
             INavigationService navigationService,
-            IAuthenticationService authenticationService,
-            IAuthorizationService authorizationService) :
+            IUserService userService,
+            IGoogleService googleService,
+            IUserDialogs userDialogs) :
             base(navigationService)
         {
             Title = "Sign In";
             _navigationService = navigationService;
-            _authenticationService = authenticationService;
-            _authorizationService = authorizationService;
+            _userService = userService;
+            _googleService = googleService;
+            _userDialogs = userDialogs;
         }
 
         #region -- Public Properties --
@@ -57,15 +62,13 @@ namespace MapNotepad.ViewModels
         #region -- INavigationAware implementation --
         public override void OnNavigatedTo(INavigationParameters parameters)
         {
-            var navMode = parameters.GetNavigationMode();
-            if (navMode == NavigationMode.Back)
+            base.OnNavigatedTo(parameters);
+
+            if (parameters.TryGetValue(nameof(Email), out string email) && parameters.TryGetValue(nameof(Password), out string password))
             {
-                if (parameters.TryGetValue(nameof(User), out User user))
-                {
-                    Email = user.Email; 
-                    Password = user.Password;
-                }
-            }
+                Email = email;
+                Password = password;
+            }      
         }
 
         #endregion
@@ -73,10 +76,10 @@ namespace MapNotepad.ViewModels
         #region -- Private helpers --
         private async void OnSignInCommandAsync()
         {
-            int id = await _authenticationService.AuthenticateAsync(Email, Password);
-            if (id != 0)
+            var success = await _userService.LoginAsync(Email, Password);
+            if (success)
             {
-                _authorizationService.Authorize(id);
+                _userDialogs.ShowLoading();
                 await _navigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(TabsPage)}");
             }
             else
@@ -88,27 +91,24 @@ namespace MapNotepad.ViewModels
 
         private async void OnSignUpViaGoogleCommandAsync()
         {
-            var user = await _authorizationService.LoginGoogleAsync();
+            var googleUser = await _googleService.TryLoginAsync();
 
-            if (user.Email != null)
+            if (googleUser != null)
             {
-                int id = await _authenticationService.AuthenticateAsync(user.Email);
-                if (id != 0)
+                var success = await _userService.LoginAsync(googleUser.Email, isSocialMediaAuthorizing: true);
+
+                if (success)
                 {
-                    _authorizationService.Authorize(id);
                     await _navigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(TabsPage)}");
                 }
                 else
                 {
-                    NavigationParameters navParams = new NavigationParameters { { $"{nameof(User)}", user } };
+                    NavigationParameters navParams = new NavigationParameters { { nameof(User), googleUser } };
+
                     await _navigationService.NavigateAsync($"{nameof(SignUpPage)}", navParams);
                 }
             }
-            else
-            {
-
-            }
-            _authorizationService.LogoutGoogle();
+            _googleService.Logout();
         }
 
         private async void OnSignUpCommandAsync()

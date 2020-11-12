@@ -1,22 +1,30 @@
-﻿using Plugin.Permissions;
-using Plugin.Permissions.Abstractions;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Xamarin.Essentials;
 using System.Threading.Tasks;
 
-namespace MapNotepad
+namespace MapNotepad.Services
 {
     class PermissionService : IPermissionService
     {
-        private readonly IPermissions _permissions;
-        public PermissionService(IPermissions permissions)
+        public PermissionService()
         {
-            _permissions = permissions;
         }
-        public Task<PermissionStatus> RequestLocationPermissionAsync()
+
+        public Task<PermissionStatus> CheckPermissionAsync<T>() where T : Permissions.BasePermission, new()
         {
-            return _permissions.RequestPermissionAsync<LocationPermission>();
+            return Permissions.CheckStatusAsync<T>();
+        }
+        public async Task<PermissionStatus> RequestPermissionAsync<T>() where T : Permissions.BasePermission, new()
+        {
+            var permissionStatus = await CheckPermissionAsync<T>();
+            if (permissionStatus != PermissionStatus.Granted)
+            {
+                permissionStatus = await Permissions.RequestAsync<T>();
+            }
+
+            return permissionStatus;
         }
     }
 }

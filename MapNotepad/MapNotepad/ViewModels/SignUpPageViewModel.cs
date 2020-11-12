@@ -1,4 +1,5 @@
 ﻿using MapNotepad.Models;
+using MapNotepad.Services;
 using Prism.Navigation;
 using System;
 using System.Collections.Generic;
@@ -14,15 +15,15 @@ namespace MapNotepad.ViewModels
     class SignUpPageViewModel : ViewModelBase
     {
         private readonly INavigationService _navigationService;
-        private readonly IAuthorizationService _authorizationService;
+        private readonly IUserService _userService;
 
         public SignUpPageViewModel(INavigationService navigationService,
-            IAuthorizationService authorizationService) :
+            IUserService userService) :
             base(navigationService)
         {
             Title = "Sign Up";
             _navigationService = navigationService;
-            _authorizationService = authorizationService;
+            _userService = userService;
         }
 
         #region -- Public properties --
@@ -71,10 +72,11 @@ namespace MapNotepad.ViewModels
         {
             base.OnNavigatedTo(parameters);
 
-            var user = parameters.TryGetValue($"{nameof(User)}", out User newUser);
-
-            Email = newUser.Email;
-            Name = newUser.Name;
+            if (parameters.TryGetValue(nameof(User), out User newUser))
+            {
+                Email = newUser.Email;
+                Name = newUser.Name;
+            }
         }
 
         #endregion
@@ -96,17 +98,23 @@ namespace MapNotepad.ViewModels
         #region -- Private Helpers --
         private async void OnSignUpCommandAsync()
         {
-            User newUser = new User()
-            {
-                Email = this.Email,
-                Name = this.Name,
-                Password = this.Password
-            };
+            int id = -1;
 
-            int answer = await _authorizationService.RegisterAsync(newUser);
-            if (answer != -1)
+            if (!string.IsNullOrEmpty(Email) && !string.IsNullOrEmpty(Name) && !string.IsNullOrEmpty(Password))
             {
-                NavigationParameters navParams = new NavigationParameters { { nameof(User), newUser } };
+                id = await _userService.RegisterAsync(Email, Name, Password);
+            }
+            if (id != -1)
+            {
+                var navParams = new NavigationParameters 
+                {
+                    {
+                        nameof(Email), Email
+                    },
+                    {
+                        nameof(Password), Password
+                    }
+                };
 
                 await Application.Current.MainPage.DisplayAlert("", "Registration is successful", "OK");
                 await _navigationService.GoBackAsync(navParams);

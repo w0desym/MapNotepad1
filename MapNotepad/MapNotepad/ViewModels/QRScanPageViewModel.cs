@@ -31,6 +31,14 @@ namespace MapNotepad.ViewModels
         private ICommand _QRScanResultCommand;
         public ICommand QRScanResultCommand => _QRScanResultCommand ??= new Command(OnQRScanResultCommand);
 
+        private ICommand _GoBackCommand;
+        public ICommand GoBackCommand => _GoBackCommand ??= new Command(OnGoBackCommandCommand);
+
+        private void OnGoBackCommandCommand()
+        {
+            _navigationService.GoBackAsync();
+        }
+
         #endregion
 
         #region -- Private helpers --

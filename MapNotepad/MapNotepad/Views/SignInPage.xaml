@@ -6,14 +6,28 @@
              Title="{Binding Title}"
              x:Name="_this">
 
-    <ContentPage.Content>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="5*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="5*"/>
+        </Grid.RowDefinitions>
 
-        <StackLayout VerticalOptions="End" HorizontalOptions="FillAndExpand">
+        <StackLayout Grid.Row="1">
 
             <controls:ValidationEntryControl Text="{Binding BindingContext.Email, Source={x:Reference _this}}"
                                              Placeholder="user@gmail.com"
                                              FieldLabel="Email"
                                              Style="{StaticResource ValidationEntryControlStyle}"/>
+
 
             <controls:ValidationEntryControl Text="{Binding BindingContext.Password, Source={x:Reference _this}}"
                                              Placeholder="••••••••"
@@ -21,70 +35,74 @@
                                              IsPassword="True"
                                              Style="{StaticResource ValidationEntryControlStyle}"/>
 
-            <Button Text="Sign In"
-                    Style="{StaticResource SignButtonStyle}"
-                    Command="{Binding SignInCommand}"
-                    Margin="20"/>
-
-            <Label HorizontalOptions="Center"
-                   VerticalOptions="Center"
-                   Style="{StaticResource NotRegisteredLabelStyle}">
-
-                <Label.FormattedText>
-
-                    <FormattedString>
-
-                        <Span Text="Not registered yet? "/>
-
-                        <Span Text="Sign up"
-                              TextColor="Blue"
-                              TextDecorations="Underline">
-
-                            <Span.GestureRecognizers>
-
-                                <TapGestureRecognizer Command="{Binding SignUpCommand}"/>
-
-                            </Span.GestureRecognizers>
-
-                        </Span>
-
-                    </FormattedString>
-
-                </Label.FormattedText>
-
-            </Label>
-
-            <Grid Margin="20,20,20,0">
-                
-                <Grid.ColumnDefinitions>
-                    
-                    <ColumnDefinition Width="0.45*"/>
-                    
-                    <ColumnDefinition Width="0.10*"/>
-                    
-                    <ColumnDefinition Width="0.45*"/>
-                    
-                </Grid.ColumnDefinitions>
-
-
-                <BoxView Grid.Column="0" 
-                         Style="{StaticResource BoxViewStyle}"/>
-
-                <Label HorizontalOptions="Center"
-                       Grid.Column="1" 
-                       Text="OR"/>
-
-                <BoxView Grid.Column="2" 
-                         Style="{StaticResource BoxViewStyle}"/>
-
-            </Grid>
-
-            <Button Style="{StaticResource SignViaGoogleButtonStyle}"
-                    Command="{Binding SignUpViaGoogleCommand}">
-            </Button>
 
         </StackLayout>
 
-    </ContentPage.Content>
+        <Button Text="Sign In"
+                    Grid.Row="3"
+                    Style="{StaticResource SignButtonStyle}"
+                    Command="{Binding SignInCommand}"/>
+
+        <Label Grid.Row="5"
+               HorizontalOptions="Center"
+               VerticalOptions="Center"
+               Style="{StaticResource NotRegisteredLabelStyle}">
+
+            <Label.FormattedText>
+
+                <FormattedString>
+
+                    <Span Text="Not registered yet? "/>
+
+                    <Span Text="Sign up"
+                              TextColor="Blue"
+                              TextDecorations="Underline">
+
+                        <Span.GestureRecognizers>
+
+                            <TapGestureRecognizer Command="{Binding SignUpCommand}"/>
+
+                        </Span.GestureRecognizers>
+
+                    </Span>
+
+                </FormattedString>
+
+            </Label.FormattedText>
+
+        </Label>
+
+        <Grid Grid.Row="7"
+              Margin="20,0">
+
+            <Grid.ColumnDefinitions>
+
+                <ColumnDefinition Width="0.45*"/>
+
+                <ColumnDefinition Width="0.10*"/>
+
+                <ColumnDefinition Width="0.45*"/>
+
+            </Grid.ColumnDefinitions>
+
+
+            <BoxView Grid.Column="0" 
+                         Style="{StaticResource BoxViewStyle}"/>
+
+            <Label HorizontalOptions="Center"
+                       VerticalOptions="Center"
+                       Grid.Column="1" 
+                       Text="OR"/>
+
+            <BoxView Grid.Column="2" 
+                         Style="{StaticResource BoxViewStyle}"/>
+
+        </Grid>
+
+        <Button Grid.Row="9"
+                Style="{StaticResource SignViaGoogleButtonStyle}"
+                    Command="{Binding SignUpViaGoogleCommand}"/>
+
+    </Grid>
 
 </ContentPage>

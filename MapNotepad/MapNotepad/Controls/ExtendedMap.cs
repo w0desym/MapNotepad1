@@ -13,12 +13,24 @@ namespace MapNotepad.Controls
     {
         public ExtendedMap()
         {
-            UiSettings.MyLocationButtonEnabled = true;
             UiSettings.ZoomControlsEnabled = true;
             UiSettings.ZoomGesturesEnabled = true;
-            MyLocationEnabled = true;
             PinsCollection = new ObservableCollection<Pin>();
             PinsCollection.CollectionChanged += Pins_CollectionChanged;
+        }
+
+        public static readonly BindableProperty MyLocationButtonEnabledProperty =
+            BindableProperty.Create(
+                propertyName: nameof(MyLocationButtonEnabled),
+                returnType: typeof(bool),
+                declaringType: typeof(ExtendedMap),
+                defaultBindingMode: BindingMode.TwoWay,
+                propertyChanged: MyLocationButtonEnabledChanged);
+
+        public bool MyLocationButtonEnabled
+        {
+            get => (bool)GetValue(MyLocationButtonEnabledProperty);
+            set => SetValue(MyLocationButtonEnabledProperty, value);
         }
 
         public static readonly BindableProperty PinsCollectionProperty =
@@ -47,14 +59,23 @@ namespace MapNotepad.Controls
             get => (CameraPosition)GetValue(CurrentCameraPositionProperty);
             set => SetValue(CurrentCameraPositionProperty, value);
         }
+
+        #region -- Private Helpers -- 
+
         private static void CurrentCameraPositionPropertyChanged(BindableObject bindable, object oldValue, object newValue)
         {
             CameraUpdate cameraUpdate = CameraUpdateFactory.NewCameraPosition((CameraPosition)newValue);
 
-            (bindable as ExtendedMap).MoveCamera(cameraUpdate);
+            if (newValue != null)
+            {
+                (bindable as ExtendedMap).MoveCamera(cameraUpdate);
+            } 
         }
 
-        #region -- Private Helpers -- 
+        private static void MyLocationButtonEnabledChanged(BindableObject bindable, object oldValue, object newValue)
+        {
+            (bindable as ExtendedMap).UiSettings.MyLocationButtonEnabled = (bool)newValue;
+        }
 
         private void Pins_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {

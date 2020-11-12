@@ -8,7 +8,6 @@ using Android.Widget;
 using Android.OS;
 using Android;
 using Xamarin.Forms.GoogleMaps.Android;
-using Plugin.Permissions;
 using Xamarin.Forms;
 using Xamarin.Forms.GoogleMaps.Clustering;
 using Xamarin.Forms.GoogleMaps.Clustering.Android;
@@ -23,14 +22,6 @@ namespace MapNotepad.Droid
     [Activity(Label = "MapNotepad", Icon = "@mipmap/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.UiMode | ConfigChanges.ScreenLayout | ConfigChanges.SmallestScreenSize | ConfigChanges.Orientation, ScreenOrientation = ScreenOrientation.Portrait)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
-        const int RequestLocationId = 0;
-
-        readonly string[] LocationPermissions =
-        {
-            Manifest.Permission.AccessCoarseLocation,
-            Manifest.Permission.AccessFineLocation
-        };
-
         protected override void OnStart()
         {
             base.OnStart();
@@ -51,11 +42,11 @@ namespace MapNotepad.Droid
             Rg.Plugins.Popup.Popup.Init(this, savedInstanceState);
             LoadApplication(new App());
         }
+       
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
         {
-            Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
-            PermissionsImplementation.Current.OnRequestPermissionsResult(requestCode, permissions, grantResults);
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+            Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
         protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
         {

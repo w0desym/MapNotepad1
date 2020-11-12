@@ -2,7 +2,9 @@
 using MapNotepad.Enums;
 using MapNotepad.Extensions;
 using MapNotepad.Models;
+using MapNotepad.Services;
 using MapNotepad.Views;
+
 using Prism.Navigation;
 using Prism.Navigation.TabbedPages;
 using Prism.Plugin.Popups;
@@ -19,6 +21,7 @@ using System.Windows.Input;
 using Xamarin.Forms;
 using Xamarin.Forms.GoogleMaps;
 using ZXing;
+using static MapNotepad.Constants;
 
 namespace MapNotepad.ViewModels
 {
@@ -123,12 +126,12 @@ namespace MapNotepad.ViewModels
                         Latitude = Convert.ToDouble(resArray[(int)MainPinInfo.Latitude]),
                         Longitude = Convert.ToDouble(resArray[(int)MainPinInfo.Longitude]),
                         Description = resArray[(int)MainPinInfo.Description],
-                        Category = "#",
+                        Category = DefaultCategory,
+                        ImgPath = NotFavoriteImagePath,
                         UserId = _userService.CurrentUserId
                     };
 
                     await _pinService.SavePinInfoAsync(pinInfo);
-
                     LoadPinsCollectionAsync();
                 }
             }
@@ -202,12 +205,12 @@ namespace MapNotepad.ViewModels
             await _navigationService.SelectTabAsync($"{nameof(MapPage)}");
         }
 
-        private async void OnImageButtonCommand(PinInfo pinInfo)
+        private void OnImageButtonCommand(PinInfo pinInfo)
         {
-            pinInfo.ImgPath = pinInfo.IsFavorite ? Constants.NotFavoriteImagePath : Constants.FavoriteImagePath;
+            pinInfo.ImgPath = pinInfo.IsFavorite ? NotFavoriteImagePath : FavoriteImagePath;
             pinInfo.IsFavorite = !pinInfo.IsFavorite;
 
-            await _pinService.SavePinInfoAsync(pinInfo);
+            _pinService.SavePinInfoAsync(pinInfo);
             LoadPinsCollectionAsync();
         }
 
@@ -222,18 +225,3 @@ namespace MapNotepad.ViewModels
         #endregion
     }
 }
-
-//var groups = new List<Grouping<PinInfo>>
-//{
-//    new Grouping<PinInfo>("Hui")
-//    {
-//        pins.First(),
-//        pins.ElementAt(1)
-//    },
-//    new Grouping<PinInfo>("Pizda")
-//    {
-//        pins.ElementAt(3),
-//        pins.ElementAt(2),
-//        pins.ElementAt(4)
-//    }
-//};

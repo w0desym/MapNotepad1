@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace MapNotepad
+namespace MapNotepad.Services
 {
     public interface ISettingsManager
     {

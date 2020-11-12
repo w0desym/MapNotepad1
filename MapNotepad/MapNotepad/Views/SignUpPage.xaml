@@ -7,90 +7,112 @@
              x:Class="MapNotepad.Views.SignUpPage"
              Title="{Binding Title}">
 
-    <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="Center">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="5*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="5*"/>
+        </Grid.RowDefinitions>
 
-        <controls:ValidationEntryControl x:Name="emailEntry" 
+        <Grid Grid.Row="1">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="95"/>
+                <RowDefinition Height="95"/>
+                <RowDefinition Height="95"/>
+                <RowDefinition Height="95"/>
+            </Grid.RowDefinitions>
+
+            <controls:ValidationEntryControl Grid.Row="0"
+                                             x:Name="emailEntry" 
                                          FieldLabel="Email" 
                                          Placeholder="user@gmail.com"
                                          Text="{Binding BindingContext.Email, Source={x:Reference _this}}"
                                          Style="{StaticResource ValidationEntryControlStyle}">
 
-            <controls:ValidationEntryControl.Behaviors>
+                <controls:ValidationEntryControl.Behaviors>
 
-                <behaviors:EmailValidationBehavior x:Name="emailValidation"/>
-                
-            </controls:ValidationEntryControl.Behaviors>
-            
-        </controls:ValidationEntryControl>
+                    <behaviors:EmailValidationBehavior x:Name="emailValidation"/>
 
-        <controls:ValidationEntryControl FieldLabel="Name" 
+                </controls:ValidationEntryControl.Behaviors>
+
+            </controls:ValidationEntryControl>
+
+            <controls:ValidationEntryControl Grid.Row="1"
+                                             FieldLabel="Name" 
                                          Placeholder="Alex"
                                          Text="{Binding BindingContext.Name, Source={x:Reference _this}}"
                                          Style="{StaticResource ValidationEntryControlStyle}">
 
-        </controls:ValidationEntryControl>
+            </controls:ValidationEntryControl>
 
-        <controls:ValidationEntryControl x:Name="passwordEntry" 
+            <controls:ValidationEntryControl Grid.Row="2"
+                                             x:Name="passwordEntry" 
                                          FieldLabel="Password"
                                          Placeholder="••••••••"
                                          IsPassword="True"
                                          Text="{Binding BindingContext.Password, Source={x:Reference _this}}"
                                          Style="{StaticResource ValidationEntryControlStyle}">
 
-            <controls:ValidationEntryControl.Behaviors>
+                <controls:ValidationEntryControl.Behaviors>
 
-                <behaviors:PasswordValidationBehavior x:Name="passwordValidation"/>
-                
-            </controls:ValidationEntryControl.Behaviors>
-            
-        </controls:ValidationEntryControl>
+                    <behaviors:PasswordValidationBehavior x:Name="passwordValidation"/>
 
-        <controls:ValidationEntryControl x:Name="confirmPasswordEntry"
+                </controls:ValidationEntryControl.Behaviors>
+
+            </controls:ValidationEntryControl>
+
+            <controls:ValidationEntryControl Grid.Row="3"
+                                             x:Name="confirmPasswordEntry"
                                          FieldLabel="Confirm password"
                                          Placeholder="••••••••"
                                          IsPassword="True"
                                          Text="{Binding BindingContext.ConfirmPassword, Source={x:Reference _this}}"
                                          Style="{StaticResource ValidationEntryControlStyle}">
 
-            <controls:ValidationEntryControl.Behaviors>
+                <controls:ValidationEntryControl.Behaviors>
 
-                <behaviors:ConfirmPasswordValidationBehavior x:Name="confirmPasswordValidation" CompareToEntry="{Binding Text, Source={x:Reference passwordEntry}}"/>
-                
-            </controls:ValidationEntryControl.Behaviors>
-            
-        </controls:ValidationEntryControl>
+                    <behaviors:ConfirmPasswordValidationBehavior x:Name="confirmPasswordValidation" CompareToEntry="{Binding Text, Source={x:Reference passwordEntry}}"/>
 
-        <Button Text="Sign Up"
+                </controls:ValidationEntryControl.Behaviors>
+
+            </controls:ValidationEntryControl>
+
+        </Grid>
+
+        <Button Grid.Row="3"
+                    Text="Sign Up"
                 Style="{StaticResource SignButtonStyle}"
                 Command="{Binding SignUpCommand}"
-                Margin="20"
                 IsEnabled="{Binding BindingContext.IsSignUpEnabled, Source={x:Reference _this}}">
-            
+
             <Button.Triggers>
-                
+
                 <MultiTrigger TargetType="Button">
-                    
+
                     <MultiTrigger.Conditions>
-                        
+
                         <BindingCondition Binding="{Binding Source={x:Reference emailValidation}, Path=IsValid}"
                                           Value="True"/>
-                        
+
                         <BindingCondition Binding="{Binding Source={x:Reference passwordValidation}, Path=IsValid}"
                                           Value="True"/>
-                        
+
                         <BindingCondition Binding="{Binding Source={x:Reference confirmPasswordValidation}, Path=IsValid}"
                                           Value="True"/>
-                        
+
                     </MultiTrigger.Conditions>
-                    
+
                     <Setter Property="IsEnabled" Value="True"/>
-                    
+
                 </MultiTrigger>
-                
+
             </Button.Triggers>
-            
+
         </Button>
-        
-    </StackLayout>
-    
+
+    </Grid>
+
 </ContentPage>

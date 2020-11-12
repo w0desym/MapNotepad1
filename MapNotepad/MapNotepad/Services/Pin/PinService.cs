@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MapNotepad
+namespace MapNotepad.Services
 {
     class PinService : IPinService
     {
@@ -54,33 +54,21 @@ namespace MapNotepad
             return result;
         }
 
-        public async Task<int> SavePinInfoAsync(PinInfo pinInfo, int count = 1)
+        public async Task SavePinInfoAsync(PinInfo pinInfo)
         {
-            int id = await TrySavePinInfoAsync(pinInfo);
-
-            if (id == -1)
+            var label = pinInfo.Label;
+            int counter = 0;
+            
+            while (await TrySavePinInfoAsync(pinInfo) != 1)
             {
-                var value = char.GetNumericValue(pinInfo.Label[pinInfo.Label.Length - 1]);
-                if (value == count)
-                {
-                    count++;
-                    pinInfo.Label = pinInfo.Label.Remove(pinInfo.Label.Length - 1);
-                    pinInfo.Label += count;
-                }
-                else
-                {
-                    pinInfo.Label += count;
-                }
-
-                await SavePinInfoAsync(pinInfo, count);
+                counter++;
+                pinInfo.Label = string.Format("{0} ({1})", label, counter);
             }
-
-            return id;
         }
 
-        public async Task<int> DeletePinInfoAsync(PinInfo pinInfo)
+        public Task<int> DeletePinInfoAsync(PinInfo pinInfo)
         {
-            return await _repositoryService.DeleteItemAsync(pinInfo);
+            return _repositoryService.DeleteItemAsync(pinInfo);
         }
 
     }
