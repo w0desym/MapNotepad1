@@ -39,16 +39,19 @@ namespace MapNotepad.Services
 
         public async Task<int> TrySavePinInfoAsync(PinInfo pinInfo)
         {
-            int result;
+            int result = 0;
 
-            if (pinInfo.Id != 0)
+            if (pinInfo != null)
             {
-                await _repositoryService.UpdateItemAsync(pinInfo);
-                result = pinInfo.Id;
-            }
-            else
-            {
-                result = await _repositoryService.TryInsertItemAsync(pinInfo);
+                if (pinInfo.Id != 0)
+                {
+                    await _repositoryService.UpdateItemAsync(pinInfo);
+                    result = pinInfo.Id;
+                }
+                else
+                {
+                    result = await _repositoryService.TryInsertItemAsync(pinInfo);
+                }
             }
 
             return result;

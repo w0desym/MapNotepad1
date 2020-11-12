@@ -19,15 +19,29 @@ namespace MapNotepad.Validators
         }
         public static bool MatchesRequirements(string value)
         {
+            bool isMatch = false;
+
             var hasNumber = new Regex(_regexPasswordContainsNumber);
             var hasUpperChar = new Regex(_regexPasswordContainsUpper);
             var hasLowerChar = new Regex(_regexPasswordContainsLower);
 
-            return hasNumber.IsMatch(value) && hasUpperChar.IsMatch(value) && hasLowerChar.IsMatch(value);
+            if (!string.IsNullOrEmpty(value))
+            {
+                isMatch = hasNumber.IsMatch(value) && hasUpperChar.IsMatch(value) && hasLowerChar.IsMatch(value);
+            }
+
+            return isMatch;
         }
         public static bool IsEmail(string value)
         {
-            return Regex.IsMatch(value, RegexEmail, RegexOptions.IgnoreCase);
+            bool isMatch = false;
+
+            if (!string.IsNullOrEmpty(value))
+            {
+                isMatch = Regex.IsMatch(value, RegexEmail, RegexOptions.IgnoreCase);
+            }
+
+            return isMatch;
         }
 
     }

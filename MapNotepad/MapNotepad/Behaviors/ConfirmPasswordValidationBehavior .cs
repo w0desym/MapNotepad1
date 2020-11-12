@@ -58,15 +58,20 @@ namespace MapNotepad.Behaviors
 
         private void OnTextChanged(object sender, TextChangedEventArgs e)
         {
-            if (CompareToEntry != null)
+            var newValue = e.NewTextValue;
+
+            if (!string.IsNullOrEmpty(newValue))
             {
-                var password = CompareToEntry;
-                var confirmPassword = e.NewTextValue;
+                if (CompareToEntry != null)
+                {
+                    var password = CompareToEntry;
+                    var confirmPassword = e.NewTextValue;
 
-                IsValid = password.Equals(confirmPassword);
+                    IsValid = password.Equals(confirmPassword);
 
-                _control.IsMessageVisible = !IsValid;
-            }
+                    _control.IsMessageVisible = !IsValid;
+                }
+            }           
         }
 
         #endregion

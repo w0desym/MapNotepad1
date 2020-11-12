@@ -10,7 +10,7 @@ using Xamarin.Forms.Xaml;
 
 namespace MapNotepad.Views
 {
-    public partial class QRScanPage : PopupPage
+    public partial class QRScanPage : ContentPage
     {
         public QRScanPage()
         {

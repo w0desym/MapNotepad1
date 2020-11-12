@@ -52,21 +52,26 @@ namespace MapNotepad.Behaviors
 
         private void OnTextChanged(object sender, TextChangedEventArgs e)
         {
-            _control.IsMessageVisible = e.NewTextValue.Length < 8 || e.NewTextValue.Length > 16;
+            var newValue = e.NewTextValue;
 
-            if (_control.IsMessageVisible)
+            if (!string.IsNullOrEmpty(newValue))
             {
-                _control.Message = "Should be between 8 and 16 characters long";
-            }
-            else
-            {
-                IsValid = Validator.MatchesRequirements(e.NewTextValue);
-
-                _control.IsMessageVisible = !IsValid;
+                _control.IsMessageVisible = e.NewTextValue.Length < 8 || e.NewTextValue.Length > 16;
 
                 if (_control.IsMessageVisible)
                 {
-                    _control.Message = "At least 1 lowercase, uppercase and number";
+                    _control.Message = "Should be between 8 and 16 characters long";
+                }
+                else
+                {
+                    IsValid = Validator.MatchesRequirements(e.NewTextValue);
+
+                    _control.IsMessageVisible = !IsValid;
+
+                    if (_control.IsMessageVisible)
+                    {
+                        _control.Message = "At least 1 lowercase, uppercase and number";
+                    }
                 }
             }
         }

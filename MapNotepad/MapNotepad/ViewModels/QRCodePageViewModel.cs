@@ -1,4 +1,5 @@
 ﻿using MapNotepad.Models;
+using Newtonsoft.Json;
 using Prism.Navigation;
 using System;
 using System.Collections.Generic;
@@ -40,7 +41,7 @@ namespace MapNotepad.ViewModels
 
             if (parameters.TryGetValue(nameof(PinInfo), out PinInfo pinInfo))
             {
-                QRCodeValue = pinInfo.Label + "\n" + pinInfo.Latitude + "\n" + pinInfo.Longitude + "\n" + pinInfo.Description;
+                QRCodeValue = JsonConvert.SerializeObject(pinInfo);
             }
         }
 

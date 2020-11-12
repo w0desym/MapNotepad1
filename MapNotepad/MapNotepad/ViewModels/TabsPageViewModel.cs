@@ -45,7 +45,7 @@ namespace MapNotepad.ViewModels
         }
         private async void OnScanQRCommandAsync()
         {
-            await _navigationService.NavigateAsync($"{nameof(QRScanPage)}");
+            await _navigationService.NavigateAsync($"{nameof(QRScanPage)}", useModalNavigation: true);
         }
         #endregion
     }

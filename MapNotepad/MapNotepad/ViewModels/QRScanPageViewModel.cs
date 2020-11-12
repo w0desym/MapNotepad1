@@ -1,4 +1,8 @@
-﻿using MapNotepad.Views;
+﻿using Acr.UserDialogs;
+using MapNotepad.Models;
+using MapNotepad.Services;
+using MapNotepad.Views;
+using Newtonsoft.Json;
 using Prism.Navigation;
 using Prism.Navigation.TabbedPages;
 using System;
@@ -13,10 +17,20 @@ namespace MapNotepad.ViewModels
     class QRScanPageViewModel : ViewModelBase
     {
         private readonly INavigationService _navigationService;
-        public QRScanPageViewModel(INavigationService navigationService) :
+        private readonly IPinService _pinService;
+        private readonly IUserService _userService;
+        private readonly IUserDialogs _userDialogs;
+        public QRScanPageViewModel(
+            INavigationService navigationService,
+            IPinService pinService,
+            IUserService userService,
+            IUserDialogs userDialogs) :
             base(navigationService)
         {
             _navigationService = navigationService;
+            _pinService = pinService;
+            _userService = userService;
+            _userDialogs = userDialogs;
         }
 
         #region -- Public properties --
@@ -43,11 +57,31 @@ namespace MapNotepad.ViewModels
 
         #region -- Private helpers --
 
-        private void OnQRScanResultCommand()
+        private async void OnQRScanResultCommand()
         {
-            var navParams = new NavigationParameters { { nameof(Result), Result } };
+            if (Result != null)
+            {
+                try
+                {
+                    var pinValue = JsonConvert.DeserializeObject<PinInfo>(Result.Text);
+                    pinValue.UserId = _userService.CurrentUserId;
 
-            _navigationService.GoBackAsync(navParams);
+                    var answer = await _userDialogs.ConfirmAsync(new ConfirmConfig()
+                        .SetTitle("Confirm adding pin")
+                        .SetMessage($"{pinValue.Label}\n{pinValue.Latitude}\n{pinValue.Longitude}")
+                        .UseYesNo());
+
+                    if (answer)
+                    {
+                        await _pinService.SavePinInfoAsync(pinValue);
+                        await _navigationService.GoBackAsync();
+                    }
+                }
+                catch
+                {
+                    await Application.Current.MainPage.DisplayAlert("Sorry", "QR is not valid", "OK");
+                }
+            }
         }
 
         #endregion

@@ -125,11 +125,6 @@ namespace MapNotepad.ViewModels
 
             _userDialogs.HideLoading();
 
-            if (parameters.TryGetValue(nameof(Result), out Result result))
-            {
-                await _navigationService.SelectTabAsync(nameof(PinsPage), parameters);
-            }
-
             if (!MyLocationEnabled)
             {
                 MyLocationEnabled = await _permissionService.RequestPermissionAsync<Permissions.LocationWhenInUse>() == PermissionStatus.Granted;

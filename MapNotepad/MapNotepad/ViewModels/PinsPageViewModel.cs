@@ -4,7 +4,7 @@ using MapNotepad.Extensions;
 using MapNotepad.Models;
 using MapNotepad.Services;
 using MapNotepad.Views;
-
+using Newtonsoft.Json;
 using Prism.Navigation;
 using Prism.Navigation.TabbedPages;
 using Prism.Plugin.Popups;
@@ -107,34 +107,9 @@ namespace MapNotepad.ViewModels
         #endregion
 
         #region -- INavigationAware implementation --
-        public override async void OnNavigatedTo(INavigationParameters parameters)
+        public override void OnNavigatedTo(INavigationParameters parameters)
         {
             base.OnNavigatedTo(parameters);
-
-            if (parameters.TryGetValue(nameof(Result), out Result result))
-            {
-                var answer = await _userDialogs.ConfirmAsync(new ConfirmConfig()
-                    .SetTitle("Confirm adding pin")
-                    .SetMessage($"{result.Text}")
-                    .UseYesNo());
-                if (answer)
-                {
-                    var resArray = result.Text.Split('\n');
-                    var pinInfo = new PinInfo
-                    {
-                        Label = resArray[(int)MainPinInfo.Label],
-                        Latitude = Convert.ToDouble(resArray[(int)MainPinInfo.Latitude]),
-                        Longitude = Convert.ToDouble(resArray[(int)MainPinInfo.Longitude]),
-                        Description = resArray[(int)MainPinInfo.Description],
-                        Category = DefaultCategory,
-                        ImgPath = NotFavoriteImagePath,
-                        UserId = _userService.CurrentUserId
-                    };
-
-                    await _pinService.SavePinInfoAsync(pinInfo);
-                    LoadPinsCollectionAsync();
-                }
-            }
 
             LoadPinsCollectionAsync();
         }

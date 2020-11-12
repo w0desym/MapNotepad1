@@ -53,9 +53,14 @@ namespace MapNotepad.Behaviors
 
         private void OnTextChanged(object sender, TextChangedEventArgs e)
         {
-            IsValid = Validator.IsEmail(e.NewTextValue);
+            var newValue = e.NewTextValue;
 
-            _control.IsMessageVisible = !IsValid;
+            if (!string.IsNullOrEmpty(newValue))
+            {
+                IsValid = Validator.IsEmail(e.NewTextValue);
+
+                _control.IsMessageVisible = !IsValid;
+            }   
         }
         #endregion
     }
