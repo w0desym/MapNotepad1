@@ -13,14 +13,15 @@ namespace MapNotepad.Services
             _settingsManager = settingsManager;
         }
 
-        public Position GetLastMapPosition()
+        public CameraPosition GetLastMapPosition()
         {
-            return new Position(_settingsManager.LastLatitude, _settingsManager.LastLongitude);
+            return new CameraPosition(new Position(_settingsManager.LastLatitude, _settingsManager.LastLongitude), _settingsManager.Zoom);
         }
-        public void SetLastMapPosition(Position position)
+        public void SetLastMapPosition(CameraPosition cameraPosition)
         {
-            _settingsManager.LastLatitude = position.Latitude;
-            _settingsManager.LastLongitude = position.Longitude;
+            _settingsManager.Zoom = cameraPosition.Zoom;
+            _settingsManager.LastLatitude = cameraPosition.Target.Latitude;
+            _settingsManager.LastLongitude = cameraPosition.Target.Longitude;
         }
     }
 }

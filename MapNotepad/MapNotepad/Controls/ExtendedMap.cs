@@ -19,20 +19,6 @@ namespace MapNotepad.Controls
             PinsCollection.CollectionChanged += Pins_CollectionChanged;
         }
 
-        public static readonly BindableProperty MyLocationButtonEnabledProperty =
-            BindableProperty.Create(
-                propertyName: nameof(MyLocationButtonEnabled),
-                returnType: typeof(bool),
-                declaringType: typeof(ExtendedMap),
-                defaultBindingMode: BindingMode.TwoWay,
-                propertyChanged: MyLocationButtonEnabledChanged);
-
-        public bool MyLocationButtonEnabled
-        {
-            get => (bool)GetValue(MyLocationButtonEnabledProperty);
-            set => SetValue(MyLocationButtonEnabledProperty, value);
-        }
-
         public static readonly BindableProperty PinsCollectionProperty =
             BindableProperty.Create(
                 propertyName: nameof(PinsCollection),
@@ -70,11 +56,6 @@ namespace MapNotepad.Controls
             {
                 (bindable as ExtendedMap).MoveCamera(cameraUpdate);
             } 
-        }
-
-        private static void MyLocationButtonEnabledChanged(BindableObject bindable, object oldValue, object newValue)
-        {
-            (bindable as ExtendedMap).UiSettings.MyLocationButtonEnabled = (bool)newValue;
         }
 
         private void Pins_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)

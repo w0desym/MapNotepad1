@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace MapNotepad.Services
@@ -11,19 +12,19 @@ namespace MapNotepad.Services
     class PinService : IPinService
     {
         private readonly IRepositoryService _repositoryService;
-        private readonly ISettingsManager _settingsManager;
+        private readonly IUserService _userService;
 
         public PinService(IRepositoryService repositoryService,
-            ISettingsManager settingsManager)
+            IUserService userService)
         {
             _repositoryService = repositoryService;
-            _settingsManager = settingsManager;
+            _userService = userService;
         }
 
         public async Task<IEnumerable<PinInfo>> GetPinsAsync(string searchQuery = null)
         {
             var pinInfos = await _repositoryService.GetItemsAsync<PinInfo>();
-            var curUserPinInfos = pinInfos.Where(x => x.UserId == _settingsManager.CurrentUser);
+            var curUserPinInfos = pinInfos.Where(x => x.UserId == _userService.CurrentUserId);
 
             if (!string.IsNullOrEmpty(searchQuery))
             {
@@ -59,13 +60,21 @@ namespace MapNotepad.Services
 
         public async Task SavePinInfoAsync(PinInfo pinInfo)
         {
-            var label = pinInfo.Label;
-            int counter = 0;
-            
-            while (await TrySavePinInfoAsync(pinInfo) != 1)
+            var pinInfos = await GetPinsAsync();
+            var regex = new Regex($@"^{pinInfo.Label}\d?$");
+            var sameLabelPinInfos = pinInfos.Where(x => regex.IsMatch(x.Label));
+
+            int counter;
+
+            if (sameLabelPinInfos.Count() == 0)
             {
-                counter++;
-                pinInfo.Label = string.Format("{0} ({1})", label, counter);
+                await TrySavePinInfoAsync(pinInfo);
+            }
+            else
+            {
+                counter = pinInfos.Last().Id + 1;
+                pinInfo.Label = string.Format("{0} ({1})", pinInfo.Label, counter);
+                await TrySavePinInfoAsync(pinInfo);
             }
         }
 

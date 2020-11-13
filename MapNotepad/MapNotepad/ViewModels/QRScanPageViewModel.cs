@@ -5,9 +5,12 @@ using MapNotepad.Views;
 using Newtonsoft.Json;
 using Prism.Navigation;
 using Prism.Navigation.TabbedPages;
+using Prism.Services;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 using ZXing;
@@ -42,6 +45,13 @@ namespace MapNotepad.ViewModels
             set => SetProperty(ref _result, value);
         }
 
+        private bool _isScanning = true;
+        public bool IsScanning
+        {
+            get => _isScanning;
+            set => SetProperty(ref _isScanning, value);
+        }
+
         private ICommand _QRScanResultCommand;
         public ICommand QRScanResultCommand => _QRScanResultCommand ??= new Command(OnQRScanResultCommand);
 
@@ -65,21 +75,15 @@ namespace MapNotepad.ViewModels
                 {
                     var pinValue = JsonConvert.DeserializeObject<PinInfo>(Result.Text);
                     pinValue.UserId = _userService.CurrentUserId;
+                    pinValue.Id = 0;
 
-                    var answer = await _userDialogs.ConfirmAsync(new ConfirmConfig()
-                        .SetTitle("Confirm adding pin")
-                        .SetMessage($"{pinValue.Label}\n{pinValue.Latitude}\n{pinValue.Longitude}")
-                        .UseYesNo());
+                    await _pinService.SavePinInfoAsync(pinValue);
+                    await _navigationService.GoBackAsync();
 
-                    if (answer)
-                    {
-                        await _pinService.SavePinInfoAsync(pinValue);
-                        await _navigationService.GoBackAsync();
-                    }
                 }
                 catch
                 {
-                    await Application.Current.MainPage.DisplayAlert("Sorry", "QR is not valid", "OK");
+                    await _userDialogs.AlertAsync("QR is not valid", "Sorry", "OK");
                 }
             }
         }

@@ -1,4 +1,5 @@
-﻿using MapNotepad.Models;
+﻿using Acr.UserDialogs;
+using MapNotepad.Models;
 using MapNotepad.Services;
 using MapNotepad.Views;
 using Prism.Navigation;
@@ -17,6 +18,7 @@ namespace MapNotepad.ViewModels
     {
         private readonly INavigationService _navigationService;
         private readonly IUserService _userService;
+
         public TabsPageViewModel(
             INavigationService navigationService,
             IUserService userService) :

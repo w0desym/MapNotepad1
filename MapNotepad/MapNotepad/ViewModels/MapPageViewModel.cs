@@ -16,6 +16,9 @@ using Prism.Navigation.TabbedPages;
 using MapNotepad.Views;
 using MapNotepad.Services;
 using Acr.UserDialogs;
+using System.Threading.Tasks;
+using System.Diagnostics;
+using static MapNotepad.Constants;
 
 namespace MapNotepad.ViewModels
 {
@@ -25,18 +28,21 @@ namespace MapNotepad.ViewModels
         private readonly IPinService _pinService;
         private readonly IPermissionService _permissionService;
         private readonly IUserDialogs _userDialogs;
+        private readonly IMapService _mapService;
 
         public MapPageViewModel(
             INavigationService navigationService,
             IPinService pinService,
             IPermissionService permissionService,
-            IUserDialogs userDialogs) :
+            IUserDialogs userDialogs,
+            IMapService mapService) :
             base(navigationService)
         {
             _navigationService = navigationService;
             _pinService = pinService;
             _permissionService = permissionService;
             _userDialogs = userDialogs;
+            _mapService = mapService;
         }
 
         #region -- Public properties --
@@ -108,13 +114,17 @@ namespace MapNotepad.ViewModels
 
         private ICommand _pinCommand;
         public ICommand PinCommand => _pinCommand ??= new Command<Pin>(OnPinCommand);
+
+        private ICommand _cameraChangedCommand;
+        public ICommand CameraChangedCommand => _cameraChangedCommand ??= new Command<CameraPosition>(OnCameraChangedCommand);
+
         #endregion
 
         #region -- IInitialize implementation --
-        public override void Initialize(INavigationParameters parameters)
+        public override async void Initialize(INavigationParameters parameters)
         {
-            LoadPinsCollectionAsync();
-            UpdateCameraPositionAsync();
+            await LoadPinsCollectionAsync();
+            await UpdateCameraPositionAsync();
         }
         #endregion
 
@@ -130,7 +140,7 @@ namespace MapNotepad.ViewModels
                 MyLocationEnabled = await _permissionService.RequestPermissionAsync<Permissions.LocationWhenInUse>() == PermissionStatus.Granted;
             }
 
-            LoadPinsCollectionAsync();
+            await LoadPinsCollectionAsync();
 
             if (parameters.TryGetValue(nameof(Pin), out Pin pin))
             {
@@ -138,13 +148,12 @@ namespace MapNotepad.ViewModels
                 AssignPinPopup(pin);
             }
 
-            UpdateCameraPositionAsync();
+            await UpdateCameraPositionAsync();
         }
 
         public override void OnNavigatedFrom(INavigationParameters parameters)
         {
             base.OnNavigatedFrom(parameters);
-            //to do
         }
         #endregion
 
@@ -158,12 +167,17 @@ namespace MapNotepad.ViewModels
             }
             else
             {
-                LoadPinsCollectionAsync();
+                await LoadPinsCollectionAsync();
             }
         }
         private void OnPinCommand(Pin pin)
         {
             AssignPinPopup(pin);
+        }
+
+        private void OnCameraChangedCommand(CameraPosition cameraPosition)
+        {
+            _mapService.SetLastMapPosition(cameraPosition);
         }
 
         private void AssignPinPopup(Pin pin)
@@ -176,28 +190,45 @@ namespace MapNotepad.ViewModels
             PinLongitude = Math.Truncate(pinInfo.Longitude * 1000) / 1000;
         }
 
-        private async void LoadPinsCollectionAsync()
+        private async Task LoadPinsCollectionAsync()
         {
             var pins = await _pinService.GetPinsAsync();
 
             PinsCollection = new ObservableCollection<Pin>(pins.Where(x => x.IsFavorite == true).Select(x => x.ToPin()));
         }
-        private async void UpdateCameraPositionAsync()
+        private async Task UpdateCameraPositionAsync()
         {
             if (SelectedPin != null)
             {
-                CameraPosition = new CameraPosition(SelectedPin.Position, 15.0d);
+                SetCamera(new CameraPosition(SelectedPin.Position, DefaultZoom));
             }
             else
             {
-                var location = await Geolocation.GetLocationAsync(new GeolocationRequest(GeolocationAccuracy.High));
+                var lastPos = _mapService.GetLastMapPosition();
 
-                if (location != null)
+                if (lastPos.Target.Latitude == DefaultLatitude && lastPos.Target.Longitude == DefaultLongitude)
                 {
-                    CameraPosition = new CameraPosition(new Position(location.Latitude, location.Longitude), 15.0d);
+                    await SetCameraOnUserLocationAsync();
+                }
+                else
+                {
+                    SetCamera(lastPos);
                 }
             }
+        }
 
+        private async Task SetCameraOnUserLocationAsync()
+        {
+            var location = await Geolocation.GetLocationAsync(new GeolocationRequest(GeolocationAccuracy.High));
+
+            if (location != null)
+            {
+                SetCamera(new CameraPosition(new Position(location.Latitude, location.Longitude), DefaultZoom));
+            }
+        }
+        private void SetCamera(CameraPosition position)
+        {
+            CameraPosition = position;
         }
         #endregion
     }

@@ -36,7 +36,6 @@
 
             <controls:ExtendedMap x:Name="map"
                                   MyLocationEnabled="{Binding MyLocationEnabled}"
-                                  MyLocationButtonEnabled="{Binding MyLocationEnabled}"
                                   VerticalOptions="FillAndExpand"
                                   SelectedPin="{Binding SelectedPin, Mode=TwoWay}"
                                   PinsCollection="{Binding PinsCollection}"
@@ -49,6 +48,10 @@
                     <prism:EventToCommandBehavior EventName="PinClicked"
                                                   Command="{Binding PinCommand}"
                                                   EventArgsParameterPath="Pin"/>
+
+                    <prism:EventToCommandBehavior EventName="CameraChanged"
+                                                  Command="{Binding CameraChangedCommand}"
+                                                  EventArgsParameterPath="Position"/>
 
                 </controls:ExtendedMap.Behaviors>
 

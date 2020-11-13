@@ -5,6 +5,8 @@ using Prism.Navigation;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -111,12 +113,6 @@ namespace MapNotepad.ViewModels
         private ICommand _goBackCommand;
         public ICommand GoBackCommand => _goBackCommand ??= new Command(OnGoBackCommandAsync);
 
-        private ICommand _latitudeChangedCommand;
-        public ICommand LatitudeChangedCommand => _latitudeChangedCommand ??= new Command<string>(OnLatitudeChangedCommandAsync);
-
-        private ICommand _longitudeChangedCommand;
-        public ICommand LongitudeChangedCommand => _longitudeChangedCommand ??= new Command<string>(OnLongitudeChangedCommandAsync);
-
         #endregion
 
         #region -- IInitialize implementation --
@@ -127,7 +123,7 @@ namespace MapNotepad.ViewModels
             Pin = new Pin();
             Pin.Label = "New Pin";
 
-            if (parameters != null)
+            if (parameters != null) //pin editing
             {
                 if (parameters.TryGetValue(nameof(PinInfo), out PinInfo pinInfo))
                 {
@@ -138,8 +134,8 @@ namespace MapNotepad.ViewModels
                     PinCategory = pinInfo.Category;
                 }
             }
-            
-            if (!string.IsNullOrEmpty(PinLabel)) //pin editing
+
+            if (!string.IsNullOrEmpty(PinLabel))
             {
                 CameraPosition = new CameraPosition(new Position(PinLatitude, PinLongitude), 15.0d);
             }
@@ -162,6 +158,29 @@ namespace MapNotepad.ViewModels
             PinsCollection = new ObservableCollection<Pin> { Pin };
         }
 
+        [Obsolete]
+
+        protected override void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            base.OnPropertyChanged(propertyName);
+
+            if (propertyName.Equals(nameof(PinLatitude)))
+            {
+                if (Convert.ToDouble(PinLatitude) < -85 || Convert.ToDouble(PinLatitude) > 85)
+                {
+                    Application.Current.MainPage.DisplayAlert("Sorry", "It doesn't look like appropriate latitude", "Cancel");
+                    PinLatitude = 0;
+                }
+            }
+            if (propertyName.Equals(nameof(PinLongitude)))
+            {
+                if (Convert.ToDouble(PinLongitude) < -180 || Convert.ToDouble(PinLongitude) > 180)
+                {
+                    Application.Current.MainPage.DisplayAlert("Sorry", "It doesn't look like appropriate latitude", "Cancel");
+                    PinLongitude = 0;
+                }
+            }
+        }
         #endregion
 
         #region -- INavigationAware implementation --   
@@ -173,7 +192,7 @@ namespace MapNotepad.ViewModels
             {
                 MyLocationEnabled = await _permissionService.RequestPermissionAsync<Permissions.LocationWhenInUse>() == PermissionStatus.Granted;
             }
-            
+
         }
 
         #endregion
@@ -206,38 +225,6 @@ namespace MapNotepad.ViewModels
         private async void OnGoBackCommandAsync()
         {
             await _navigationService.GoBackAsync();
-        }
-
-        private void OnLatitudeChangedCommandAsync(string value)
-        {
-            //if (value != null)
-            //{
-            //    if (Convert.ToDouble(value) < -85 || Convert.ToDouble(value) > 85)
-            //    {
-            //        Application.Current.MainPage.DisplayAlert("Sorry", "It doesn't look like appropriate latitude", "Cancel");
-            //        PinLatitude = 0;
-            //    }
-            //    else
-            //    {
-            //        Pin.Position = new Position(PinLatitude, PinLongitude);
-            //    }
-            //}
-        }
-        //rework
-        private void OnLongitudeChangedCommandAsync(string value)
-        {
-        //    if (value != null)
-        //    {
-        //        if (Convert.ToDouble(value) < -180 || Convert.ToDouble(value) > 180)
-        //        {
-        //            Application.Current.MainPage.DisplayAlert("Sorry", "It doesn't look like appropriate longitude", "Cancel");
-        //            PinLongitude = 0;
-        //        }
-        //        else
-        //        {
-        //            Pin.Position = new Position(PinLatitude, PinLongitude);
-        //        }
-        //    }
         }
         #endregion
     }

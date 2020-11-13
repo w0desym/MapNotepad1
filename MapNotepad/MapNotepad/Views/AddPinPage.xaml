@@ -104,17 +104,7 @@
                         <Entry Text="{Binding PinLatitude}"
                                FontSize="14"
                                Keyboard="Numeric"
-                               TextColor="LightGreen">
-                            
-                            <Entry.Behaviors>
-                            
-                                <prism:EventToCommandBehavior EventName="TextChanged"
-                                                              Command="{Binding LatitudeChangedCommand}"
-                                                              EventArgsParameterPath="NewTextValue"/>
-                            
-                            </Entry.Behaviors>
-                            
-                        </Entry>
+                               TextColor="LightGreen"/>
 
                     </Frame>
 

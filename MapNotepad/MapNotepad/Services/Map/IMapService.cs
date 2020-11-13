@@ -7,8 +7,8 @@ namespace MapNotepad.Services
 {
     public interface IMapService
     {
-        Position GetLastMapPosition();
-        void SetLastMapPosition(Position position);
+        CameraPosition GetLastMapPosition();
+        void SetLastMapPosition(CameraPosition cameraPosition);
 
     }
 }
