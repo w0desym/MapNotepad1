@@ -4,9 +4,9 @@ using Xamarin.Forms;
 
 namespace MapNotepad.Behaviors
 {
-    class ConfirmPasswordValidationBehavior : BehaviorBase<ValidationEntryControl>
+    class ConfirmPasswordValidationBehavior : BehaviorBase<CustomEntryControl>
     {
-        private ValidationEntryControl _control;
+        private CustomEntryControl _control;
 
         static readonly BindablePropertyKey IsValidPropertyKey = BindableProperty.CreateReadOnly(
             "IsValid", 
@@ -25,7 +25,7 @@ namespace MapNotepad.Behaviors
         public static readonly BindableProperty CompareToEntryProperty = BindableProperty.Create(
             propertyName: nameof(CompareToEntry),
             returnType: typeof(string),
-            declaringType: typeof(ValidationEntryControl));
+            declaringType: typeof(CustomEntryControl));
 
         public string CompareToEntry
         {
@@ -35,7 +35,7 @@ namespace MapNotepad.Behaviors
 
         #region -- Overrides --
 
-        protected override void OnAttachedTo(ValidationEntryControl control)
+        protected override void OnAttachedTo(CustomEntryControl control)
         {
             base.OnAttachedTo(control);
 
@@ -44,7 +44,7 @@ namespace MapNotepad.Behaviors
             control.Entry.TextChanged += OnTextChanged;
         }
 
-        protected override void OnDetachingFrom(ValidationEntryControl control)
+        protected override void OnDetachingFrom(CustomEntryControl control)
         {
             base.OnDetachingFrom(control);
 

@@ -185,7 +185,7 @@ namespace MapNotepad.ViewModels
             pinInfo.ImgPath = pinInfo.IsFavorite ? NotFavoriteImagePath : FavoriteImagePath;
             pinInfo.IsFavorite = !pinInfo.IsFavorite;
 
-            _pinService.SavePinInfoAsync(pinInfo);
+            _pinService.UpdatePinInfoAsync(pinInfo);
             LoadPinsCollectionAsync();
         }
 

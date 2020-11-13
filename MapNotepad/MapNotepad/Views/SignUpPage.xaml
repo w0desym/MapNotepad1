@@ -25,60 +25,60 @@
                 <RowDefinition Height="95"/>
             </Grid.RowDefinitions>
 
-            <controls:ValidationEntryControl Grid.Row="0"
+            <controls:CustomEntryControl Grid.Row="0"
                                              x:Name="emailEntry" 
                                          FieldLabel="Email" 
                                          Placeholder="user@gmail.com"
                                          Text="{Binding BindingContext.Email, Source={x:Reference _this}}"
-                                         Style="{StaticResource ValidationEntryControlStyle}">
+                                         Style="{StaticResource CustomEntryControlStyle}">
 
-                <controls:ValidationEntryControl.Behaviors>
+                <controls:CustomEntryControl.Behaviors>
 
                     <behaviors:EmailValidationBehavior x:Name="emailValidation"/>
 
-                </controls:ValidationEntryControl.Behaviors>
+                </controls:CustomEntryControl.Behaviors>
 
-            </controls:ValidationEntryControl>
+            </controls:CustomEntryControl>
 
-            <controls:ValidationEntryControl Grid.Row="1"
+            <controls:CustomEntryControl Grid.Row="1"
                                              FieldLabel="Name" 
                                          Placeholder="Alex"
                                          Text="{Binding BindingContext.Name, Source={x:Reference _this}}"
-                                         Style="{StaticResource ValidationEntryControlStyle}">
+                                         Style="{StaticResource CustomEntryControlStyle}">
 
-            </controls:ValidationEntryControl>
+            </controls:CustomEntryControl>
 
-            <controls:ValidationEntryControl Grid.Row="2"
+            <controls:CustomEntryControl Grid.Row="2"
                                              x:Name="passwordEntry" 
                                          FieldLabel="Password"
                                          Placeholder="••••••••"
                                          IsPassword="True"
                                          Text="{Binding BindingContext.Password, Source={x:Reference _this}}"
-                                         Style="{StaticResource ValidationEntryControlStyle}">
+                                         Style="{StaticResource CustomEntryControlStyle}">
 
-                <controls:ValidationEntryControl.Behaviors>
+                <controls:CustomEntryControl.Behaviors>
 
                     <behaviors:PasswordValidationBehavior x:Name="passwordValidation"/>
 
-                </controls:ValidationEntryControl.Behaviors>
+                </controls:CustomEntryControl.Behaviors>
 
-            </controls:ValidationEntryControl>
+            </controls:CustomEntryControl>
 
-            <controls:ValidationEntryControl Grid.Row="3"
+            <controls:CustomEntryControl Grid.Row="3"
                                              x:Name="confirmPasswordEntry"
                                          FieldLabel="Confirm password"
                                          Placeholder="••••••••"
                                          IsPassword="True"
                                          Text="{Binding BindingContext.ConfirmPassword, Source={x:Reference _this}}"
-                                         Style="{StaticResource ValidationEntryControlStyle}">
+                                         Style="{StaticResource CustomEntryControlStyle}">
 
-                <controls:ValidationEntryControl.Behaviors>
+                <controls:CustomEntryControl.Behaviors>
 
                     <behaviors:ConfirmPasswordValidationBehavior x:Name="confirmPasswordValidation" CompareToEntry="{Binding Text, Source={x:Reference passwordEntry}}"/>
 
-                </controls:ValidationEntryControl.Behaviors>
+                </controls:CustomEntryControl.Behaviors>
 
-            </controls:ValidationEntryControl>
+            </controls:CustomEntryControl>
 
         </Grid>
 

@@ -2,9 +2,9 @@
 <ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
              xmlns:prism="http://prismlibrary.com"
-             x:Class="MapNotepad.Controls.ValidationEntryControl"
-             x:Name="validationEntryControl"
-             BindingContext="{x:Reference validationEntryControl}">
+             x:Class="MapNotepad.Controls.CustomEntryControl"
+             x:Name="customEntryControl"
+             BindingContext="{x:Reference customEntryControl}">
 
 
     <StackLayout>
@@ -13,19 +13,19 @@
                Style="{StaticResource FieldLabelStyle}"/>
 
         <Frame BorderColor="{Binding BorderColor}"
-               Style="{StaticResource EntryFrameStyle}">
+               Style="{StaticResource FrameStyle}">
 
             <Entry x:Name="entry"
                    Placeholder="{Binding Placeholder}"
                    Text="{Binding Text}"
-                   IsPassword="{Binding IsPassword}">
+                   IsPassword="{Binding IsPassword}"
+                   Style="{Binding EntryStyle}">
 
                 <Entry.Behaviors>
                     
-                    <prism:EventToCommandBehavior
-                        EventName="TextChanged"
-                        EventArgsParameterPath="NewTextValue"
-                        Command="{Binding TextChangedCommand}"/>
+                    <prism:EventToCommandBehavior EventName="TextChanged"
+                                                  EventArgsParameterPath="NewTextValue"
+                                                  Command="{Binding TextChangedCommand}"/>
                     
                 </Entry.Behaviors>
 

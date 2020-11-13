@@ -18,6 +18,26 @@
                                 Result="{Binding Result, Mode=TwoWay}"
                                 ScanResultCommand="{Binding QRScanResultCommand}">
 
+            <zxing:ZXingScannerView.HeightRequest>
+
+                <OnPlatform x:TypeArguments="x:Double">
+
+                    <On Platform="iOS" Value="500"/>
+
+                </OnPlatform>
+                
+            </zxing:ZXingScannerView.HeightRequest>
+
+            <zxing:ZXingScannerView.WidthRequest>
+
+                <OnPlatform x:TypeArguments="x:Double">
+
+                    <On Platform="iOS" Value="300"/>
+
+                </OnPlatform>
+
+            </zxing:ZXingScannerView.WidthRequest>
+
         </zxing:ZXingScannerView>
 
         <zxing:ZXingDefaultOverlay TopText="Align the barcode within the frame"/>

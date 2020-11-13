@@ -23,17 +23,17 @@
 
         <StackLayout Grid.Row="1">
 
-            <controls:ValidationEntryControl Text="{Binding BindingContext.Email, Source={x:Reference _this}}"
+            <controls:CustomEntryControl Text="{Binding BindingContext.Email, Source={x:Reference _this}}"
                                              Placeholder="user@gmail.com"
                                              FieldLabel="Email"
-                                             Style="{StaticResource ValidationEntryControlStyle}"/>
+                                             Style="{StaticResource CustomEntryControlStyle}"/>
 
 
-            <controls:ValidationEntryControl Text="{Binding BindingContext.Password, Source={x:Reference _this}}"
+            <controls:CustomEntryControl Text="{Binding BindingContext.Password, Source={x:Reference _this}}"
                                              Placeholder="••••••••"
                                              FieldLabel="Password"
                                              IsPassword="True"
-                                             Style="{StaticResource ValidationEntryControlStyle}"/>
+                                             Style="{StaticResource CustomEntryControlStyle}"/>
 
 
         </StackLayout>

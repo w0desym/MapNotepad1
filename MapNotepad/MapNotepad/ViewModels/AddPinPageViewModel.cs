@@ -25,18 +25,21 @@ namespace MapNotepad.ViewModels
         private readonly IPermissionService _permissionService;
         private readonly INavigationService _navigationService;
         private readonly IUserService _userService;
+        private readonly IMapService _mapService;
 
         public AddPinPageViewModel(
             INavigationService navigationService,
             IPermissionService permissionService,
             IPinService pinService,
-            IUserService userService) :
+            IUserService userService,
+            IMapService mapService) :
             base(navigationService)
         {
             _navigationService = navigationService;
             _permissionService = permissionService;
             _pinService = pinService;
             _userService = userService;
+            _mapService = mapService;
         }
 
         #region -- Public properties --
@@ -120,79 +123,36 @@ namespace MapNotepad.ViewModels
         {
             base.Initialize(parameters);
 
+            await AskLocationPermissionsAsync();
+
             Pin = new Pin();
             Pin.Label = "New Pin";
 
-            if (parameters != null) //pin editing
+            if (parameters.TryGetValue(nameof(PinInfo), out PinInfo pinInfo))//pin editing
             {
-                if (parameters.TryGetValue(nameof(PinInfo), out PinInfo pinInfo))
-                {
-                    PinLabel = pinInfo.Label;
-                    PinDescription = pinInfo.Description;
-                    PinLatitude = pinInfo.Latitude;
-                    PinLongitude = pinInfo.Longitude;
-                    PinCategory = pinInfo.Category;
-                }
+                PinLabel = pinInfo.Label;
+                PinDescription = pinInfo.Description;
+                PinLatitude = pinInfo.Latitude;
+                PinLongitude = pinInfo.Longitude;
+                PinCategory = pinInfo.Category;
+
+                SetCamera(new CameraPosition(new Position(PinLatitude, PinLongitude), DefaultZoom));
             }
-
-            if (!string.IsNullOrEmpty(PinLabel))
-            {
-                CameraPosition = new CameraPosition(new Position(PinLatitude, PinLongitude), 15.0d);
-            }
-
-
             else //pin adding
             {
-                var location = await Geolocation.GetLocationAsync(new GeolocationRequest(GeolocationAccuracy.High));
-
-                if (location != null)
+                if (MyLocationEnabled)
                 {
-                    CameraPosition = new CameraPosition(new Position(location.Latitude, location.Longitude), 15.0d);
+                    await SetCameraOnUserLocationAsync();
                 }
-                PinLatitude = location.Latitude;
-                PinLongitude = location.Longitude;
+                else
+                {
+                    SetCameraOnLastPosition();
+                }
             }
 
             Pin.Position = new Position(CameraPosition.Target.Latitude, CameraPosition.Target.Longitude);
 
             PinsCollection = new ObservableCollection<Pin> { Pin };
-        }
-
-        [Obsolete]
-
-        protected override void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            base.OnPropertyChanged(propertyName);
-
-            if (propertyName.Equals(nameof(PinLatitude)))
-            {
-                if (Convert.ToDouble(PinLatitude) < -85 || Convert.ToDouble(PinLatitude) > 85)
-                {
-                    Application.Current.MainPage.DisplayAlert("Sorry", "It doesn't look like appropriate latitude", "Cancel");
-                    PinLatitude = 0;
-                }
-            }
-            if (propertyName.Equals(nameof(PinLongitude)))
-            {
-                if (Convert.ToDouble(PinLongitude) < -180 || Convert.ToDouble(PinLongitude) > 180)
-                {
-                    Application.Current.MainPage.DisplayAlert("Sorry", "It doesn't look like appropriate latitude", "Cancel");
-                    PinLongitude = 0;
-                }
-            }
-        }
-        #endregion
-
-        #region -- INavigationAware implementation --   
-        public override async void OnNavigatedTo(INavigationParameters parameters)
-        {
-            base.OnNavigatedTo(parameters);
-
-            if (!MyLocationEnabled)
-            {
-                MyLocationEnabled = await _permissionService.RequestPermissionAsync<Permissions.LocationWhenInUse>() == PermissionStatus.Granted;
-            }
-
         }
 
         #endregion
@@ -219,12 +179,43 @@ namespace MapNotepad.ViewModels
                 UserId = _userService.CurrentUserId
             };
 
-            await _pinService.SavePinInfoAsync(pinInfo);
+            await _pinService.UpdatePinInfoAsync(pinInfo);
             await _navigationService.GoBackAsync();
         }
         private async void OnGoBackCommandAsync()
         {
             await _navigationService.GoBackAsync();
+        }
+
+        private void SetCameraOnLastPosition()
+        {
+            var lastPos = _mapService.GetLastMapPosition();
+
+            SetCamera(lastPos);
+        }
+
+        private async Task SetCameraOnUserLocationAsync()
+        {
+            var location = await Geolocation.GetLocationAsync(new GeolocationRequest(GeolocationAccuracy.High));
+
+            if (location != null)
+            {
+                SetCamera(new CameraPosition(new Position(location.Latitude, location.Longitude), DefaultZoom));
+
+                PinLatitude = location.Latitude;
+                PinLongitude = location.Longitude;
+            }
+        }
+        private void SetCamera(CameraPosition position)
+        {
+            CameraPosition = position;
+        }
+        private async Task AskLocationPermissionsAsync()
+        {
+            if (!MyLocationEnabled)
+            {
+                MyLocationEnabled = await _permissionService.RequestPermissionAsync<Permissions.LocationWhenInUse>() == PermissionStatus.Granted;
+            }
         }
         #endregion
     }

@@ -20,17 +20,20 @@ namespace MapNotepad.ViewModels
     class QRScanPageViewModel : ViewModelBase
     {
         private readonly INavigationService _navigationService;
+        private readonly IPermissionService _permissionService;
         private readonly IPinService _pinService;
         private readonly IUserService _userService;
         private readonly IUserDialogs _userDialogs;
         public QRScanPageViewModel(
             INavigationService navigationService,
+            IPermissionService permissionService,
             IPinService pinService,
             IUserService userService,
             IUserDialogs userDialogs) :
             base(navigationService)
         {
             _navigationService = navigationService;
+            _permissionService = permissionService;
             _pinService = pinService;
             _userService = userService;
             _userDialogs = userDialogs;
@@ -65,6 +68,17 @@ namespace MapNotepad.ViewModels
 
         #endregion
 
+        #region -- INavigationAware implementation --
+
+        public override void OnNavigatedTo(INavigationParameters parameters)
+        {
+            base.OnNavigatedTo(parameters);
+
+            //try to do camera permission
+        }
+
+        #endregion
+
         #region -- Private helpers --
 
         private async void OnQRScanResultCommand()
@@ -77,7 +91,7 @@ namespace MapNotepad.ViewModels
                     pinValue.UserId = _userService.CurrentUserId;
                     pinValue.Id = 0;
 
-                    await _pinService.SavePinInfoAsync(pinValue);
+                    await _pinService.AddPinInfoAsync(pinValue);
                     await _navigationService.GoBackAsync();
 
                 }

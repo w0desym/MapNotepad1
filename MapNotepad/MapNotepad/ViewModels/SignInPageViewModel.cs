@@ -79,7 +79,6 @@ namespace MapNotepad.ViewModels
             var success = await _userService.LoginAsync(Email, Password);
             if (success)
             {
-                _userDialogs.ShowLoading();
                 await _navigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(TabsPage)}");
             }
             else
@@ -91,7 +90,12 @@ namespace MapNotepad.ViewModels
 
         private async void OnSignUpViaGoogleCommandAsync()
         {
+            _userDialogs.ShowLoading();
+
             var googleUser = await _googleService.TryLoginAsync();
+
+            _userDialogs.HideLoading();
+
 
             if (googleUser != null)
             {

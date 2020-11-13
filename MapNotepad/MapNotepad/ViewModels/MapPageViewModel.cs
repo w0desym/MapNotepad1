@@ -121,40 +121,36 @@ namespace MapNotepad.ViewModels
         #endregion
 
         #region -- IInitialize implementation --
+
         public override async void Initialize(INavigationParameters parameters)
         {
             await LoadPinsCollectionAsync();
-            await UpdateCameraPositionAsync();
+
+            await AskLocationPermissionsAsync();
+
+            SetCameraOnLastPosition();
         }
         #endregion
 
         #region -- INavigationAware implementation --
+
         public override async void OnNavigatedTo(INavigationParameters parameters)
         {
             base.OnNavigatedTo(parameters);
-
-            _userDialogs.HideLoading();
-
-            if (!MyLocationEnabled)
-            {
-                MyLocationEnabled = await _permissionService.RequestPermissionAsync<Permissions.LocationWhenInUse>() == PermissionStatus.Granted;
-            }
-
-            await LoadPinsCollectionAsync();
 
             if (parameters.TryGetValue(nameof(Pin), out Pin pin))
             {
                 SelectedPin = PinsCollection.FirstOrDefault(x => x.Label == pin.Label);
                 AssignPinPopup(pin);
+
+                SetCamera(new CameraPosition(SelectedPin.Position, DefaultZoom));
             }
 
-            await UpdateCameraPositionAsync();
+            await LoadPinsCollectionAsync();
+
+            await AskLocationPermissionsAsync();
         }
 
-        public override void OnNavigatedFrom(INavigationParameters parameters)
-        {
-            base.OnNavigatedFrom(parameters);
-        }
         #endregion
 
         #region -- Private helpers --
@@ -196,39 +192,25 @@ namespace MapNotepad.ViewModels
 
             PinsCollection = new ObservableCollection<Pin>(pins.Where(x => x.IsFavorite == true).Select(x => x.ToPin()));
         }
-        private async Task UpdateCameraPositionAsync()
-        {
-            if (SelectedPin != null)
-            {
-                SetCamera(new CameraPosition(SelectedPin.Position, DefaultZoom));
-            }
-            else
-            {
-                var lastPos = _mapService.GetLastMapPosition();
 
-                if (lastPos.Target.Latitude == DefaultLatitude && lastPos.Target.Longitude == DefaultLongitude)
-                {
-                    await SetCameraOnUserLocationAsync();
-                }
-                else
-                {
-                    SetCamera(lastPos);
-                }
-            }
+        private void SetCameraOnLastPosition()
+        {
+            var lastPos = _mapService.GetLastMapPosition();
+
+            SetCamera(lastPos);
         }
 
-        private async Task SetCameraOnUserLocationAsync()
-        {
-            var location = await Geolocation.GetLocationAsync(new GeolocationRequest(GeolocationAccuracy.High));
-
-            if (location != null)
-            {
-                SetCamera(new CameraPosition(new Position(location.Latitude, location.Longitude), DefaultZoom));
-            }
-        }
         private void SetCamera(CameraPosition position)
         {
             CameraPosition = position;
+        }
+
+        private async Task AskLocationPermissionsAsync()
+        {
+            if (!MyLocationEnabled)
+            {
+                MyLocationEnabled = await _permissionService.RequestPermissionAsync<Permissions.LocationWhenInUse>() == PermissionStatus.Granted;
+            }
         }
         #endregion
     }

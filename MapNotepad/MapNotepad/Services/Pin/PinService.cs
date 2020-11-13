@@ -38,27 +38,12 @@ namespace MapNotepad.Services
             return curUserPinInfos;
         }
 
-        public async Task<int> TrySavePinInfoAsync(PinInfo pinInfo)
+        public async Task<int> UpdatePinInfoAsync(PinInfo pinInfo)
         {
-            int result = 0;
-
-            if (pinInfo != null)
-            {
-                if (pinInfo.Id != 0)
-                {
-                    await _repositoryService.UpdateItemAsync(pinInfo);
-                    result = pinInfo.Id;
-                }
-                else
-                {
-                    result = await _repositoryService.TryInsertItemAsync(pinInfo);
-                }
-            }
-
-            return result;
+            return await _repositoryService.UpdateItemAsync(pinInfo);
         }
 
-        public async Task SavePinInfoAsync(PinInfo pinInfo)
+        public async Task AddPinInfoAsync(PinInfo pinInfo)
         {
             var pinInfos = await GetPinsAsync();
             var regex = new Regex($@"^{pinInfo.Label}\d?$");
@@ -68,13 +53,13 @@ namespace MapNotepad.Services
 
             if (sameLabelPinInfos.Count() == 0)
             {
-                await TrySavePinInfoAsync(pinInfo);
+                await _repositoryService.TryInsertItemAsync(pinInfo);
             }
             else
             {
                 counter = pinInfos.Last().Id + 1;
                 pinInfo.Label = string.Format("{0} ({1})", pinInfo.Label, counter);
-                await TrySavePinInfoAsync(pinInfo);
+                await _repositoryService.TryInsertItemAsync(pinInfo);
             }
         }
 

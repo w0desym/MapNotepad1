@@ -10,9 +10,9 @@ using Xamarin.Forms;
 
 namespace MapNotepad.Behaviors
 {
-    class EmailValidationBehavior : BehaviorBase<ValidationEntryControl>
+    class EmailValidationBehavior : BehaviorBase<CustomEntryControl>
     {
-        private ValidationEntryControl _control;
+        private CustomEntryControl _control;
 
         static readonly BindablePropertyKey IsValidPropertyKey = BindableProperty.CreateReadOnly(
             "IsValid", 
@@ -30,7 +30,7 @@ namespace MapNotepad.Behaviors
 
         #region -- Overrides --
 
-        protected override void OnAttachedTo(ValidationEntryControl control)
+        protected override void OnAttachedTo(CustomEntryControl control)
         {
             base.OnAttachedTo(control);
 
@@ -39,7 +39,7 @@ namespace MapNotepad.Behaviors
             control.Entry.TextChanged += OnTextChanged;
         }
 
-        protected override void OnDetachingFrom(ValidationEntryControl control)
+        protected override void OnDetachingFrom(CustomEntryControl control)
         {
             base.OnDetachingFrom(control);
 
