@@ -1,9 +1,6 @@
 ﻿using MapNotepad.Models;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace MapNotepad.Services
@@ -27,14 +24,14 @@ namespace MapNotepad.Services
             {
                 if (users != null && !string.IsNullOrEmpty(email))
                 {
-                    matchingUser = users.FirstOrDefault(x => x.Email == email);
+                    matchingUser = users.FirstOrDefault(x => x.Email == email.ToUpper());
                 }
             }
             else
             {
                 if (users != null && !string.IsNullOrEmpty(email) && !string.IsNullOrEmpty(password))
                 {
-                    matchingUser = users.FirstOrDefault(x => x.Email == email && x.Password == password);
+                    matchingUser = users.FirstOrDefault(x => x.Email == email.ToUpper() && x.Password == password);
                 }
             }
 

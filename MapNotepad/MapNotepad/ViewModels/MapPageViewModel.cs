@@ -1,23 +1,15 @@
-﻿using MapNotepad.Controls;
-using Prism.Navigation;
+﻿using Prism.Navigation;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Text;
 using Xamarin.Forms.GoogleMaps;
 using MapNotepad.Extensions;
 using Xamarin.Essentials;
-using MapNotepad.Models;
 using System.Linq;
 using System.Windows.Input;
 using Xamarin.Forms;
-using ZXing;
-using Prism.Navigation.TabbedPages;
-using MapNotepad.Views;
 using MapNotepad.Services;
 using Acr.UserDialogs;
 using System.Threading.Tasks;
-using System.Diagnostics;
 using static MapNotepad.Constants;
 
 namespace MapNotepad.ViewModels

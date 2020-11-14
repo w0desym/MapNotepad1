@@ -1,11 +1,6 @@
 ﻿using MapNotepad.Controls;
 using MapNotepad.Validators;
 using Prism.Behaviors;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
 using Xamarin.Forms;
 
 namespace MapNotepad.Behaviors

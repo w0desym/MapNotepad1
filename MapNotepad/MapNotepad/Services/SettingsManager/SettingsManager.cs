@@ -1,8 +1,4 @@
 ﻿using Plugin.Settings.Abstractions;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using Xamarin.Forms.GoogleMaps;
 using static MapNotepad.Constants;
 
 namespace MapNotepad.Services

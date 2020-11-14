@@ -1,13 +1,7 @@
-﻿using MapNotepad.Extensions;
-using MapNotepad.Models;
+﻿using MapNotepad.Models;
 using MapNotepad.Services;
 using Prism.Navigation;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Essentials;

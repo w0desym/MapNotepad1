@@ -1,7 +1,4 @@
 ﻿using MapNotepad.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace MapNotepad.Services
@@ -21,7 +18,7 @@ namespace MapNotepad.Services
 
             if (!string.IsNullOrEmpty(email) && !string.IsNullOrEmpty(name) && !string.IsNullOrEmpty(password))
             {
-                newUser = new User { Email = email, Name = name, Password = password };
+                newUser = new User { Email = email.ToUpper(), Name = name, Password = password };
             }
 
             return await _repositoryService.TryInsertItemAsync(newUser);

@@ -1,16 +1,8 @@
 ﻿using Acr.UserDialogs;
 using MapNotepad.Models;
 using MapNotepad.Services;
-using MapNotepad.Views;
 using Newtonsoft.Json;
 using Prism.Navigation;
-using Prism.Navigation.TabbedPages;
-using Prism.Services;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 using ZXing;

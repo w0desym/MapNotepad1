@@ -1,9 +1,6 @@
 ﻿using MapNotepad.Models;
-using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
@@ -38,9 +35,9 @@ namespace MapNotepad.Services
             return curUserPinInfos;
         }
 
-        public async Task<int> UpdatePinInfoAsync(PinInfo pinInfo)
+        public Task<int> UpdatePinInfoAsync(PinInfo pinInfo)
         {
-            return await _repositoryService.UpdateItemAsync(pinInfo);
+            return _repositoryService.UpdateItemAsync(pinInfo);
         }
 
         public async Task AddPinInfoAsync(PinInfo pinInfo)

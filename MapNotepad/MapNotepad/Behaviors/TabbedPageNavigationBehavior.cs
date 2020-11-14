@@ -1,10 +1,7 @@
-﻿using MapNotepad.Views;
-using Prism.Behaviors;
+﻿using Prism.Behaviors;
 using Prism.Common;
 using Prism.Navigation;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using Xamarin.Forms;
 
 namespace MapNotepad.Behaviors

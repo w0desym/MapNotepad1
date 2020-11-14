@@ -1,11 +1,6 @@
 ﻿using MapNotepad.Controls;
 using MapNotepad.Validators;
 using Prism.Behaviors;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
 using Xamarin.Forms;
 
 namespace MapNotepad.Behaviors
@@ -15,9 +10,9 @@ namespace MapNotepad.Behaviors
         private CustomEntryControl _control;
 
         static readonly BindablePropertyKey IsValidPropertyKey = BindableProperty.CreateReadOnly(
-            "IsValid", 
-            typeof(bool), 
-            typeof(PasswordValidationBehavior), 
+            nameof(IsValid),
+            typeof(bool),
+            typeof(PasswordValidationBehavior),
             false);
 
         public static readonly BindableProperty IsValidProperty = IsValidPropertyKey.BindableProperty;

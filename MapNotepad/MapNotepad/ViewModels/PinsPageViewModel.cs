@@ -1,26 +1,15 @@
 ﻿using Acr.UserDialogs;
-using MapNotepad.Enums;
 using MapNotepad.Extensions;
 using MapNotepad.Models;
 using MapNotepad.Services;
 using MapNotepad.Views;
-using Newtonsoft.Json;
 using Prism.Navigation;
 using Prism.Navigation.TabbedPages;
-using Prism.Plugin.Popups;
-using Rg.Plugins.Popup.Contracts;
-using Rg.Plugins.Popup.Pages;
-using Rg.Plugins.Popup.Services;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 using Xamarin.Forms.GoogleMaps;
-using ZXing;
 using static MapNotepad.Constants;
 
 namespace MapNotepad.ViewModels

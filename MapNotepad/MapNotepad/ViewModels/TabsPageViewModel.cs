@@ -1,16 +1,8 @@
-﻿using Acr.UserDialogs;
-using MapNotepad.Models;
-using MapNotepad.Services;
+﻿using MapNotepad.Services;
 using MapNotepad.Views;
 using Prism.Navigation;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
 using System.Windows.Input;
 using Xamarin.Forms;
-using Xamarin.Forms.GoogleMaps;
 
 namespace MapNotepad.ViewModels
 {
