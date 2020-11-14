@@ -3,9 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:controls="clr-namespace:MapNotepad.Controls"
              xmlns:behaviors="clr-namespace:MapNotepad.Behaviors"
+             xmlns:validators="clr-namespace:MapNotepad.Validators"
              x:Name="_this"
              x:Class="MapNotepad.Views.SignUpPage"
              Title="{Binding Title}">
+
 
     <Grid>
         <Grid.RowDefinitions>
@@ -34,7 +36,9 @@
 
                 <controls:CustomEntryControl.Behaviors>
 
-                    <behaviors:EmailValidationBehavior x:Name="emailValidation"/>
+                    <behaviors:ValidationBehavior x:Name="emailValidation"
+                                                  ValidationType="Email"
+                                                  Message="Email is not valid"/>
 
                 </controls:CustomEntryControl.Behaviors>
 
@@ -58,14 +62,19 @@
 
                 <controls:CustomEntryControl.Behaviors>
 
-                    <behaviors:PasswordValidationBehavior x:Name="passwordValidation"/>
+                    <behaviors:ValidationBehavior x:Name="passwordValidation"
+                                                  IsPassword="True"
+                                                  PasswordMinimumLength="8"
+                                                  ValidationType="Password"
+                                                  Message="Should be longer than 8 characters"
+                                                  SecondMessage="At least 1 lowercase, uppercase and number"/>
 
                 </controls:CustomEntryControl.Behaviors>
 
             </controls:CustomEntryControl>
 
             <controls:CustomEntryControl Grid.Row="3"
-                                             x:Name="confirmPasswordEntry"
+                                         x:Name="confirmPasswordEntry"
                                          FieldLabel="Confirm password"
                                          Placeholder="••••••••"
                                          IsPassword="True"
@@ -74,7 +83,10 @@
 
                 <controls:CustomEntryControl.Behaviors>
 
-                    <behaviors:ConfirmPasswordValidationBehavior x:Name="confirmPasswordValidation" CompareToEntry="{Binding Text, Source={x:Reference passwordEntry}}"/>
+                    <behaviors:ValidationBehavior x:Name="confirmPasswordValidation"
+                                                  MatchWith="{Binding Text, Source={x:Reference passwordEntry}}"
+                                                  IsPassword="True"
+                                                  Message="Passwords should match"/>
 
                 </controls:CustomEntryControl.Behaviors>
 
