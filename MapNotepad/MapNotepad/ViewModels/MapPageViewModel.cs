@@ -199,9 +199,19 @@ namespace MapNotepad.ViewModels
 
         private async Task AskLocationPermissionsAsync()
         {
-            if (!MyLocationEnabled)
+            if (await _permissionService.CheckPermissionAsync<Permissions.LocationWhenInUse>() == PermissionStatus.Denied 
+                || await _permissionService.CheckPermissionAsync<Permissions.LocationWhenInUse>() == PermissionStatus.Disabled 
+                || await _permissionService.CheckPermissionAsync<Permissions.LocationWhenInUse>() == PermissionStatus.Restricted 
+                && Device.RuntimePlatform == Device.iOS)
             {
-                MyLocationEnabled = await _permissionService.RequestPermissionAsync<Permissions.LocationWhenInUse>() == PermissionStatus.Granted;
+                await _userDialogs.AlertAsync(Resources["LocationPermissionMessage"]);
+            }
+            else
+            {
+                if (!MyLocationEnabled)
+                {
+                    MyLocationEnabled = await _permissionService.RequestPermissionAsync<Permissions.LocationWhenInUse>() == PermissionStatus.Granted;
+                }
             }
         }
         #endregion

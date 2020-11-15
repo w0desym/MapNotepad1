@@ -123,6 +123,9 @@
   <data name="AlignQRLabel" xml:space="preserve">
     <value>Align the barcode within the frame</value>
   </data>
+  <data name="CameraPermissionMessage" xml:space="preserve">
+    <value>Please, turn on camera permissions in settings manually</value>
+  </data>
   <data name="ConfirmPasswordLabel" xml:space="preserve">
     <value>Confirm password</value>
   </data>
@@ -140,6 +143,9 @@
   </data>
   <data name="EmailPlaceholder" xml:space="preserve">
     <value>user@gmail.com</value>
+  </data>
+  <data name="LocationPermissionMessage" xml:space="preserve">
+    <value>Please, turn on location permissions in settings manually</value>
   </data>
   <data name="Map" xml:space="preserve">
     <value>Map</value>

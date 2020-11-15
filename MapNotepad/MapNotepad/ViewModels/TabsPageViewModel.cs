@@ -1,4 +1,5 @@
-﻿using MapNotepad.Services;
+﻿using Acr.UserDialogs;
+using MapNotepad.Services;
 using MapNotepad.Views;
 using Prism.Navigation;
 using System.Windows.Input;
@@ -12,16 +13,19 @@ namespace MapNotepad.ViewModels
         private readonly INavigationService _navigationService;
         private readonly IUserService _userService;
         private readonly IPermissionService _permissionService;
+        private readonly IUserDialogs _userDialogs;
 
         public TabsPageViewModel(
             INavigationService navigationService,
             IUserService userService,
-            IPermissionService permissionService) 
+            IPermissionService permissionService,
+            IUserDialogs userDialogs) 
             : base(navigationService)
         {
             _navigationService = navigationService;
             _userService = userService;
             _permissionService = permissionService;
+            _userDialogs = userDialogs;
         }
 
         #region -- Public Properties --
@@ -42,10 +46,21 @@ namespace MapNotepad.ViewModels
         }
         private async void OnScanQRCommandAsync()
         {
-            if (await _permissionService.RequestPermissionAsync<Permissions.Camera>() == PermissionStatus.Granted)
+            if (await _permissionService.CheckPermissionAsync<Permissions.Camera>() == PermissionStatus.Denied
+                || await _permissionService.CheckPermissionAsync<Permissions.Camera>() == PermissionStatus.Disabled
+                || await _permissionService.CheckPermissionAsync<Permissions.Camera>() == PermissionStatus.Restricted
+                && Device.RuntimePlatform == Device.iOS)
             {
-                await _navigationService.NavigateAsync($"{nameof(QRScanPage)}", useModalNavigation: true);
+                await _userDialogs.AlertAsync(Resources["CameraPermissionMessage"]);
             }
+            else
+            {
+                if (await _permissionService.RequestPermissionAsync<Permissions.Camera>() == PermissionStatus.Granted)
+                {
+                    await _navigationService.NavigateAsync($"{nameof(QRScanPage)}", useModalNavigation: true);
+                }
+            }
+
         }
         #endregion
     }

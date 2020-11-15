@@ -20,8 +20,6 @@
 	</array>
 	<key>MinimumOSVersion</key>
 	<string>8.0</string>
-	<key>CFBundleDisplayName</key>
-	<string>MapNotepad</string>
 	<key>CFBundleIdentifier</key>
 	<string>com.companyname.MapNotepad</string>
 	<key>CFBundleVersion</key>
@@ -40,8 +38,8 @@
 	<string>Can we use your location at all times?</string>
 	<key>NSCameraUsageDescription</key>
 	<string>Please allow access to the camera to scan QR codes</string>
-  <key>UIUserInterfaceStyle</key>
-  <string>Light</string>
+	<key>UIUserInterfaceStyle</key>
+	<string>Light</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>FontAwesome5Brands.otf</string>
@@ -61,5 +59,7 @@
 			<string>Editor</string>
 		</dict>
 	</array>
+	<key>CFBundleDisplayName</key>
+	<string>Map Notepad</string>
 </dict>
 </plist>

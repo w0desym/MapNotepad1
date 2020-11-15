@@ -1,4 +1,5 @@
-﻿using MapNotepad.Models;
+﻿using Acr.UserDialogs;
+using MapNotepad.Models;
 using MapNotepad.Services;
 using Prism.Navigation;
 using System.Collections.ObjectModel;
@@ -20,13 +21,15 @@ namespace MapNotepad.ViewModels
         private readonly INavigationService _navigationService;
         private readonly IUserService _userService;
         private readonly IMapService _mapService;
+        private readonly IUserDialogs _userDialogs;
 
         public AddPinPageViewModel(
             INavigationService navigationService,
             IPermissionService permissionService,
             IPinService pinService,
             IUserService userService,
-            IMapService mapService)
+            IMapService mapService,
+            IUserDialogs userDialogs)
             : base(navigationService)
         {
             _navigationService = navigationService;
@@ -34,6 +37,7 @@ namespace MapNotepad.ViewModels
             _pinService = pinService;
             _userService = userService;
             _mapService = mapService;
+            _userDialogs = userDialogs;
         }
 
         #region -- Public properties --
@@ -175,7 +179,7 @@ namespace MapNotepad.ViewModels
                 UserId = _userService.CurrentUserId
             };
 
-            await _pinService.UpdatePinInfoAsync(pinInfo);
+            await _pinService.AddPinInfoAsync(pinInfo);
             await _navigationService.GoBackAsync();
         }
         private async void OnGoBackCommandAsync()
@@ -208,9 +212,19 @@ namespace MapNotepad.ViewModels
         }
         private async void AskLocationPermissionsAsync()
         {
-            if (!MyLocationEnabled)
+            if (await _permissionService.CheckPermissionAsync<Permissions.LocationWhenInUse>() == PermissionStatus.Denied
+                || await _permissionService.CheckPermissionAsync<Permissions.LocationWhenInUse>() == PermissionStatus.Disabled
+                || await _permissionService.CheckPermissionAsync<Permissions.LocationWhenInUse>() == PermissionStatus.Restricted
+                && Device.RuntimePlatform == Device.iOS)
             {
-                MyLocationEnabled = await _permissionService.RequestPermissionAsync<Permissions.LocationWhenInUse>() == PermissionStatus.Granted;
+                await _userDialogs.AlertAsync(Resources["LocationPermissionMessage"]);
+            }
+            else
+            {
+                if (!MyLocationEnabled)
+                {
+                    MyLocationEnabled = await _permissionService.RequestPermissionAsync<Permissions.LocationWhenInUse>() == PermissionStatus.Granted;
+                }
             }
         }
         #endregion

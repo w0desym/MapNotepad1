@@ -79,6 +79,15 @@ namespace MapNotepad.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please, turn on camera permissions in settings manually.
+        /// </summary>
+        internal static string CameraPermissionMessage {
+            get {
+                return ResourceManager.GetString("CameraPermissionMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Confirm password.
         /// </summary>
         internal static string ConfirmPasswordLabel {
@@ -129,6 +138,15 @@ namespace MapNotepad.Resources {
         internal static string EmailPlaceholder {
             get {
                 return ResourceManager.GetString("EmailPlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please, turn on location permissions in settings manually.
+        /// </summary>
+        internal static string LocationPermissionMessage {
+            get {
+                return ResourceManager.GetString("LocationPermissionMessage", resourceCulture);
             }
         }
         
