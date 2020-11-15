@@ -108,8 +108,7 @@ namespace MapNotepad.ViewModels
 
             if (PinInfo != null)
             {
-                var pin = PinInfo.ToPin();
-                parameters.Add(nameof(Pin), pin);
+                parameters.Add(nameof(Pin), PinInfo.ToPin());
             }
         }
         #endregion

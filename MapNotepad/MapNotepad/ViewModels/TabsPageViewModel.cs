@@ -46,12 +46,14 @@ namespace MapNotepad.ViewModels
         }
         private async void OnScanQRCommandAsync()
         {
-            if (await _permissionService.CheckPermissionAsync<Permissions.Camera>() == PermissionStatus.Denied
-                || await _permissionService.CheckPermissionAsync<Permissions.Camera>() == PermissionStatus.Disabled
-                || await _permissionService.CheckPermissionAsync<Permissions.Camera>() == PermissionStatus.Restricted
-                && Device.RuntimePlatform == Device.iOS)
+            if (Device.RuntimePlatform == Device.iOS)
             {
-                await _userDialogs.AlertAsync(Resources["CameraPermissionMessage"]);
+                if (await _permissionService.CheckPermissionAsync<Permissions.Camera>() == PermissionStatus.Denied
+                   || await _permissionService.CheckPermissionAsync<Permissions.Camera>() == PermissionStatus.Disabled
+                   || await _permissionService.CheckPermissionAsync<Permissions.Camera>() == PermissionStatus.Restricted)
+                {
+                    await _userDialogs.AlertAsync(Resources["CameraPermissionMessage"]);
+                }
             }
             else
             {

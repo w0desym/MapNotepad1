@@ -130,6 +130,8 @@ namespace MapNotepad.ViewModels
         {
             base.OnNavigatedTo(parameters);
 
+            await LoadPinsCollectionAsync();
+
             if (parameters.TryGetValue(nameof(Pin), out Pin pin))
             {
                 SelectedPin = PinsCollection.FirstOrDefault(x => x.Label == pin.Label);
@@ -137,8 +139,6 @@ namespace MapNotepad.ViewModels
 
                 SetCamera(new CameraPosition(SelectedPin.Position, DefaultZoom));
             }
-
-            await LoadPinsCollectionAsync();
 
             await AskLocationPermissionsAsync();
         }
@@ -199,12 +199,14 @@ namespace MapNotepad.ViewModels
 
         private async Task AskLocationPermissionsAsync()
         {
-            if (await _permissionService.CheckPermissionAsync<Permissions.LocationWhenInUse>() == PermissionStatus.Denied 
-                || await _permissionService.CheckPermissionAsync<Permissions.LocationWhenInUse>() == PermissionStatus.Disabled 
-                || await _permissionService.CheckPermissionAsync<Permissions.LocationWhenInUse>() == PermissionStatus.Restricted 
-                && Device.RuntimePlatform == Device.iOS)
+            if (Device.RuntimePlatform == Device.iOS)
             {
-                await _userDialogs.AlertAsync(Resources["LocationPermissionMessage"]);
+                if (await _permissionService.CheckPermissionAsync<Permissions.LocationWhenInUse>() == PermissionStatus.Denied
+                || await _permissionService.CheckPermissionAsync<Permissions.LocationWhenInUse>() == PermissionStatus.Disabled
+                || await _permissionService.CheckPermissionAsync<Permissions.LocationWhenInUse>() == PermissionStatus.Restricted)
+                {
+                    await _userDialogs.AlertAsync(Resources["LocationPermissionMessage"]);
+                }
             }
             else
             {
