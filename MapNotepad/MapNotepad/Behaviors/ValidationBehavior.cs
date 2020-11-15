@@ -14,6 +14,8 @@ namespace MapNotepad.Behaviors
     {
         private CustomEntryControl _control;
 
+        #region -- Public properties --
+
         static readonly BindablePropertyKey IsValidPropertyKey = BindableProperty.CreateReadOnly(
             nameof(IsValid),
             typeof(bool),
@@ -121,6 +123,10 @@ namespace MapNotepad.Behaviors
             set => SetValue(PasswordMaximumLengthProperty, value);
         }
 
+        #endregion
+
+        #region -- Overrides --
+
         protected override void OnAttachedTo(CustomEntryControl control)
         {
             base.OnAttachedTo(control);
@@ -136,6 +142,10 @@ namespace MapNotepad.Behaviors
             _control = null;
             control.Entry.TextChanged -= OnTextChanged;
         }
+
+        #endregion
+
+        #region -- Private helpers --
 
         private void OnTextChanged(object sender, TextChangedEventArgs e)
         {
@@ -204,5 +214,7 @@ namespace MapNotepad.Behaviors
 
             _control.Message = Message;
         }
+
+        #endregion
     }
 }

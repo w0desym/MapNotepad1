@@ -2,6 +2,7 @@
 using MapNotepad.Views;
 using Prism.Navigation;
 using System.Windows.Input;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace MapNotepad.ViewModels
@@ -10,15 +11,17 @@ namespace MapNotepad.ViewModels
     {
         private readonly INavigationService _navigationService;
         private readonly IUserService _userService;
+        private readonly IPermissionService _permissionService;
 
         public TabsPageViewModel(
             INavigationService navigationService,
-            IUserService userService) :
-            base(navigationService)
+            IUserService userService,
+            IPermissionService permissionService) 
+            : base(navigationService)
         {
-            Title = "Map Notepad";
             _navigationService = navigationService;
             _userService = userService;
+            _permissionService = permissionService;
         }
 
         #region -- Public Properties --
@@ -39,7 +42,10 @@ namespace MapNotepad.ViewModels
         }
         private async void OnScanQRCommandAsync()
         {
-            await _navigationService.NavigateAsync($"{nameof(QRScanPage)}", useModalNavigation: true);
+            if (await _permissionService.RequestPermissionAsync<Permissions.Camera>() == PermissionStatus.Granted)
+            {
+                await _navigationService.NavigateAsync($"{nameof(QRScanPage)}", useModalNavigation: true);
+            }
         }
         #endregion
     }

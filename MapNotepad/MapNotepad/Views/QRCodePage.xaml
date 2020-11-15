@@ -19,7 +19,7 @@
                 HorizontalOptions="StartAndExpand"
                 Command="{Binding GoBackCommand}"/>
 
-        <Label Text="Share this code to let others see information about this pin."
+        <Label Text="{Binding Resources[SharePinLabel]}"
                Margin="20"
                FontSize="24"
                LineBreakMode="WordWrap"

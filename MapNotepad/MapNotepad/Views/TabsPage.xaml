@@ -6,7 +6,7 @@
             x:Class="MapNotepad.Views.TabsPage"
             xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
             android:TabbedPage.ToolbarPlacement="Bottom"
-            Title="{Binding Title}">
+            Title="{Binding Resources[TabsPageTitle]}">
     
     <TabbedPage.ToolbarItems>
 
@@ -32,10 +32,10 @@
     
     <TabbedPage.Children>
         
-        <views:MapPage Title="Map"
+        <views:MapPage Title="{Binding Resources[Map]}"
                        IconImageSource="ic_map.png"/>
 
-        <views:PinsPage Title="Pins" 
+        <views:PinsPage Title="{Binding Resources[Pins]}" 
                         IconImageSource="ic_pin.png"/>
 
     </TabbedPage.Children>

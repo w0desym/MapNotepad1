@@ -4,6 +4,7 @@ using MapNotepad.Services;
 using Newtonsoft.Json;
 using Prism.Navigation;
 using System.Windows.Input;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using ZXing;
 
@@ -21,8 +22,8 @@ namespace MapNotepad.ViewModels
             IPermissionService permissionService,
             IPinService pinService,
             IUserService userService,
-            IUserDialogs userDialogs) :
-            base(navigationService)
+            IUserDialogs userDialogs) 
+            : base(navigationService)
         {
             _navigationService = navigationService;
             _permissionService = permissionService;
@@ -62,11 +63,14 @@ namespace MapNotepad.ViewModels
 
         #region -- INavigationAware implementation --
 
-        public override void OnNavigatedTo(INavigationParameters parameters)
+        public override async void OnNavigatedTo(INavigationParameters parameters)
         {
             base.OnNavigatedTo(parameters);
 
-            //try to do camera permission
+            if (await _permissionService.RequestPermissionAsync<Permissions.Camera>() == PermissionStatus.Disabled)
+            {
+                await _navigationService.GoBackAsync();
+            }
         }
 
         #endregion
@@ -89,7 +93,7 @@ namespace MapNotepad.ViewModels
                 }
                 catch
                 {
-                    await _userDialogs.AlertAsync("QR is not valid", "Sorry", "OK");
+                    await _userDialogs.AlertAsync(Resources["QRNotValid"], Resources["Sorry"], Resources["OK"]);
                 }
             }
         }

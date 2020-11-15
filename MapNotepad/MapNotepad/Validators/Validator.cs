@@ -23,17 +23,17 @@ namespace MapNotepad.Validators
                 && hasLowerChar.IsMatch(value);
         }
 
-        public static bool IsMatch(string regex, string value, ValidationType regexType = ValidationType.Custom)
+        public static bool IsMatch(string regex, string value, ValidationType validationType = ValidationType.Custom)
         {
             bool isMatch;
 
-            switch (regexType)
+            switch (validationType)
             {
                 case ValidationType.Custom when !string.IsNullOrEmpty(regex):
                     isMatch = Regex.IsMatch(value, regex);
                     break;
                 case ValidationType.Email:
-                    isMatch = Regex.IsMatch(value, RegexEmail);
+                    isMatch = Regex.IsMatch(value, RegexEmail, RegexOptions.IgnoreCase);
                     break;
                 case ValidationType.Password:
                     isMatch = PasswordMatchesRequirements(value);
@@ -42,6 +42,7 @@ namespace MapNotepad.Validators
                     isMatch = false;
                     break;
             }
+
             return isMatch;
         }
     }

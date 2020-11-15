@@ -1,12 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
-             xmlns:maps="clr-namespace:Xamarin.Forms.GoogleMaps;assembly=Xamarin.Forms.GoogleMaps" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="http://prismlibrary.com" xmlns:controls="clr-namespace:MapNotepad.Controls"
-             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
-             x:Class="MapNotepad.Views.MapPage"
-             ios:Page.UseSafeArea="true"
-             Title="{Binding Title}">
+             x:Class="MapNotepad.Views.MapPage">
 
     <Grid HorizontalOptions="FillAndExpand" 
           VerticalOptions="FillAndExpand">
@@ -19,14 +15,15 @@
 
         <StackLayout>
 
-            <SearchBar Placeholder="Search pins..."
-                   SearchCommand="{Binding SearchCommand}"
-                   Text="{Binding SearchQuery}">
+            <SearchBar Placeholder="{Binding Resources[SearchPlaceholder]}"
+                       BackgroundColor="White"
+                       SearchCommand="{Binding SearchCommand}"
+                       Text="{Binding SearchQuery}">
 
                 <SearchBar.Behaviors>
 
                     <prism:EventToCommandBehavior EventName="TextChanged"
-                                              Command="{Binding SearchCommand}"/>
+                                                  Command="{Binding SearchCommand}"/>
 
                 </SearchBar.Behaviors>
 
@@ -34,8 +31,7 @@
 
 
 
-            <controls:ExtendedMap x:Name="map"
-                                  MyLocationEnabled="{Binding MyLocationEnabled}"
+            <controls:ExtendedMap MyLocationEnabled="{Binding MyLocationEnabled}"
                                   VerticalOptions="FillAndExpand"
                                   SelectedPin="{Binding SelectedPin, Mode=TwoWay}"
                                   PinsCollection="{Binding PinsCollection}"
@@ -81,7 +77,7 @@
 
                             <FormattedString>
 
-                                <Span Text="Latitude: "/>
+                                <Span Text="{Binding Resources[PinLatitude]}"/>
 
                                 <Span Text="{Binding PinLatitude, Mode=TwoWay}"/>
 
@@ -97,7 +93,7 @@
 
                             <FormattedString>
 
-                                <Span Text="Longitude: "/>
+                                <Span Text="{Binding Resources[PinLongitude]}"/>
 
                                 <Span Text="{Binding PinLongitude, Mode=TwoWay}"/>
 

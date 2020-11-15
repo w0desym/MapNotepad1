@@ -3,8 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:controls="clr-namespace:MapNotepad.Controls"
              x:Class="MapNotepad.Views.SignInPage"
-             Title="{Binding Title}"
-             x:Name="_this">
+             x:Name="signInPage"
+             Title="{Binding Resources[SignInPageTitle]}">
 
     <Grid>
         <Grid.RowDefinitions>
@@ -23,22 +23,22 @@
 
         <StackLayout Grid.Row="1">
 
-            <controls:CustomEntryControl Text="{Binding BindingContext.Email, Source={x:Reference _this}}"
-                                             Placeholder="user@gmail.com"
-                                             FieldLabel="Email"
-                                             Style="{StaticResource CustomEntryControlStyle}"/>
+            <controls:CustomEntryControl Text="{Binding BindingContext.Email, Source={x:Reference signInPage}}"
+                                         Placeholder="{Binding BindingContext.Resources[EmailPlaceholder], Source={x:Reference signInPage}}"
+                                         FieldLabel="{Binding BindingContext.Resources[EmailLabel], Source={x:Reference signInPage}}"
+                                         Style="{StaticResource CustomEntryControlStyle}"/>
 
 
-            <controls:CustomEntryControl Text="{Binding BindingContext.Password, Source={x:Reference _this}}"
-                                             Placeholder="••••••••"
-                                             FieldLabel="Password"
-                                             IsPassword="True"
-                                             Style="{StaticResource CustomEntryControlStyle}"/>
+            <controls:CustomEntryControl Text="{Binding BindingContext.Password, Source={x:Reference signInPage}}"
+                                         Placeholder="{Binding BindingContext.Resources[PasswordPlaceholder], Source={x:Reference signInPage}}"
+                                         FieldLabel="{Binding BindingContext.Resources[PasswordLabel], Source={x:Reference signInPage}}"
+                                         IsPassword="True"
+                                         Style="{StaticResource CustomEntryControlStyle}"/>
 
 
         </StackLayout>
 
-        <Button Text="Sign In"
+        <Button Text="{Binding Resources[SignInButton]}"
                     Grid.Row="3"
                     Style="{StaticResource SignButtonStyle}"
                     Command="{Binding SignInCommand}"/>
@@ -52,9 +52,9 @@
 
                 <FormattedString>
 
-                    <Span Text="Not registered yet? "/>
+                    <Span Text="{Binding Resources[NotRegisteredLabel]}"/>
 
-                    <Span Text="Sign up"
+                    <Span Text="{Binding Resources[SignUpLabel]}"
                               TextColor="Blue"
                               TextDecorations="Underline">
 
@@ -92,7 +92,7 @@
             <Label HorizontalOptions="Center"
                        VerticalOptions="Center"
                        Grid.Column="1" 
-                       Text="OR"/>
+                       Text="{Binding Resources[OrLabel]}"/>
 
             <BoxView Grid.Column="2" 
                          Style="{StaticResource BoxViewStyle}"/>
@@ -100,8 +100,9 @@
         </Grid>
 
         <Button Grid.Row="9"
+                Text="{Binding Resources[SignUpViaGoogleButton]}"
                 Style="{StaticResource SignViaGoogleButtonStyle}"
-                    Command="{Binding SignUpViaGoogleCommand}"/>
+                Command="{Binding SignUpViaGoogleCommand}"/>
 
     </Grid>
 

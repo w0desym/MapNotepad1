@@ -2,11 +2,11 @@
 <prism:PrismApplication xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MapNotepad.App"
+                        xmlns:resources="clr-namespace:MapNotepad.Resources"
              xmlns:prism="clr-namespace:Prism.Unity;assembly=Prism.Unity.Forms"
              xmlns:controls="clr-namespace:MapNotepad.Controls">
 
     <Application.Resources>
-
 
         <!-- FontAwesome -->
 
@@ -126,8 +126,6 @@
             <Setter Property="CornerRadius" Value="10"/>
 
             <Setter Property="ImageSource" Value="ic_google.png"/>
-
-            <Setter Property="Text" Value="Sign Up via Google"/>
 
             <Setter Property="FontSize" Value="18"/>
 

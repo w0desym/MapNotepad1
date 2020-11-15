@@ -5,7 +5,7 @@
                   xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
                   xmlns:controls="clr-namespace:MapNotepad.Controls"
                   xmlns:prism="http://prismlibrary.com"
-                  x:Name="_this"
+                  x:Name="addPinPage"
                   x:Class="MapNotepad.Views.AddPinPage"
                   CloseWhenBackgroundIsClicked="False">
 
@@ -49,7 +49,7 @@
                         Style="{StaticResource BackButtonStyle}"
                         Command="{Binding GoBackCommand}"/>
 
-                <Label Text="Adding New Pin"
+                <Label Text="{Binding Resources[AddPinPageTitle]}"
                        FontSize="20">
 
                     <Label.Margin>
@@ -68,23 +68,23 @@
 
             </StackLayout>
 
-            <controls:CustomEntryControl Text="{Binding BindingContext.PinLabel, Source={x:Reference _this}}"
+            <controls:CustomEntryControl Text="{Binding BindingContext.PinLabel, Source={x:Reference addPinPage}}"
                                          Style="{StaticResource CustomEntryControlStyle}"
                                          EntryStyle="{StaticResource MainDataStyle}"
                                          Margin="0"
-                                         Placeholder="Name"/>
+                                         Placeholder="{Binding BindingContext.Resources[PinLabel], Source={x:Reference addPinPage}}"/>
 
-            <controls:CustomEntryControl Text="{Binding BindingContext.PinDescription, Source={x:Reference _this}}"
+            <controls:CustomEntryControl Text="{Binding BindingContext.PinDescription, Source={x:Reference addPinPage}}"
                                          Style="{StaticResource CustomEntryControlStyle}"
                                          EntryStyle="{StaticResource MainDataStyle}"
                                          Margin="0"
-                                         Placeholder="Description"/>
+                                         Placeholder="{Binding BindingContext.Resources[PinDescription], Source={x:Reference addPinPage}}"/>
 
-            <controls:CustomEntryControl Text="{Binding BindingContext.PinCategory, Source={x:Reference _this}}"
+            <controls:CustomEntryControl Text="{Binding BindingContext.PinCategory, Source={x:Reference addPinPage}}"
                                          Style="{StaticResource CustomEntryControlStyle}"
                                          EntryStyle="{StaticResource MainDataStyle}"
                                          Margin="0"
-                                         Placeholder="Category"/>
+                                         Placeholder="{Binding BindingContext.Resources[PinCategory], Source={x:Reference addPinPage}}"/>
             
 
             <Grid>
@@ -121,10 +121,10 @@
 
                     </StackLayout.Spacing>
 
-                    <Label Text="Latitude:"
+                    <Label Text="{Binding Resources[PinLatitude]}"
                            HorizontalOptions="CenterAndExpand"/>
 
-                    <controls:CustomEntryControl Text="{Binding BindingContext.PinLatitude, Source={x:Reference _this}}"
+                    <controls:CustomEntryControl Text="{Binding BindingContext.PinLatitude, Source={x:Reference addPinPage}}"
                                                  Style="{StaticResource CustomEntryControlStyle}"
                                                  EntryStyle="{StaticResource CoordsEntryStyle}"
                                                  Margin="0"/>
@@ -144,10 +144,10 @@
 
                     </StackLayout.Spacing>
 
-                    <Label Text="Longitude:"
+                    <Label Text="{Binding Resources[PinLongitude]}"
                            HorizontalOptions="CenterAndExpand"/>
 
-                    <controls:CustomEntryControl Text="{Binding BindingContext.PinLongitude, Source={x:Reference _this}}"
+                    <controls:CustomEntryControl Text="{Binding BindingContext.PinLongitude, Source={x:Reference addPinPage}}"
                                                  Style="{StaticResource CustomEntryControlStyle}"
                                                  EntryStyle="{StaticResource CoordsEntryStyle}"
                                                  Margin="0"/>
@@ -156,24 +156,46 @@
 
             </Grid>
 
+
+            <Label Text="Move camera to move pin"
+                       LineBreakMode="WordWrap"
+                       HorizontalTextAlignment="Center"
+                       HorizontalOptions="Center"
+                       FontSize="16"
+                       FontAttributes="Bold">
+
+                <Label.Margin>
+
+                    <OnPlatform x:TypeArguments="Thickness">
+
+                        <On Platform="Android" Value="0,0,0,20"/>
+                        <On Platform="iOS" Value="0"/>
+
+                    </OnPlatform>
+
+                </Label.Margin>
+
+            </Label>
+
             <controls:ExtendedMap VerticalOptions="FillAndExpand"
-                                  HorizontalOptions="FillAndExpand"
+                                  HorizontalOptions="FillAndExpand" 
+                                  MyLocationEnabled="{Binding MyLocationEnabled}"
                                   CurrentCameraPosition="{Binding CameraPosition}"
                                   PinsCollection="{Binding PinsCollection}">
 
-                <controls:ExtendedMap.Behaviors>
+                    <controls:ExtendedMap.Behaviors>
 
-                    <prism:EventToCommandBehavior EventName="CameraMoving"
+                        <prism:EventToCommandBehavior EventName="CameraMoving"
                                                   Command="{Binding CameraMovingCommand}"
                                                   EventArgsParameterPath="Position"/>
 
-                </controls:ExtendedMap.Behaviors>
+                    </controls:ExtendedMap.Behaviors>
 
-            </controls:ExtendedMap>
+                </controls:ExtendedMap>
 
         </StackLayout>
 
-        <Button Text="SAVE PIN"
+        <Button Text="{Binding Resources[SavePinButton]}"
                 Style="{StaticResource FloatingButtonStyle}"
                 Margin="40"
                 Grid.Row="0"

@@ -11,6 +11,7 @@ namespace MapNotepad.Controls
     {
         public ExtendedMap()
         {
+            UiSettings.MyLocationButtonEnabled = true;
             UiSettings.ZoomControlsEnabled = true;
             UiSettings.ZoomGesturesEnabled = true;
             PinsCollection = new ObservableCollection<Pin>();

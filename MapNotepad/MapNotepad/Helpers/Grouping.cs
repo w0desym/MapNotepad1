@@ -8,8 +8,6 @@ namespace MapNotepad
 {
     public class Grouping<K, T> : ObservableCollection<T>, INotifyPropertyChanged
     {
-        private IEnumerable<T> _Items { get; set; }
-        public K Category { get; private set; }
         public Grouping(K category, IEnumerable<T> items)
         {
             Category = category;
@@ -18,26 +16,11 @@ namespace MapNotepad
                 Items.Add(item);
             }
         }
-        private ICommand _hideGroupTapCommand;
-        public ICommand HideGroupTapCommand => _hideGroupTapCommand ??= new Command(OnHideGroupTapCommand);
 
-        private void OnHideGroupTapCommand()
-        {
-            if (IsHidden)
-            {
-                foreach (var t in _Items)
-                {
-                    this.Add(t);
-                }
-            }
-            else
-            {
-                _Items = new List<T>(this);
-                this.Clear();
-            }
+        #region -- Public properties --
 
-            IsHidden = !IsHidden;
-        }
+        public IEnumerable<T> Groups { get; set; }
+        public K Category { get; private set; }
 
         private bool _isHidden;
         public bool IsHidden
@@ -66,10 +49,42 @@ namespace MapNotepad
             }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged(string propertyName)
+        private ICommand _hideGroupTapCommand;
+        public ICommand HideGroupTapCommand => _hideGroupTapCommand ??= new Command(OnHideGroupTapCommand);
+
+        #endregion
+
+        #region -- INotifyPropertyChanged implementation --
+
+        public event PropertyChangedEventHandler propertyChanged;
+
+        #endregion
+
+        #region -- Private helpers --
+
+        private void OnHideGroupTapCommand()
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            if (IsHidden)
+            {
+                foreach (var t in Groups)
+                {
+                    this.Add(t);
+                }
+            }
+            else
+            {
+                Groups = new List<T>(this);
+                this.Clear();
+            }
+
+            IsHidden = !IsHidden;
         }
+        private void OnPropertyChanged(string propertyName)
+        {
+            propertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        #endregion
+
     }
 }

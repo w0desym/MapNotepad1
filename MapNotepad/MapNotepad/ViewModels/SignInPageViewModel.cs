@@ -19,10 +19,9 @@ namespace MapNotepad.ViewModels
             INavigationService navigationService,
             IUserService userService,
             IGoogleService googleService,
-            IUserDialogs userDialogs) :
-            base(navigationService)
+            IUserDialogs userDialogs) 
+            : base(navigationService)
         {
-            Title = "Sign In";
             _navigationService = navigationService;
             _userService = userService;
             _googleService = googleService;
@@ -79,7 +78,7 @@ namespace MapNotepad.ViewModels
             }
             else
             {
-                await Application.Current.MainPage.DisplayAlert("Whoops", "Something went wrong", "OK");
+                await Application.Current.MainPage.DisplayAlert(Resources["Sorry"], Resources["NoSuchUser"], Resources["OK"]);
                 Password = string.Empty;
             }
         }

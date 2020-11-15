@@ -9,8 +9,9 @@ namespace MapNotepad.ViewModels
     class QRCodePageViewModel : ViewModelBase
     {
         private readonly INavigationService _navigationService;
-        public QRCodePageViewModel(INavigationService navigationService) :
-            base(navigationService)
+        public QRCodePageViewModel(
+            INavigationService navigationService) 
+            : base(navigationService)
         {
             _navigationService = navigationService;
         }

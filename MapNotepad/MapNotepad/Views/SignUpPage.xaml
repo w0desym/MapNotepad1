@@ -3,10 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:controls="clr-namespace:MapNotepad.Controls"
              xmlns:behaviors="clr-namespace:MapNotepad.Behaviors"
-             xmlns:validators="clr-namespace:MapNotepad.Validators"
-             x:Name="_this"
+             x:Name="signUpPage"
              x:Class="MapNotepad.Views.SignUpPage"
-             Title="{Binding Title}">
+             Title="{Binding Resources[SignUpPageTitle]}">
 
 
     <Grid>
@@ -27,37 +26,37 @@
                 <RowDefinition Height="95"/>
             </Grid.RowDefinitions>
 
-            <controls:CustomEntryControl Grid.Row="0"
-                                             x:Name="emailEntry" 
-                                         FieldLabel="Email" 
-                                         Placeholder="user@gmail.com"
-                                         Text="{Binding BindingContext.Email, Source={x:Reference _this}}"
+            <controls:CustomEntryControl x:Name="emailEntry" 
+                                         Grid.Row="0"
+                                         FieldLabel="{Binding BindingContext.Resources[EmailLabel], Source={x:Reference signUpPage}}" 
+                                         Placeholder="{Binding BindingContext.Resources[EmailPlaceholder], Source={x:Reference signUpPage}}"
+                                         Text="{Binding BindingContext.Email, Source={x:Reference signUpPage}}"
                                          Style="{StaticResource CustomEntryControlStyle}">
 
                 <controls:CustomEntryControl.Behaviors>
 
                     <behaviors:ValidationBehavior x:Name="emailValidation"
                                                   ValidationType="Email"
-                                                  Message="Email is not valid"/>
+                                                  Message="{Binding BindingContext.Resources[EmailNotValidMessage], Source={x:Reference signUpPage}}"/>
 
                 </controls:CustomEntryControl.Behaviors>
 
             </controls:CustomEntryControl>
 
             <controls:CustomEntryControl Grid.Row="1"
-                                             FieldLabel="Name" 
-                                         Placeholder="Alex"
-                                         Text="{Binding BindingContext.Name, Source={x:Reference _this}}"
+                                         FieldLabel="{Binding BindingContext.Resources[NameLabel], Source={x:Reference signUpPage}}" 
+                                         Placeholder="{Binding BindingContext.Resources[NamePlaceholder], Source={x:Reference signUpPage}}"
+                                         Text="{Binding BindingContext.Name, Source={x:Reference signUpPage}}"
                                          Style="{StaticResource CustomEntryControlStyle}">
 
             </controls:CustomEntryControl>
 
-            <controls:CustomEntryControl Grid.Row="2"
-                                             x:Name="passwordEntry" 
-                                         FieldLabel="Password"
-                                         Placeholder="••••••••"
+            <controls:CustomEntryControl x:Name="passwordEntry"  
+                                         Grid.Row="2"
+                                         FieldLabel="{Binding BindingContext.Resources[PasswordLabel], Source={x:Reference signUpPage}}"
+                                         Placeholder="{Binding BindingContext.Resources[PasswordPlaceholder], Source={x:Reference signUpPage}}"
                                          IsPassword="True"
-                                         Text="{Binding BindingContext.Password, Source={x:Reference _this}}"
+                                         Text="{Binding BindingContext.Password, Source={x:Reference signUpPage}}"
                                          Style="{StaticResource CustomEntryControlStyle}">
 
                 <controls:CustomEntryControl.Behaviors>
@@ -66,27 +65,27 @@
                                                   IsPassword="True"
                                                   PasswordMinimumLength="8"
                                                   ValidationType="Password"
-                                                  Message="Should be longer than 8 characters"
-                                                  SecondMessage="At least 1 lowercase, uppercase and number"/>
+                                                  Message="{Binding BindingContext.Resources[PasswordNotValidMessage], Source={x:Reference signUpPage}}"
+                                                  SecondMessage="{Binding BindingContext.Resources[PasswordNotValidSecondMessage], Source={x:Reference signUpPage}}"/>
 
                 </controls:CustomEntryControl.Behaviors>
 
             </controls:CustomEntryControl>
 
-            <controls:CustomEntryControl Grid.Row="3"
-                                         x:Name="confirmPasswordEntry"
-                                         FieldLabel="Confirm password"
-                                         Placeholder="••••••••"
+            <controls:CustomEntryControl x:Name="confirmPasswordEntry" 
+                                         Grid.Row="3"
+                                         FieldLabel="{Binding BindingContext.Resources[ConfirmPasswordLabel], Source={x:Reference signUpPage}}"
+                                         Placeholder="{Binding BindingContext.Resources[PasswordPlaceholder], Source={x:Reference signUpPage}}"
                                          IsPassword="True"
-                                         Text="{Binding BindingContext.ConfirmPassword, Source={x:Reference _this}}"
+                                         Text="{Binding BindingContext.ConfirmPassword, Source={x:Reference signUpPage}}"
                                          Style="{StaticResource CustomEntryControlStyle}">
 
                 <controls:CustomEntryControl.Behaviors>
 
                     <behaviors:ValidationBehavior x:Name="confirmPasswordValidation"
-                                                  MatchWith="{Binding Text, Source={x:Reference passwordEntry}}"
                                                   IsPassword="True"
-                                                  Message="Passwords should match"/>
+                                                  MatchWith="{Binding Text, Source={x:Reference passwordEntry}}"
+                                                  Message="{Binding BindingContext.Resources[PasswordsNotMatchMessage], Source={x:Reference signUpPage}}"/>
 
                 </controls:CustomEntryControl.Behaviors>
 
@@ -95,10 +94,10 @@
         </Grid>
 
         <Button Grid.Row="3"
-                    Text="Sign Up"
+                Text="{Binding Resources[SignUpButton]}"
                 Style="{StaticResource SignButtonStyle}"
                 Command="{Binding SignUpCommand}"
-                IsEnabled="{Binding BindingContext.IsSignUpEnabled, Source={x:Reference _this}}">
+                IsEnabled="{Binding IsSignUpEnabled}">
 
             <Button.Triggers>
 

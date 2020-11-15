@@ -25,8 +25,8 @@ namespace MapNotepad.ViewModels
             INavigationService navigationService,
             IPinService pinService,
             IUserService userService,
-            IUserDialogs userDialogs) :
-            base(navigationService)
+            IUserDialogs userDialogs) 
+            : base(navigationService)
         {
             _userDialogs = userDialogs;
             _userService = userService;
@@ -116,7 +116,6 @@ namespace MapNotepad.ViewModels
 
         #region -- Private helpers --
 
-
         private void OnSearchCommand()
         {
             if (!string.IsNullOrEmpty(SearchQuery))
@@ -154,7 +153,7 @@ namespace MapNotepad.ViewModels
         private async void OnDeletePinCommandAsync(PinInfo pinInfo)
         {
             var answer = await _userDialogs.ConfirmAsync(new ConfirmConfig()
-                .SetMessage($"Delete {pinInfo.Label}?")
+                .SetMessage($"{Resources["Delete"]} {pinInfo.Label}?")
                 .UseYesNo());
             if (answer)
             {
@@ -180,7 +179,10 @@ namespace MapNotepad.ViewModels
 
         private async void LoadPinsCollectionAsync(string searchQuery = null)
         {
-            var pins = string.IsNullOrEmpty(searchQuery) ? await _pinService.GetPinsAsync() : await _pinService.GetPinsAsync(searchQuery);
+            var pins = string.IsNullOrEmpty(searchQuery) 
+                ? await _pinService.GetPinsAsync() 
+                : await _pinService.GetPinsAsync(searchQuery);
+
             var groups = pins.GroupBy(p => p.Category).Select(g => new Grouping<string, PinInfo>(g.Key, g));
 
             PinsCollection = new ObservableCollection<Grouping<string, PinInfo>>(groups);

@@ -27,8 +27,8 @@ namespace MapNotepad.ViewModels
             IPinService pinService,
             IPermissionService permissionService,
             IUserDialogs userDialogs,
-            IMapService mapService) :
-            base(navigationService)
+            IMapService mapService) 
+            : base(navigationService)
         {
             _navigationService = navigationService;
             _pinService = pinService;
@@ -182,7 +182,7 @@ namespace MapNotepad.ViewModels
         {
             var pins = await _pinService.GetPinsAsync();
 
-            PinsCollection = new ObservableCollection<Pin>(pins.Where(x => x.IsFavorite == true).Select(x => x.ToPin()));
+            PinsCollection = new ObservableCollection<Pin>(pins.Where(x => x.IsFavorite).Select(x => x.ToPin()));
         }
 
         private void SetCameraOnLastPosition()

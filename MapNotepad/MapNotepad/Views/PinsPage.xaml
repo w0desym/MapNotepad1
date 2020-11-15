@@ -3,11 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
              xmlns:prism="http://prismlibrary.com"
              xmlns:context="clr-namespace:ContextMenu.Views;assembly=ContextMenu"
-             xmlns:converters="clr-namespace:MapNotepad.Converters" xmlns:behaviors="clr-namespace:MapNotepad.Behaviors"
+             xmlns:converters="clr-namespace:MapNotepad.Converters" 
              x:Class="MapNotepad.Views.PinsPage"
-             x:Name="_this"
-             BackgroundColor="WhiteSmoke"
-             Title="{Binding Title}">
+             x:Name="pinsPage"
+             BackgroundColor="WhiteSmoke">
 
     <ContentPage.Resources>
 
@@ -25,7 +24,7 @@
 
         <StackLayout>
 
-            <SearchBar Placeholder="Search pins..."
+            <SearchBar Placeholder="{Binding Resources[SearchPlaceholder]}"
                        SearchCommand="{Binding SearchCommand}"
                        Text="{Binding SearchQuery}">
 
@@ -106,19 +105,19 @@
 
                                             <Button Text="share"
                                                     Style="{StaticResource ContextMenuButtonStyle}"
-                                                    Command="{Binding Source={x:Reference _this}, Path=BindingContext.SharePinCommand}"
+                                                    Command="{Binding Source={x:Reference pinsPage}, Path=BindingContext.SharePinCommand}"
                                                     CommandParameter="{Binding .}"
                                                     BackgroundColor="CornflowerBlue"/>
 
                                             <Button Text="edit"
                                                     Style="{StaticResource ContextMenuButtonStyle}"
-                                                    Command="{Binding Source={x:Reference _this}, Path=BindingContext.EditPinCommand}"
+                                                    Command="{Binding Source={x:Reference pinsPage}, Path=BindingContext.EditPinCommand}"
                                                     CommandParameter="{Binding .}"
                                                     BackgroundColor="DarkOrange"/>
 
                                             <Button Text="trash"
                                                     Style="{StaticResource ContextMenuButtonStyle}"
-                                                    Command="{Binding Source={x:Reference _this}, Path=BindingContext.DeletePinCommand}"
+                                                    Command="{Binding Source={x:Reference pinsPage}, Path=BindingContext.DeletePinCommand}"
                                                     CommandParameter="{Binding .}"
                                                     BackgroundColor="DarkRed"/>
 
@@ -147,7 +146,7 @@
 
                                             <StackLayout.GestureRecognizers>
 
-                                                <TapGestureRecognizer Command="{Binding Path=BindingContext.PinCommand, Source={x:Reference _this}}" 
+                                                <TapGestureRecognizer Command="{Binding Path=BindingContext.PinCommand, Source={x:Reference pinsPage}}" 
                                                                       CommandParameter="{Binding .}" />
 
                                             </StackLayout.GestureRecognizers>
@@ -162,7 +161,7 @@
 
                                                     <FormattedString>
 
-                                                        <Span Text="Latitude: "/>
+                                                        <Span Text="{Binding Resources[PinLatitude]}"/>
 
                                                         <Span Text="{Binding Latitude}"/>
 
@@ -178,7 +177,7 @@
 
                                                     <FormattedString>
 
-                                                        <Span Text="Longitude: "/>
+                                                        <Span Text="{Binding Resources[PinLongitude]}"/>
 
                                                         <Span Text="{Binding Longitude}"/>
 
@@ -196,7 +195,7 @@
 
                                             <ImageButton Source="{Binding ImgPath}"
                                                          BackgroundColor="WhiteSmoke"
-                                                         Command="{Binding Source={x:Reference _this}, Path=BindingContext.ImageButtonCommand}"
+                                                         Command="{Binding Source={x:Reference pinsPage}, Path=BindingContext.ImageButtonCommand}"
                                                          CommandParameter="{Binding .}"/>
 
                                         </StackLayout>
@@ -217,7 +216,7 @@
 
         </StackLayout>
 
-        <Button Text="NEW PIN"
+        <Button Text="{Binding Resources[NewPinButton]}"
                 Style="{StaticResource FloatingButtonStyle}"
                 Margin="30"
                 Grid.Row="0"

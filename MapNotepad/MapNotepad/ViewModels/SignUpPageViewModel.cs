@@ -13,11 +13,11 @@ namespace MapNotepad.ViewModels
         private readonly INavigationService _navigationService;
         private readonly IUserService _userService;
 
-        public SignUpPageViewModel(INavigationService navigationService,
-            IUserService userService) :
-            base(navigationService)
+        public SignUpPageViewModel(
+            INavigationService navigationService,
+            IUserService userService) 
+            : base(navigationService)
         {
-            Title = "Sign Up";
             _navigationService = navigationService;
             _userService = userService;
         }
@@ -112,12 +112,12 @@ namespace MapNotepad.ViewModels
                     }
                 };
 
-                await Application.Current.MainPage.DisplayAlert("", "Registration is successful", "OK");
+                await Application.Current.MainPage.DisplayAlert("", Resources["RegistrationSuccess"], Resources["OK"]);
                 await _navigationService.GoBackAsync(navParams);
             }
             else
             {
-                await Application.Current.MainPage.DisplayAlert("", "User with such email already exists", "OK");
+                await Application.Current.MainPage.DisplayAlert("", Resources["EmailExists"], Resources["OK"]);
             }
         }
 

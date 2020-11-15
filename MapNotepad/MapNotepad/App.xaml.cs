@@ -71,7 +71,7 @@ namespace MapNotepad
             containerRegistry.RegisterInstance<IMapService>(Container.Resolve<MapService>());
             containerRegistry.RegisterInstance<IPinService>(Container.Resolve<PinService>());
             
-        }
+        }   
 
         #endregion
     }

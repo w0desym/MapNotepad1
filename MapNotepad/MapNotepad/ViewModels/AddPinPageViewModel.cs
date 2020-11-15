@@ -26,8 +26,8 @@ namespace MapNotepad.ViewModels
             IPermissionService permissionService,
             IPinService pinService,
             IUserService userService,
-            IMapService mapService) :
-            base(navigationService)
+            IMapService mapService)
+            : base(navigationService)
         {
             _navigationService = navigationService;
             _permissionService = permissionService;
@@ -112,15 +112,14 @@ namespace MapNotepad.ViewModels
 
         #endregion
 
-        #region -- IInitialize implementation --
-        public override async void Initialize(INavigationParameters parameters)
-        {
-            base.Initialize(parameters);
+        #region -- INavigationAware implementation --
 
-            await AskLocationPermissionsAsync();
+        public override void OnNavigatedTo(INavigationParameters parameters)
+        {
+            AskLocationPermissionsAsync();
 
             Pin = new Pin();
-            Pin.Label = "New Pin";
+            Pin.Label = Resources["PinDefaultName"];
 
             if (parameters.TryGetValue(nameof(PinInfo), out PinInfo pinInfo))//pin editing
             {
@@ -136,7 +135,7 @@ namespace MapNotepad.ViewModels
             {
                 if (MyLocationEnabled)
                 {
-                    await SetCameraOnUserLocationAsync();
+                    SetCameraOnUserLocationAsync();
                 }
                 else
                 {
@@ -157,14 +156,17 @@ namespace MapNotepad.ViewModels
             PinLatitude = position.Target.Latitude;
             PinLongitude = position.Target.Longitude;
 
-            Pin.Position = new Position(PinLatitude, PinLongitude);
-            PinsCollection = new ObservableCollection<Pin> { Pin };
+            if (Pin != null)
+            {
+                Pin.Position = new Position(PinLatitude, PinLongitude);
+                PinsCollection = new ObservableCollection<Pin> { Pin };
+            }
         }
         private async void OnSavePinCommandAsync()
         {
             var pinInfo = new PinInfo()
             {
-                Label = PinLabel ?? DefaultPinName,
+                Label = PinLabel ?? Resources["PinDefaultName"],
                 Latitude = PinLatitude,
                 Longitude = PinLongitude,
                 Description = PinDescription ?? string.Empty,
@@ -188,9 +190,9 @@ namespace MapNotepad.ViewModels
             SetCamera(lastPos);
         }
 
-        private async Task SetCameraOnUserLocationAsync()
+        private async void SetCameraOnUserLocationAsync()
         {
-            var location = await Geolocation.GetLocationAsync(new GeolocationRequest(GeolocationAccuracy.High));
+            var location = await Geolocation.GetLastKnownLocationAsync();
 
             if (location != null)
             {
@@ -204,7 +206,7 @@ namespace MapNotepad.ViewModels
         {
             CameraPosition = position;
         }
-        private async Task AskLocationPermissionsAsync()
+        private async void AskLocationPermissionsAsync()
         {
             if (!MyLocationEnabled)
             {

@@ -1,5 +1,8 @@
-﻿using Prism.Mvvm;
+﻿using MapNotepad.Localization;
+using MapNotepad.Resources;
+using Prism.Mvvm;
 using Prism.Navigation;
+using static MapNotepad.Constants;
 
 namespace MapNotepad.ViewModels
 {
@@ -9,16 +12,12 @@ namespace MapNotepad.ViewModels
         public ViewModelBase(INavigationService navigationService)
         {
             NavigationService = navigationService;
+            Resources = new LocalizedResources(typeof(AppResources), DefaultLanguage);
         }
 
         #region -- Public properties --
 
-        private string _title;
-        public string Title
-        {
-            get { return _title; }
-            set { SetProperty(ref _title, value); }
-        }
+        public LocalizedResources Resources { get; private set; }
 
         #endregion
 
