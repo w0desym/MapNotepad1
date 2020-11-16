@@ -27,7 +27,7 @@ namespace MapNotepad.ViewModels
             IPinService pinService,
             IPermissionService permissionService,
             IUserDialogs userDialogs,
-            IMapService mapService) 
+            IMapService mapService)
             : base(navigationService)
         {
             _navigationService = navigationService;
@@ -118,9 +118,9 @@ namespace MapNotepad.ViewModels
         {
             await LoadPinsCollectionAsync();
 
-            await AskLocationPermissionsAsync();
-
             SetCameraOnLastPosition();
+
+            await AskLocationPermissionsAsync(); 
         }
         #endregion
 
@@ -134,10 +134,13 @@ namespace MapNotepad.ViewModels
 
             if (parameters.TryGetValue(nameof(Pin), out Pin pin))
             {
-                SelectedPin = PinsCollection.FirstOrDefault(x => x.Label == pin.Label);
+                SelectedPin = PinsCollection.FirstOrDefault(x => x.Label == pin.Label) ?? SelectedPin;
                 AssignPinPopup(pin);
 
-                SetCamera(new CameraPosition(SelectedPin.Position, DefaultZoom));
+                if (SelectedPin != null)
+                {
+                    SetCamera(new CameraPosition(SelectedPin.Position, DefaultZoom));
+                }
             }
 
             await AskLocationPermissionsAsync();
@@ -181,15 +184,17 @@ namespace MapNotepad.ViewModels
         private async Task LoadPinsCollectionAsync()
         {
             var pins = await _pinService.GetPinsAsync();
+            var favorites = pins.Where(x => x.IsFavorite);
 
-            PinsCollection = new ObservableCollection<Pin>(pins.Where(x => x.IsFavorite).Select(x => x.ToPin()));
+            if (favorites != null)
+            {
+                PinsCollection = new ObservableCollection<Pin>(favorites.Select(x => x.ToPin()));
+            }
         }
 
         private void SetCameraOnLastPosition()
         {
-            var lastPos = _mapService.GetLastMapPosition();
-
-            SetCamera(lastPos);
+            SetCamera(_mapService.GetLastMapPosition());
         }
 
         private void SetCamera(CameraPosition position)
@@ -199,14 +204,12 @@ namespace MapNotepad.ViewModels
 
         private async Task AskLocationPermissionsAsync()
         {
-            if (Device.RuntimePlatform == Device.iOS)
-            {
-                if (await _permissionService.CheckPermissionAsync<Permissions.LocationWhenInUse>() == PermissionStatus.Denied
+            if (Device.RuntimePlatform == Device.iOS
+                && (await _permissionService.CheckPermissionAsync<Permissions.LocationWhenInUse>() == PermissionStatus.Denied
                 || await _permissionService.CheckPermissionAsync<Permissions.LocationWhenInUse>() == PermissionStatus.Disabled
-                || await _permissionService.CheckPermissionAsync<Permissions.LocationWhenInUse>() == PermissionStatus.Restricted)
-                {
-                    await _userDialogs.AlertAsync(Resources["LocationPermissionMessage"]);
-                }
+                || await _permissionService.CheckPermissionAsync<Permissions.LocationWhenInUse>() == PermissionStatus.Restricted))
+            {
+                await _userDialogs.AlertAsync(Resources["LocationPermissionMessage"]);
             }
             else
             {

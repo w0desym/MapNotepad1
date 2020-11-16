@@ -1,14 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"              
-             xmlns:zxing="clr-namespace:ZXing.Net.Mobile.Forms;assembly=ZXing.Net.Mobile.Forms" 
+             xmlns:zxing="clr-namespace:ZXing.Net.Mobile.Forms;assembly=ZXing.Net.Mobile.Forms"
+             xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+             ios:Page.UseSafeArea="true"
              x:Name="_this"
              x:Class="MapNotepad.Views.QRScanPage">
 
     <Grid VerticalOptions="CenterAndExpand"
           HorizontalOptions="CenterAndExpand">
-
-
 
         <zxing:ZXingScannerView IsScanning="True"
                                 HeightRequest="{Binding Source={x:Reference _this}, Path=Height}"

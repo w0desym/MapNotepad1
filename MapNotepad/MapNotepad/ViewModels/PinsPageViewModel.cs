@@ -7,6 +7,7 @@ using Prism.Navigation;
 using Prism.Navigation.TabbedPages;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 using Xamarin.Forms.GoogleMaps;
@@ -88,19 +89,20 @@ namespace MapNotepad.ViewModels
         #endregion
 
         #region -- IInitialize implementation
-        public override void Initialize(INavigationParameters parameters)
+        public override async void Initialize(INavigationParameters parameters)
         {
             base.Initialize(parameters);
-            LoadPinsCollectionAsync();
+
+            await LoadPinsCollectionAsync();
         }
         #endregion
 
         #region -- INavigationAware implementation --
-        public override void OnNavigatedTo(INavigationParameters parameters)
+        public override async void OnNavigatedTo(INavigationParameters parameters)
         {
             base.OnNavigatedTo(parameters);
 
-            LoadPinsCollectionAsync();
+            await LoadPinsCollectionAsync();
         }
         public override void OnNavigatedFrom(INavigationParameters parameters)
         {
@@ -115,15 +117,15 @@ namespace MapNotepad.ViewModels
 
         #region -- Private helpers --
 
-        private void OnSearchCommand()
+        private async void OnSearchCommand()
         {
             if (!string.IsNullOrEmpty(SearchQuery))
             {
-                LoadPinsCollectionAsync(SearchQuery);
+                await LoadPinsCollectionAsync(SearchQuery);
             }
             else
             {
-                LoadPinsCollectionAsync();
+                await LoadPinsCollectionAsync();
             }
         }
 
@@ -157,7 +159,7 @@ namespace MapNotepad.ViewModels
             if (answer)
             {
                 await _pinService.DeletePinInfoAsync(pinInfo);
-                LoadPinsCollectionAsync();
+                await LoadPinsCollectionAsync();
             }
         }
 
@@ -167,16 +169,16 @@ namespace MapNotepad.ViewModels
             await _navigationService.SelectTabAsync($"{nameof(MapPage)}");
         }
 
-        private void OnImageButtonCommand(PinInfo pinInfo)
+        private async void OnImageButtonCommand(PinInfo pinInfo)
         {
             pinInfo.ImgPath = pinInfo.IsFavorite ? NotFavoriteImagePath : FavoriteImagePath;
             pinInfo.IsFavorite = !pinInfo.IsFavorite;
 
-            _pinService.UpdatePinInfoAsync(pinInfo);
-            LoadPinsCollectionAsync();
+            await _pinService.UpdatePinInfoAsync(pinInfo);
+            await LoadPinsCollectionAsync();
         }
 
-        private async void LoadPinsCollectionAsync(string searchQuery = null)
+        private async Task LoadPinsCollectionAsync(string searchQuery = null)
         {
             var pins = string.IsNullOrEmpty(searchQuery) 
                 ? await _pinService.GetPinsAsync() 

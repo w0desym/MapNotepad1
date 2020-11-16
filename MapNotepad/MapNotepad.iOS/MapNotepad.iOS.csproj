@@ -283,4 +283,7 @@
   <ItemGroup>
     <BundleResource Include="Resources\ic_qrscan%403x.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\icon.png" />
+  </ItemGroup>
 </Project>
