@@ -19,19 +19,16 @@
     </popups:PopupPage.Animation>
 
     <Grid>
-
+        
         <Grid.RowDefinitions>
-
             <RowDefinition Height="*"/>
-
         </Grid.RowDefinitions>
-
 
         <StackLayout HorizontalOptions="FillAndExpand"
                      VerticalOptions="FillAndExpand"
                      Margin="30"
                      BackgroundColor="White">
-
+            
             <StackLayout.Spacing>
 
                 <OnPlatform x:TypeArguments="x:Double">
@@ -44,10 +41,14 @@
             </StackLayout.Spacing>
 
             <StackLayout Orientation="Horizontal" Margin="5">
+                
+                <!--BACK BUTTON-->
 
                 <Button Text="chevron-left"
                         Style="{StaticResource BackButtonStyle}"
                         Command="{Binding GoBackCommand}"/>
+                
+                <!--PAGE TITLE-->
 
                 <Label Text="{Binding Resources[AddPinPageTitle]}"
                        FontSize="20">
@@ -62,11 +63,12 @@
                         </OnPlatform>
 
                     </Label.Margin>
-                    
+
                 </Label>
 
-
             </StackLayout>
+            
+            <!--PIN NAME LABEL-->
 
             <controls:CustomEntryControl Text="{Binding BindingContext.PinLabel, Source={x:Reference addPinPage}}"
                                          Style="{StaticResource CustomEntryControlStyle}"
@@ -74,12 +76,16 @@
                                          Margin="0"
                                          Placeholder="{Binding BindingContext.Resources[PinLabel], Source={x:Reference addPinPage}}"/>
 
+            <!--PIN DESCRIPTION LABEL-->
+            
             <controls:CustomEntryControl Text="{Binding BindingContext.PinDescription, Source={x:Reference addPinPage}}"
                                          Style="{StaticResource CustomEntryControlStyle}"
                                          EntryStyle="{StaticResource MainDataStyle}"
                                          Margin="0"
                                          Placeholder="{Binding BindingContext.Resources[PinDescription], Source={x:Reference addPinPage}}"/>
 
+            <!--PIN CATERGORY LABEL-->
+            
             <controls:CustomEntryControl Text="{Binding BindingContext.PinCategory, Source={x:Reference addPinPage}}"
                                          Style="{StaticResource CustomEntryControlStyle}"
                                          EntryStyle="{StaticResource MainDataStyle}"
@@ -121,8 +127,12 @@
 
                     </StackLayout.Spacing>
 
+                    <!--PIN LATITUDE LABEL-->
+                    
                     <Label Text="{Binding Resources[PinLatitude]}"
                            HorizontalOptions="CenterAndExpand"/>
+                    
+                    <!--PIN LATITUDE ENTRY-->
 
                     <controls:CustomEntryControl Text="{Binding BindingContext.PinLatitude, Source={x:Reference addPinPage}}"
                                                  Style="{StaticResource CustomEntryControlStyle}"
@@ -143,9 +153,13 @@
                         </OnPlatform>
 
                     </StackLayout.Spacing>
+                    
+                    <!--PIN LONGITUDE LABEL--> 
 
                     <Label Text="{Binding Resources[PinLongitude]}"
                            HorizontalOptions="CenterAndExpand"/>
+                    
+                    <!--PIN LONGITUDE ENTRY--> 
 
                     <controls:CustomEntryControl Text="{Binding BindingContext.PinLongitude, Source={x:Reference addPinPage}}"
                                                  Style="{StaticResource CustomEntryControlStyle}"
@@ -156,13 +170,14 @@
 
             </Grid>
 
+            <!--MAP USAGE INSTRUCTION-->
 
-            <Label Text="Move camera to move pin"
-                       LineBreakMode="WordWrap"
-                       HorizontalTextAlignment="Center"
-                       HorizontalOptions="Center"
-                       FontSize="16"
-                       FontAttributes="Bold">
+            <Label Text="{Binding Resources[PinAddingGuideLabel]}"
+                   LineBreakMode="WordWrap"
+                   HorizontalTextAlignment="Center"
+                   HorizontalOptions="Center"
+                   FontSize="16"
+                   FontAttributes="Bold">
 
                 <Label.Margin>
 
@@ -176,6 +191,8 @@
                 </Label.Margin>
 
             </Label>
+            
+            <!--CUSTOM MAP-->
 
             <controls:ExtendedMap VerticalOptions="FillAndExpand"
                                   HorizontalOptions="FillAndExpand" 
@@ -194,6 +211,8 @@
                 </controls:ExtendedMap>
 
         </StackLayout>
+        
+        <!--SAVE PIN BUTTON-->
 
         <Button Text="{Binding Resources[SavePinButton]}"
                 Style="{StaticResource FloatingButtonStyle}"

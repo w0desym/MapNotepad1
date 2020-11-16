@@ -22,13 +22,16 @@
         </Grid.RowDefinitions>
 
         <StackLayout Grid.Row="1">
+            
+            <!--EMAIL ENTRY-->
 
             <controls:CustomEntryControl Text="{Binding BindingContext.Email, Source={x:Reference signInPage}}"
                                          Placeholder="{Binding BindingContext.Resources[EmailPlaceholder], Source={x:Reference signInPage}}"
                                          FieldLabel="{Binding BindingContext.Resources[EmailLabel], Source={x:Reference signInPage}}"
                                          Style="{StaticResource CustomEntryControlStyle}"/>
 
-
+            <!--PASSWORD ENTRY-->
+            
             <controls:CustomEntryControl Text="{Binding BindingContext.Password, Source={x:Reference signInPage}}"
                                          Placeholder="{Binding BindingContext.Resources[PasswordPlaceholder], Source={x:Reference signInPage}}"
                                          FieldLabel="{Binding BindingContext.Resources[PasswordLabel], Source={x:Reference signInPage}}"
@@ -37,6 +40,8 @@
 
 
         </StackLayout>
+        
+        <!--SIGN IN BUTTON-->
 
         <Button Text="{Binding Resources[SignInButton]}"
                     Grid.Row="3"
@@ -53,6 +58,8 @@
                 <FormattedString>
 
                     <Span Text="{Binding Resources[NotRegisteredLabel]}"/>
+
+                    <!--SIGN UP BUTTON-->
 
                     <Span Text="{Binding Resources[SignUpLabel]}"
                               TextColor="Blue"
@@ -85,6 +92,7 @@
 
             </Grid.ColumnDefinitions>
 
+            <!--DIVIDER-->
 
             <BoxView Grid.Column="0" 
                          Style="{StaticResource BoxViewStyle}"/>
@@ -99,6 +107,8 @@
 
         </Grid>
 
+        <!--GOOGLE SIGN UP BUTTON-->
+        
         <Button Grid.Row="9"
                 Text="{Binding Resources[SignUpViaGoogleButton]}"
                 Style="{StaticResource SignViaGoogleButtonStyle}"

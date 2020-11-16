@@ -25,23 +25,13 @@ namespace MapNotepad.Validators
 
         public static bool IsMatch(string regex, string value, ValidationType validationType = ValidationType.Custom)
         {
-            bool isMatch;
-
-            switch (validationType)
+            var isMatch = validationType switch
             {
-                case ValidationType.Custom when !string.IsNullOrEmpty(regex):
-                    isMatch = Regex.IsMatch(value, regex);
-                    break;
-                case ValidationType.Email:
-                    isMatch = Regex.IsMatch(value, RegexEmail, RegexOptions.IgnoreCase);
-                    break;
-                case ValidationType.Password:
-                    isMatch = PasswordMatchesRequirements(value);
-                    break;
-                default:
-                    isMatch = false;
-                    break;
-            }
+                ValidationType.Custom when !string.IsNullOrEmpty(regex) => Regex.IsMatch(value, regex),
+                ValidationType.Email => Regex.IsMatch(value, RegexEmail, RegexOptions.IgnoreCase),
+                ValidationType.Password => PasswordMatchesRequirements(value),
+                _ => false,
+            };
 
             return isMatch;
         }

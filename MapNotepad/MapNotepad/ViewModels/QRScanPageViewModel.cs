@@ -41,13 +41,6 @@ namespace MapNotepad.ViewModels
             set => SetProperty(ref _result, value);
         }
 
-        private bool _isScanning = true;
-        public bool IsScanning
-        {
-            get => _isScanning;
-            set => SetProperty(ref _isScanning, value);
-        }
-
         private ICommand _QRScanResultCommand;
         public ICommand QRScanResultCommand => _QRScanResultCommand ??= new Command(OnQRScanResultCommand);
 

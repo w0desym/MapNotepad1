@@ -22,13 +22,16 @@ namespace MapNotepad.ViewModels
         #endregion
 
         #region -- IInitialize implementation
+
         public virtual void Initialize(INavigationParameters parameters)
         {
 
         }
+
         #endregion
 
         #region -- INavigationAware implementation --
+
         public virtual void OnNavigatedFrom(INavigationParameters parameters)
         {
 
@@ -38,13 +41,16 @@ namespace MapNotepad.ViewModels
         {
 
         }
+
         #endregion
 
         #region -- IDestructible implementation --
+
         public virtual void Destroy()
         {
 
         }
+
         #endregion
     }
 }

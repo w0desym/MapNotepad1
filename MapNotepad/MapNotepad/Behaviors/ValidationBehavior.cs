@@ -155,21 +155,15 @@ namespace MapNotepad.Behaviors
                 {
                     if (string.IsNullOrEmpty(MatchWith))
                     {
-                        //password validation
-
                         ValidatePassword(e.NewTextValue);
                     }
                     else
                     {
-                        //confirm password validation
-
                         ValidateConfirmPassword(password: MatchWith, confirmPassword: e.NewTextValue);
                     }
                 }
                 else
                 {
-                    //any other string validation
-
                     ValidateString(e.NewTextValue);
                 }
             }

@@ -186,6 +186,9 @@
   <data name="PasswordsNotMatchMessage" xml:space="preserve">
     <value>Passwords should match</value>
   </data>
+  <data name="PinAddingGuideLabel" xml:space="preserve">
+    <value>Move camera to move pin</value>
+  </data>
   <data name="PinCategory" xml:space="preserve">
     <value>Category</value>
   </data>

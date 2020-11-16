@@ -10,11 +10,15 @@
     
     <TabbedPage.ToolbarItems>
 
+        <!--QR SCAN-->
+        
         <ToolbarItem
             Order="Primary"
             Priority="1"
             Command="{Binding ScanQRCommand}"
             IconImageSource="ic_qrscan.png"/>
+        
+        <!--LOGOUT-->
         
         <ToolbarItem
             Order="Primary"
@@ -32,8 +36,12 @@
     
     <TabbedPage.Children>
         
+        <!--MAP-->
+        
         <views:MapPage Title="{Binding Resources[Map]}"
                        IconImageSource="ic_map.png"/>
+        
+        <!--PINS-->
 
         <views:PinsPage Title="{Binding Resources[Pins]}" 
                         IconImageSource="ic_pin.png"/>

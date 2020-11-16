@@ -14,11 +14,11 @@
                         <viewControllerLayoutGuide type="bottom" id="9ZL-r4-8FZ"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="yd7-JS-zBw">
-                        <rect key="frame" x="0.0" y="0.0" width="834" height="1194"/>
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="23" clipsSubviews="YES" tag="0.0" adjustsImageSizeForAccessibilityContentSizeCategory="YES" image="icon.png">
-                                <rect key="frame" x="367" y="547" width="100" height="100"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="23" tag="0.0" adjustsImageSizeForAccessibilityContentSizeCategory="YES" image="icon.png">
+                                <rect key="frame" x="334" y="462" width="100" height="100"/>
                                 <rect key="contentStretch" y="0.0" width="0.0" height="0.0" x="0.0"/>
                                 <constraints>
                                     <constraint id="1458" firstAttribute="width" constant="100"/>

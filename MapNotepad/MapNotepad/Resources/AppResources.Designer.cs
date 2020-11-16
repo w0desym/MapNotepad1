@@ -268,6 +268,15 @@ namespace MapNotepad.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Move camera to move pin.
+        /// </summary>
+        internal static string PinAddingGuideLabel {
+            get {
+                return ResourceManager.GetString("PinAddingGuideLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Category.
         /// </summary>
         internal static string PinCategory {

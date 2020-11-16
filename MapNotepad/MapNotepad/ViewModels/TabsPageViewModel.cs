@@ -39,17 +39,21 @@ namespace MapNotepad.ViewModels
         #endregion
 
         #region -- Private Helpers --
+
         private async void OnLogOutCommandAsync()
         {
             _userService.Logout();
             await _navigationService.NavigateAsync($"/{nameof(NavigationPage)}/{nameof(SignInPage)}");
         }
+
         private async void OnScanQRCommandAsync()
         {
+            var permissionResult = await _permissionService.CheckPermissionAsync<Permissions.Camera>();
+
             if (Device.RuntimePlatform == Device.iOS 
-                && (await _permissionService.CheckPermissionAsync<Permissions.Camera>() == PermissionStatus.Denied
-                || await _permissionService.CheckPermissionAsync<Permissions.Camera>() == PermissionStatus.Disabled
-                || await _permissionService.CheckPermissionAsync<Permissions.Camera>() == PermissionStatus.Restricted))
+                && (permissionResult == PermissionStatus.Denied
+                || permissionResult == PermissionStatus.Disabled
+                || permissionResult == PermissionStatus.Restricted))
             {
                 await _userDialogs.AlertAsync(Resources["CameraPermissionMessage"]);
             }
@@ -60,8 +64,8 @@ namespace MapNotepad.ViewModels
                     await _navigationService.NavigateAsync($"{nameof(QRScanPage)}", useModalNavigation: true);
                 }
             }
-
         }
+
         #endregion
     }
 }

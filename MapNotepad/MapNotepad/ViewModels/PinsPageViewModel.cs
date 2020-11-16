@@ -89,21 +89,25 @@ namespace MapNotepad.ViewModels
         #endregion
 
         #region -- IInitialize implementation
+
         public override async void Initialize(INavigationParameters parameters)
         {
             base.Initialize(parameters);
 
             await LoadPinsCollectionAsync();
         }
+
         #endregion
 
         #region -- INavigationAware implementation --
+
         public override async void OnNavigatedTo(INavigationParameters parameters)
         {
             base.OnNavigatedTo(parameters);
 
             await LoadPinsCollectionAsync();
         }
+
         public override void OnNavigatedFrom(INavigationParameters parameters)
         {
             base.OnNavigatedFrom(parameters);
@@ -113,6 +117,7 @@ namespace MapNotepad.ViewModels
                 parameters.Add(nameof(Pin), PinInfo.ToPin());
             }
         }
+
         #endregion
 
         #region -- Private helpers --

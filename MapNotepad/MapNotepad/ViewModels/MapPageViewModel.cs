@@ -119,8 +119,6 @@ namespace MapNotepad.ViewModels
             await LoadPinsCollectionAsync();
 
             SetCameraOnLastPosition();
-
-            await AskLocationPermissionsAsync(); 
         }
         #endregion
 
@@ -149,6 +147,7 @@ namespace MapNotepad.ViewModels
         #endregion
 
         #region -- Private helpers --
+
         private async void OnSearchCommand()
         {
             if (!string.IsNullOrEmpty(SearchQuery))
@@ -161,6 +160,7 @@ namespace MapNotepad.ViewModels
                 await LoadPinsCollectionAsync();
             }
         }
+
         private void OnPinCommand(Pin pin)
         {
             AssignPinPopup(pin);
@@ -204,10 +204,12 @@ namespace MapNotepad.ViewModels
 
         private async Task AskLocationPermissionsAsync()
         {
+            var permissionResult = await _permissionService.CheckPermissionAsync<Permissions.LocationWhenInUse>();
+
             if (Device.RuntimePlatform == Device.iOS
-                && (await _permissionService.CheckPermissionAsync<Permissions.LocationWhenInUse>() == PermissionStatus.Denied
-                || await _permissionService.CheckPermissionAsync<Permissions.LocationWhenInUse>() == PermissionStatus.Disabled
-                || await _permissionService.CheckPermissionAsync<Permissions.LocationWhenInUse>() == PermissionStatus.Restricted))
+                && (permissionResult == PermissionStatus.Denied
+                || permissionResult == PermissionStatus.Disabled
+                || permissionResult == PermissionStatus.Restricted))
             {
                 await _userDialogs.AlertAsync(Resources["LocationPermissionMessage"]);
             }
@@ -219,6 +221,7 @@ namespace MapNotepad.ViewModels
                 }
             }
         }
+
         #endregion
     }
 }

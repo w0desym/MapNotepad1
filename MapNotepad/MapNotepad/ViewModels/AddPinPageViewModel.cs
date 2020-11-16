@@ -168,6 +168,7 @@ namespace MapNotepad.ViewModels
         #endregion
 
         #region -- Private helpers --
+
         private void OnCameraMovingCommand(CameraPosition position)
         {
             PinLatitude = position.Target.Latitude;
@@ -179,6 +180,7 @@ namespace MapNotepad.ViewModels
                 PinsCollection = new ObservableCollection<Pin> { Pin };
             }
         }
+
         private async void OnSavePinCommandAsync()
         {
             if (_isEditing)
@@ -198,7 +200,7 @@ namespace MapNotepad.ViewModels
                 _pinInfo.Longitude = PinLongitude;
                 _pinInfo.Description = PinDescription ?? string.Empty;
                 _pinInfo.Category = PinCategory ?? DefaultCategory;
-                _pinInfo.IsFavorite = false;
+                _pinInfo.ImgPath = NotFavoriteImagePath;
                 _pinInfo.UserId = _userService.CurrentUserId;
 
                 await _pinService.AddPinInfoAsync(_pinInfo);
@@ -206,6 +208,7 @@ namespace MapNotepad.ViewModels
 
             await _navigationService.GoBackAsync();
         }
+
         private async void OnGoBackCommandAsync()
         {
             await _navigationService.GoBackAsync();
@@ -230,16 +233,20 @@ namespace MapNotepad.ViewModels
                 PinLongitude = location.Longitude;
             }
         }
+
         private void SetCamera(CameraPosition position)
         {
             CameraPosition = position;
         }
+
         private async void AskLocationPermissionsAsync()
         {
+            var permissionResult = await _permissionService.CheckPermissionAsync<Permissions.LocationWhenInUse>();
+
             if (Device.RuntimePlatform == Device.iOS
-                && (await _permissionService.CheckPermissionAsync<Permissions.LocationWhenInUse>() == PermissionStatus.Denied
-                || await _permissionService.CheckPermissionAsync<Permissions.LocationWhenInUse>() == PermissionStatus.Disabled
-                || await _permissionService.CheckPermissionAsync<Permissions.LocationWhenInUse>() == PermissionStatus.Restricted))
+                && (permissionResult == PermissionStatus.Denied
+                || permissionResult == PermissionStatus.Disabled
+                || permissionResult == PermissionStatus.Restricted))
             {
                 await _userDialogs.AlertAsync(Resources["LocationPermissionMessage"]);
             }
@@ -251,6 +258,7 @@ namespace MapNotepad.ViewModels
                 }
             }
         }
+
         #endregion
     }
 }

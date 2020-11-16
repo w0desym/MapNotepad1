@@ -25,6 +25,8 @@
                 <RowDefinition Height="95"/>
                 <RowDefinition Height="95"/>
             </Grid.RowDefinitions>
+            
+            <!--EMAIL ENTRY-->
 
             <controls:CustomEntryControl x:Name="emailEntry" 
                                          Grid.Row="0"
@@ -42,6 +44,8 @@
                 </controls:CustomEntryControl.Behaviors>
 
             </controls:CustomEntryControl>
+            
+            <!--NAME ENTRY-->
 
             <controls:CustomEntryControl Grid.Row="1"
                                          FieldLabel="{Binding BindingContext.Resources[NameLabel], Source={x:Reference signUpPage}}" 
@@ -50,6 +54,8 @@
                                          Style="{StaticResource CustomEntryControlStyle}">
 
             </controls:CustomEntryControl>
+            
+            <!--PASSWORD ENTRY-->
 
             <controls:CustomEntryControl x:Name="passwordEntry"  
                                          Grid.Row="2"
@@ -71,6 +77,8 @@
                 </controls:CustomEntryControl.Behaviors>
 
             </controls:CustomEntryControl>
+            
+            <!--CONFIRM PASSWORD BUTTON-->
 
             <controls:CustomEntryControl x:Name="confirmPasswordEntry" 
                                          Grid.Row="3"
@@ -93,6 +101,8 @@
 
         </Grid>
 
+        <!--SIGN UP BUTTON-->
+        
         <Button Grid.Row="3"
                 Text="{Binding Resources[SignUpButton]}"
                 Style="{StaticResource SignButtonStyle}"

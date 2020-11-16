@@ -12,18 +12,24 @@
                  Margin="30"
                  BackgroundColor="White">
 
+        <!--BACK BUTTON-->
+        
         <Button Text="chevron-left"
                 Margin="0,15,0,0"
                 Style="{StaticResource BackButtonStyle}"
                 VerticalOptions="StartAndExpand"
                 HorizontalOptions="StartAndExpand"
                 Command="{Binding GoBackCommand}"/>
+        
+        <!--SHARE INSTRUCTIONS LABEL-->
 
         <Label Text="{Binding Resources[SharePinLabel]}"
                Margin="20"
                FontSize="24"
                LineBreakMode="WordWrap"
                HorizontalTextAlignment="Center"/>
+        
+        <!--QR SCANNER-->
 
         <zxing:ZXingBarcodeImageView BarcodeValue="{Binding QRCodeValue}"
                                      BarcodeFormat="QR_CODE"

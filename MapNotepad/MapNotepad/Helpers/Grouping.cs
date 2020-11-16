@@ -56,7 +56,7 @@ namespace MapNotepad
 
         #region -- INotifyPropertyChanged implementation --
 
-        public event PropertyChangedEventHandler propertyChanged;
+        public event PropertyChangedEventHandler PropertyChanged;
 
         #endregion
 
@@ -81,7 +81,7 @@ namespace MapNotepad
         }
         private void OnPropertyChanged(string propertyName)
         {
-            propertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         #endregion

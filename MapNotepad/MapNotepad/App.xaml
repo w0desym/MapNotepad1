@@ -1,236 +1,152 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <prism:PrismApplication xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="MapNotepad.App"
-                        xmlns:resources="clr-namespace:MapNotepad.Resources"
-             xmlns:prism="clr-namespace:Prism.Unity;assembly=Prism.Unity.Forms"
-             xmlns:controls="clr-namespace:MapNotepad.Controls">
+                        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                        x:Class="MapNotepad.App"
+                        xmlns:prism="clr-namespace:Prism.Unity;assembly=Prism.Unity.Forms"
+                        xmlns:controls="clr-namespace:MapNotepad.Controls">
 
     <Application.Resources>
+
+        <Style TargetType="{x:Type NavigationPage}">
+            <Setter Property="BarBackgroundColor">
+                <OnPlatform x:TypeArguments="Color">
+                    <On Platform="Android"
+                        Value="#484848"/>
+                </OnPlatform>
+            </Setter>
+        </Style>
 
         <!-- FontAwesome -->
 
         <OnPlatform x:TypeArguments="x:String" 
                     x:Key="FontAwesomeBrands">
-
             <On Platform="Android" 
                 Value="FontAwesome5Brands.otf#Regular" />
-
             <On Platform="iOS" 
                 Value="FontAwesome5Brands-Regular" />
-
         </OnPlatform>
 
         <OnPlatform x:TypeArguments="x:String" 
                     x:Key="FontAwesomeSolid">
-
             <On Platform="Android" 
                 Value="FontAwesome5Solid.otf#Regular" />
-
             <On Platform="iOS" 
                 Value="FontAwesome5Free-Solid" />
-
         </OnPlatform>
 
         <OnPlatform x:TypeArguments="x:String" 
                     x:Key="FontAwesomeRegular">
-
             <On Platform="Android" 
                 Value="FontAwesome5Regular.otf#Regular" />
-
             <On Platform="iOS" 
                 Value="FontAwesome5Free-Regular" />
-
         </OnPlatform>
 
-
-
         <Style x:Key="FloatingButtonStyle" TargetType="Button">
-
             <Setter Property="VerticalOptions" Value="End"/>
-
             <Setter Property="HorizontalOptions" Value="Center"/>
-
             <Setter Property="HeightRequest" Value="40"/>
-
             <Setter Property="WidthRequest" Value="110"/>
-
             <Setter Property="CornerRadius" Value="20"/>
-
             <Setter Property="FontSize" Value="16"/>
-
             <Setter Property="FontAttributes" Value="Bold"/>
-
             <Setter Property="TextColor" Value="White"/>
-
             <Setter Property="Opacity" Value="0.6"/>
-
             <Setter Property="BackgroundColor" Value="Black"/>
-
         </Style>
 
         <Style x:Key="CustomEntryControlStyle" TargetType="controls:CustomEntryControl">
-
             <Setter Property="BorderColor" Value="LightGray"/>
-
         </Style>
 
         <Style x:Key="NotRegisteredLabelStyle" TargetType="Label">
-
             <Setter Property="FontSize" Value="16"/>
-
         </Style>
 
         <Style x:Key="BoxViewStyle" TargetType="BoxView">
-
             <Setter Property="HeightRequest" Value="1"/>
-
             <Setter Property="VerticalOptions" Value="Center"/>
-
             <Setter Property="Color" Value="LightGray"/>
-
         </Style>
 
         <Style x:Key="SignButtonStyle" TargetType="Button">
-
             <Setter Property="HorizontalOptions" Value="Center"/>
-
             <Setter Property="VerticalOptions" Value="Center"/>
-
             <Setter Property="HeightRequest" Value="45"/>
-
             <Setter Property="WidthRequest" Value="110"/>
-
             <Setter Property="CornerRadius" Value="10"/>
-
             <Setter Property="FontSize" Value="18"/>
-
             <Setter Property="FontAttributes" Value="Bold"/>
-
             <Setter Property="BackgroundColor" Value="CornflowerBlue"/>
-
             <Setter Property="TextColor" Value="White"/>
-
         </Style>
 
         <Style x:Key="SignViaGoogleButtonStyle" TargetType="Button">
-
             <Setter Property="HorizontalOptions" Value="Center"/>
-
             <Setter Property="VerticalOptions" Value="Center"/>
-
             <Setter Property="HeightRequest" Value="45"/>
-
             <Setter Property="WidthRequest" Value="240"/>
-
             <Setter Property="CornerRadius" Value="10"/>
-
             <Setter Property="ImageSource" Value="ic_google.png"/>
-
             <Setter Property="FontSize" Value="18"/>
-
             <Setter Property="FontAttributes" Value="Bold"/>
-
             <Setter Property="BackgroundColor" Value="#d64b2f"/>
-
             <Setter Property="TextColor" Value="White"/>
-
         </Style>
 
         <Style x:Key="ErrorMessageLabelStyle" TargetType="Label">
-
             <Setter Property="TextColor" Value="DarkRed"/>
-
             <Setter Property="FontSize" Value="14"/>
-
             <Setter Property="Margin" Value="20,-10, 20, 10"/>
-
         </Style>
 
         <Style x:Key="FieldLabelStyle" TargetType="Label">
-
             <Setter Property="TextColor" Value="DimGray"/>
-
             <Setter Property="FontSize" Value="16"/>
-
             <Setter Property="Margin" Value="20,0,20,-10"/>
-
         </Style>
 
 
         <Style x:Key="FrameStyle" TargetType="Frame">
-
             <Setter Property="CornerRadius" Value="5"/>
-
             <Setter Property="Margin" Value="15,5"/>
-
             <Setter Property="BorderColor" Value="LightGray"/>
-
             <Setter Property="HasShadow" Value="False"/>
-
             <Setter Property="Padding">
-
                 <OnPlatform x:TypeArguments="Thickness">
-
                     <On Platform="iOS" Value="10,15"/>
-
                     <On Platform="Android" Value="5"/>
-
                 </OnPlatform>
-
             </Setter>
-
         </Style>
-        
 
         <Style x:Key="ContextMenuButtonStyle" TargetType="Button">
-
             <Setter Property="WidthRequest" Value="70"/>
-
             <Setter Property="HorizontalOptions" Value="EndAndExpand"/>
-
             <Setter Property="TextColor" Value="White"/>
-
             <Setter Property="CornerRadius" Value="0"/>
-
             <Setter Property="FontSize" Value="24"/>
-
             <Setter Property="FontFamily" Value="{StaticResource FontAwesomeSolid}"/>
-
         </Style>
 
         <Style x:Key="BackButtonStyle" TargetType="Button">
-
             <Setter Property="FontFamily" Value="{StaticResource FontAwesomeSolid}"/>
-
             <Setter Property="FontSize" Value="Large"/>
-
             <Setter Property="TextColor" Value="#757575"/>
-
             <Setter Property="WidthRequest" Value="70"/>
-
             <Setter Property="HeightRequest" Value="50"/>
-
             <Setter Property="BackgroundColor" Value="White"/>
-
         </Style>
 
         <Style x:Key="MainDataStyle" TargetType="Entry">
-
             <Setter Property="FontSize" Value="14"/>
-
         </Style>
 
         <Style x:Key="CoordsEntryStyle" TargetType="Entry">
-
             <Setter Property="Keyboard" Value="Numeric"/>
-
             <Setter Property="TextColor" Value="LimeGreen"/>
-
             <Setter Property="FontSize" Value="14"/>
-
             <Setter Property="IsReadOnly" Value="True"/>
-
         </Style>
 
     </Application.Resources>
