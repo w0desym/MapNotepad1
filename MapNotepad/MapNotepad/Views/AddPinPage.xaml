@@ -130,6 +130,7 @@
                     <!--PIN LATITUDE LABEL-->
                     
                     <Label Text="{Binding Resources[PinLatitude]}"
+                           FontSize="14"
                            HorizontalOptions="CenterAndExpand"/>
                     
                     <!--PIN LATITUDE ENTRY-->
@@ -157,6 +158,7 @@
                     <!--PIN LONGITUDE LABEL--> 
 
                     <Label Text="{Binding Resources[PinLongitude]}"
+                           FontSize="14"
                            HorizontalOptions="CenterAndExpand"/>
                     
                     <!--PIN LONGITUDE ENTRY--> 

@@ -15,7 +15,7 @@ namespace MapNotepad.Controls
             UiSettings.ZoomControlsEnabled = true;
             UiSettings.ZoomGesturesEnabled = true;
             PinsCollection = new ObservableCollection<Pin>();
-            PinsCollection.CollectionChanged += Pins_CollectionChanged;
+            PinsCollection.CollectionChanged += PinsCollectionChanged;
         }
 
         public static readonly BindableProperty PinsCollectionProperty =
@@ -57,7 +57,7 @@ namespace MapNotepad.Controls
             } 
         }
 
-        private void Pins_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        private void PinsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             UpdatePins(this, sender as IEnumerable<Pin>);
         }
